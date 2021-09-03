@@ -43,7 +43,7 @@ namespace editorDeGrafos
         //*FUNCTIONAL VARIABLES:
         String nameID = "";//a node unique name in the graph
         int uniqueID;//a primary key for vertices (integer type)
-        int index;//-----------
+        int index;//for control in thwe graph 
         //this three are asigned by the Graph with the method create.
 
         Boolean visited = false;                      //for routing
@@ -183,7 +183,7 @@ namespace editorDeGrafos
             set { this.uniqueID = value; }
         }
 
-        public Boolean Visitado
+        public Boolean Visited
         {
             get { return this.visited; }
             set { this.visited = value; }
@@ -191,7 +191,7 @@ namespace editorDeGrafos
 
         public List<NodeRef> NEIGHBORS
             {
-            get { return this.neighbors; }
+                get { return this.neighbors; }
             }
         /*******************************************************
          *                Geters and seters(End)               *

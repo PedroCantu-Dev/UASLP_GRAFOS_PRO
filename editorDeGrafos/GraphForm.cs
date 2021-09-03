@@ -16,27 +16,27 @@ namespace editorDeGrafos
     public partial class GraphForm : Form
     {
         #region GraphFormVariables
-        /********************* Selected node control ***********************/
-        Node selected = null;
-        Node selectedJustFor_Moving = null;//for moving.
-        Node selectedJustFor_Linking = null;
+        /********************* Selected Nodes control ***********************/
+        Node selectedNode_FV = null;//selected node in the graphical enviroment
+        Node selectedNode_Moving_FV = null;//for moving.
+        Node selectedNode_Linking_FV = null;
 
         /*********************  Inner flags ********************/
-        Boolean mousePressed;
-        Boolean justSaved = true;// -> storage saveStateAuxiliar.
+        Boolean mousePressed_FV;
+        Boolean justSaved_FV = true;// -> storage saveStateAuxiliar.
 
         /***************** windows and Forms ******************************/
-        GraphFormIsomorphic IsomorfismForm;//-> form for isomofism comparison.
-        SaveChangesWindow gdc;// -> changes window.
+        GraphFormIsomorphic IsomorfismForm_FV;//-> form for isomofism comparison.
+        SaveChangesWindow gdcForm_FV;// -> changes window.
 
         /************************ other variables ********************/
-        public int generalRadius;
-        String fileName = "";//   -> fileName.
-        public Graph graph;// -> graph of the form.
+        public int generalRadius_FV;
+        String fileName_FV = "";//   -> fileName.
+        public Graph graph_FV;// -> graph of the form.
 
         /****************** for view Operations ****************************/
-        Boolean matIn = false;
-        Boolean pesosActivated = true;
+        Boolean matIn_FV = false;
+        Boolean pesosActivated_FV = true;
 
         /****************************** for operations Do ******************
          * 
@@ -125,9 +125,9 @@ namespace editorDeGrafos
         }
         private void commonCostructor()// for all common variables.
         {
-            generalRadius = 30;
-            mousePressed = false;
-            graph = new Graph();
+            generalRadius_FV = 30;
+            mousePressed_FV = false;
+            graph_FV = new Graph();
             statusTB.Text = "Nombre :" + fileName;
             terminal.Text = "Node selected : ";
         }
@@ -135,8 +135,7 @@ namespace editorDeGrafos
         #endregion
 
 
-
-        Node selectedNode_F = null; // this variable represent the node selkected at the moment if exist
+        
 
         #region MouseEvents
         /************* tha mouse , tha f()#/&g boss*****************/
@@ -210,7 +209,7 @@ namespace editorDeGrafos
                         if (oneNode != null)//one Node was clicked
                         {
 
-                            if (selectedNode_F != null &&  oneNode == selectedNode_F )//if the node selected was selected already in any state.
+                            if (selectedNode_FV != null &&  oneNode == selectedNode_FV )//if the node selected was selected already in any state.
                             {
                              oneNode.Click();// a click is performed
                             }
@@ -488,10 +487,10 @@ namespace editorDeGrafos
                     corToDraw = new Point(e.X, e.Y);
                 }
                 D_linkingAnimation = true;
-                linkingEdge = new Edge(selectedJustFor_Linking, corToDraw);
+                linkingEdge = new Edge(selectedNode_Linking_FV, corToDraw);
                 Invalidate();
             }
-            if (mousePressed == true && (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right) && Link_U_Do == true && selectedJustFor_Linking != null)//Linking D
+            if (mousePressed_FV == true && (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right) && Link_U_Do == true && selectedJustFor_Linking != null)//Linking D
             {
                 Node auxMouseUperNode = findNodeClicked(new Point(e.X, e.Y));
                 Point corToDraw;
@@ -505,7 +504,7 @@ namespace editorDeGrafos
                     corToDraw = new Point(e.X, e.Y);
                 }
                 U_LinkingAnimation = true;
-                linkingEdge = new Edge(selectedJustFor_Linking, corToDraw);
+                linkingEdge = new Edge(selectedNode_Linking_FV, corToDraw);
                 Invalidate();
             }
 
@@ -940,7 +939,7 @@ namespace editorDeGrafos
         {
             if (f3.Operation == 1)
             {
-                graph.allBlack();
+                graph_FV.allBlack();
                 Invalidate();
                 f3.Operation = 0;
             }
@@ -1858,7 +1857,7 @@ namespace editorDeGrafos
             // Check if all non-zero degree vertices are visited 
             foreach (Node node in nodeList)
             {
-                if (node.Visitado == false)
+                if (node.Visited == false)
                 {
                     return false;
                 }
@@ -1878,7 +1877,7 @@ namespace editorDeGrafos
             // Check if all non-zero degree vertices are visited 
             foreach (Node node in graph.NODE_LIST)
             {
-                if (node.Visitado == false)
+                if (node.Visited == false)
                 {
                     return false;
                 }
@@ -1890,13 +1889,13 @@ namespace editorDeGrafos
         void DFSUtilAllConected(Node workingNode/*int v, bool visited[]*/)
         {
             // Mark the current node as visited
-            workingNode.Visitado = true;
+            workingNode.Visited = true;
 
 
             // Recur for all the vertices adjacent to this vertex
             foreach (Node node in graph.neighborListNode(workingNode))
             {
-                if (node.Visitado == false)
+                if (node.Visited == false)
                 {
                     DFSUtilAllConected(node);
                 }
@@ -1916,7 +1915,7 @@ namespace editorDeGrafos
             //foreach (Node node in aux.LIST_NODES)
             foreach (Node node in graph.NODE_LIST)
             {
-                if (node.Visitado == false)
+                if (node.Visited == false)
                 {
                     //posibleBridge.COLOR = Color.Gold;
                     posibleBridge.Bridge = true;                    
@@ -1931,7 +1930,7 @@ namespace editorDeGrafos
         void DFSUtilAllConectedBridge(Node workingNode, Edge posibleBridge/*int v, bool visited[]*/)
         {
             // Mark the current node as visited
-            workingNode.Visitado = true;
+            workingNode.Visited = true;
 
 
             // Recur for all the vertices adjacent to this vertex
@@ -1942,7 +1941,7 @@ namespace editorDeGrafos
                 {
 
                 }
-                else if (node.Visitado == false)
+                else if (node.Visited == false)
                 {
                     DFSUtilAllConectedBridge(node, posibleBridge);
                 }
@@ -1954,7 +1953,7 @@ namespace editorDeGrafos
             List<int> listOfNonVisited = new List<int>();
             foreach(Node node in graph.NODE_LIST)
             {
-                if(node.Visitado == false)
+                if(node.Visited == false)
                 {
                     listOfNonVisited.Add(node.Index);
                 }
@@ -1971,7 +1970,7 @@ namespace editorDeGrafos
             //foreach (Node node in aux.LIST_NODES)
             foreach (Node node in this.graph.NODE_LIST)
             {
-                if (node.Visitado == false)
+                if (node.Visited == false)
                 {
                     //posibleBridge.COLOR = Color.Gold;
                     posibleBridge.Bridge = true;
@@ -1981,11 +1980,11 @@ namespace editorDeGrafos
                     {
                         if (listOfNonVisited.Contains(nodeG.Index))
                         {
-                            nodeG.Visitado = false;
+                            nodeG.Visited = false;
                         }
                         else
                         {
-                            nodeG.Visitado = true;
+                            nodeG.Visited = true;
                         }
                     }
 
@@ -1999,11 +1998,11 @@ namespace editorDeGrafos
             {
                 if (listOfNonVisited.Contains(node.Index))
                 {
-                    node.Visitado = false;
+                    node.Visited = false;
                 }
                 else
                 {
-                    node.Visitado = true;
+                    node.Visited = true;
                 }
             }
             return false;//if all vertices was visited evenif the edge was cutted.
@@ -2012,7 +2011,7 @@ namespace editorDeGrafos
         void DFSUtilAllConectedVisitedsBridge(Node workingNode, Edge posibleBridge, Graph graph/*int v, bool visited[]*/)
         {
             // Mark the current node as visited
-            workingNode.Visitado = true;
+            workingNode.Visited = true;
 
             // Recur for all the vertices adjacent to this vertex
             foreach (Node node in graph.neighborListNode(workingNode))
@@ -2022,7 +2021,7 @@ namespace editorDeGrafos
                 {
 
                 }
-                else if (node.Visitado == false && graph.thisEdge(workingNode, node).visitada == false)
+                else if (node.Visited == false && graph.thisEdge(workingNode, node).visitada == false)
                 {
                     DFSUtilAllConectedVisitedsBridge(node, posibleBridge,graph);
                 }
@@ -2145,7 +2144,7 @@ namespace editorDeGrafos
 
         public void BFSColored(Node node)
         {
-            node.Visitado = true;
+            node.Visited = true;
             node.COLOR = Color.Red;
 
             foreach(Node nodo in graph.neighborListNode(node))
@@ -2316,7 +2315,7 @@ namespace editorDeGrafos
             // Start DFS traversal from a vertex with non-zero degree 
             //return DFSHamiltonCycle(initialNodePath);
 
-            graph.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no visitados.
+            graph.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no Visiteds.
 
             return DFS_Any_EulerCycle(initialNodePath);
         }
@@ -2684,14 +2683,14 @@ namespace editorDeGrafos
         List<Node> nodesPath = new List<Node>();
         Boolean DFS_Any_HamiltonCycle(Node workingNode)//recursive function.
         {
-            workingNode.Visitado = true;//marcar el nodo actual como visitado.
+            workingNode.Visited = true;//marcar el nodo actual como Visited.
             List<Node> notVisitedYet = graph.notVisitedList();//nodos sin visitar para restauraciones.
             List<Node> neightboors = graph.neighborListNode(workingNode);//vecinos del nodo actual.
 
             /*********************
              *       Caso Base. 
              * *********************/
-            if (notVisitedYet.Count() < 1 && neightboors.Contains(initialNodePath))//todos los nodos visitados && el nodo actual tiene de vecino al nodo inicial
+            if (notVisitedYet.Count() < 1 && neightboors.Contains(initialNodePath))//todos los nodos Visiteds && el nodo actual tiene de vecino al nodo inicial
             {
                 Edge edge = graph.thisEdge(workingNode, initialNodePath);
                 pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
@@ -2711,7 +2710,7 @@ namespace editorDeGrafos
              * *********************/
             foreach (Node node in neightboors)
             {
-                if (node.Visitado == false)
+                if (node.Visited == false)
                 {
                     if (DFS_Any_HamiltonCycle(node))//si el nodo vecino retorna un ciclo
                     {
@@ -2801,14 +2800,14 @@ namespace editorDeGrafos
 
         Boolean DFS_Any_HamiltonPath(Node workingNode)//recursive function.
         {
-            workingNode.Visitado = true;//marcar el nodo actual como visitado.
+            workingNode.Visited = true;//marcar el nodo actual como Visited.
             List<Node> notVisitedYet = graph.notVisitedList();//nodos sin visitar para restauraciones.
             List<Node> neightboors = graph.neighborListNode(workingNode);//vecinos del nodo actual.
 
             /*********************
              *       Caso Base. 
              * *********************/
-            if (notVisitedYet.Count() < 1 && workingNode == finalNodePath)//todos los nodos visitados && el nodo actual tiene de vecino al nodo inicial
+            if (notVisitedYet.Count() < 1 && workingNode == finalNodePath)//todos los nodos Visiteds && el nodo actual tiene de vecino al nodo inicial
             {
                 //Edge edge = graph.thisEdge(workingNode, initialNodePath);
                 //pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
@@ -2828,7 +2827,7 @@ namespace editorDeGrafos
              * *********************/
             foreach (Node node in neightboors)
             {
-                if (node.Visitado == false && node != finalNodePath)
+                if (node.Visited == false && node != finalNodePath)
                 {
                     if (DFS_Any_HamiltonPath(node))//si el nodo vecino retorna un ciclo
                     {
@@ -2991,7 +2990,7 @@ namespace editorDeGrafos
             List<int> directIncidenceNodes = new List<int>();
             for (int i = 0; i < matrixFloydPaths.GetLength(0); i++)
             {
-                if (matrixFloydPaths[workingNode,i] == workingNode && graph.thisnode(i).Visitado == false)
+                if (matrixFloydPaths[workingNode,i] == workingNode && graph.thisnode(i).Visited == false)
                 {
                     Edge edgeToAdd = this.graph.thisEdgeDirOrIndir(workingNode, i);
                     if (edgeToAdd != null)
@@ -3071,7 +3070,7 @@ namespace editorDeGrafos
             List<int> directIncidenceNodes = new List<int>();
             for (int i = 0; i < matrixWarshallPaths.GetLength(0); i++)
             {
-                if (matrixWarshallPaths[workingNode, i] == workingNode && graph.thisnode(i).Visitado == false)
+                if (matrixWarshallPaths[workingNode, i] == workingNode && graph.thisnode(i).Visited == false)
                 {
                     Edge edgeToAdd = this.graph.thisEdgeDirOrIndir(workingNode, i);
                     if (edgeToAdd != null)

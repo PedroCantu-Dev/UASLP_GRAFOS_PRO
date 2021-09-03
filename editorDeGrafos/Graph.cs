@@ -661,14 +661,14 @@ namespace editorDeGrafos
             {
                 if (edge.server != workingNode)
                 {
-                    if (edge.server.Visitado == false)
+                    if (edge.server.Visited == false)
                     {
                         return false;
                     }
                 }
                 if (edge.client != workingNode)
                 {
-                    if (edge.client.Visitado)
+                    if (edge.client.Visited)
                     {
                         return false;
                     }
@@ -683,7 +683,7 @@ namespace editorDeGrafos
             {
                 if (node != workingNode)
                 {
-                    if (node.Visitado == false)
+                    if (node.Visited == false)
                         return false;
                 }
             }
@@ -1432,7 +1432,7 @@ namespace editorDeGrafos
             List<Node> res = new List<Node>();
             for (int i = 0; i < graph[workingNode.Index].Count(); i++)
             {
-                if (graph[workingNode.Index][i].W > -1 && graph[workingNode.Index][i].NODO.Visitado == false)
+                if (graph[workingNode.Index][i].W > -1 && graph[workingNode.Index][i].NODO.Visited == false)
                 {
                     res.Add(graph[workingNode.Index][i].NODO);
 
@@ -1446,7 +1446,7 @@ namespace editorDeGrafos
             List<Node> res = new List<Node>();
             foreach (Node node in nodeList_G)
             {
-                if (node.Visitado == false)
+                if (node.Visited == false)
                 {
                     res.Add(node);
                 }
@@ -1474,11 +1474,11 @@ namespace editorDeGrafos
             {
                 if (notVisitedYet.Contains(node))
                 {
-                    node.Visitado = false;
+                    node.Visited = false;
                 }
                 else
                 {
-                    node.Visitado = true;
+                    node.Visited = true;
                 }
             }
         }
@@ -1514,7 +1514,7 @@ namespace editorDeGrafos
 
         public Boolean isACutNodeBool(Node node)
         {
-            node.Visitado = true;
+            node.Visited = true;
             isConected();
             if (allVisitedExept(node))
             {
@@ -1596,7 +1596,7 @@ namespace editorDeGrafos
             // Check if all non-zero degree vertices are visited 
             foreach (Node node in this.nodeList_G)
             {
-                if (node.Visitado == false)
+                if (node.Visited == false)
                 {
                     return false;
                 }
@@ -1612,13 +1612,13 @@ namespace editorDeGrafos
         void DFSUtilAllConected(Node workingNode/*int v, bool visited[]*/)
         {
             // Mark the current node as visited
-            workingNode.Visitado = true;
+            workingNode.Visited = true;
 
 
             // Recur for all the vertices adjacent to this vertex
             foreach (Node node in this.neighborListNode(workingNode))
             {
-                if (node.Visitado == false)
+                if (node.Visited == false)
                 {
                     DFSUtilAllConected(node);
                 }
@@ -1632,7 +1632,7 @@ namespace editorDeGrafos
             {
                 if (!conectedNodes.Contains(node))//if the node is out of the list of conectedNodes
                 {
-                    node.Visitado = true;
+                    node.Visited = true;
                 }
             }
         }
@@ -1829,7 +1829,7 @@ namespace editorDeGrafos
             for (int j = 0; j < graph.Count(); j++)
                 for (int i = 0; i < graph.Count(); i++)
                 {
-                    graph[j][i].NODO.Visitado = true;
+                    graph[j][i].NODO.Visited = true;
                 }
         }
 
@@ -1837,7 +1837,7 @@ namespace editorDeGrafos
         {
             foreach (Node node in nodeList_G)
             {
-                if (node.Visitado == false)
+                if (node.Visited == false)
                     return false;
             }
             return true;
@@ -1847,7 +1847,7 @@ namespace editorDeGrafos
         {
             foreach(Node node in this.nodeList_G)
             {
-                node.Visitado = false;
+                node.Visited = false;
             }
         }
 
@@ -1910,14 +1910,14 @@ namespace editorDeGrafos
             for (int j = 0; j < graph.Count(); j++)
                 for (int i = 0; i < graph.Count(); i++)
                 {
-                    graph[j][i].NODO.Visitado = false;
+                    graph[j][i].NODO.Visited = false;
                     graph[j][i].NODO.COLOR = Color.Black;
                 }
         }
 
         public void markAsVisited_T_F(int index, Boolean mark)
         {
-            graph[index][index].NODO.Visitado = mark;
+            graph[index][index].NODO.Visited = mark;
         }
 
         public Node thisnode(int index)
