@@ -7,8 +7,39 @@ using System.Drawing;
 
 namespace editorDeGrafos
 {
+
     public class Node
     {
+        /*DEFAULT CONSTANTS:*/
+
+        // this colors will be used dependig on the selected state of the node.
+        //this can grow depending on the different options you want to give to the users
+        //
+
+        Color[] colorsArray = new Color[] { Color.Black, Color.ForestGreen, Color.Blue, Color.Red};
+        //normal colors:
+        //0 is the default color
+        //1 is the first color depending on the selection
+        //2 is the next color depending on the selection
+        //3....
+        //.....
+
+        Color _colorDefault = Color.Black;
+        // this colors will be used dependig on the selected state of the node.
+        //this can grow depending on the different options you want to give to the users
+        //this are alternative colors, this is util when editing modes are active
+
+        Color[] _colorsArray = new Color[] { Color.Black, Color.ForestGreen, Color.Blue, Color.Red };
+        //mode actives
+        //0 is the default color
+        //1 is the first color depending on the selection
+        //2 is the next color depending on the selection
+        //3....
+        //.....
+        int numSelectionStates = 3;
+
+        //this two arrays control the node colors depending on the node state and the selection mode active in the graphic envirtoment
+
         //*FUNCTIONAL VARIABLES:
         String nameID = "";//a node unique name in the graph
         int uniqueID;//a primary key for vertices (integer type)
@@ -23,7 +54,6 @@ namespace editorDeGrafos
         //*GRAPHICs VARIABLES://those wich help with the graphical enviroment of the graph editor
         Point position = new Point(0, 0);//position for drawing the node
         Color color = Color.Black;      //color for drawing the node
-        Boolean justSelected;           //for drawing control
         int selected = 0;                   //to select nodes in graph mode
         int radiusLenght = 30;           //the radius of the node to Draw
 
@@ -34,7 +64,7 @@ namespace editorDeGrafos
             //sometimes you need an empty Node
         }
 
-        public Node(int x, int y)
+        public Node(int x, int y)//this constructor works when the only util information is the position of the graph normaly when is for drawing it
         {
             this.Position = new Point(x, y);
         }
@@ -44,7 +74,6 @@ namespace editorDeGrafos
             this.position = position;
             this.radiusLenght = radius;
             this.index = index;//ID of the node
-            color = Color.Black;
             uniqueID = identifier;
         }
         public Node(Point position, int radius, int index, int identifier, Color color)
@@ -52,11 +81,12 @@ namespace editorDeGrafos
             this.position = position;
             this.radiusLenght = radius;
             this.index = index;//ID of the node
-            this.color = color;
             uniqueID = identifier;
+            this.color = color;
         }
         #endregion
 
+        
         #region NodeGetSet
 
         /*******************************************************
@@ -82,24 +112,63 @@ namespace editorDeGrafos
 
         public Color COLOR
         {
-            get {
-                if(justSelected == true)
-                {
-                    
-                }
-                else
-                {
-
-                    return this.color;
-                }
+            get
+            {
+                return this.color;
             }
-            set { this.color = value; }
+            set
+            {
+                this.color = value;
+            }
+        }
+
+        //for asking for color
+        public Color COLORS {
+            get {
+                //depending on the slected state the node have different colors
+                return this.colorsArray[this.selected];
+            }
+        }
+
+        // when inverted colors are asked.
+        public Color _COLORS {
+            get {
+                return this._colorsArray[this.selected];
+            }
+        }
+
+        public void Click()
+        {
+           if(selected == numSelectionStates)
+            {
+                selected = 0;
+            }
+           else
+            {
+                selected++;
+            }
+        }
+
+        public void Reset()
+        {
+            selected = 0;
+            visited = false;
+
         }
 
         public Boolean SelectedBool
         {
-            get { return this.justSelected; }
-            set { this.justSelected = value; }
+            get { 
+                if(selected == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+
+            }
         }
 
         public int Index
@@ -135,34 +204,6 @@ namespace editorDeGrafos
         /*******************************************************
          *                Methods(Begin)                       *
          *******************************************************/
-
-
-        /*
-         * 
-         * 
-         * Description: return the color that node have to take deending of the selected grade
-         * */
-        private Color colorSelected()
-        {
-            switch (this.selected)
-            {
-                case 0:
-                    
-
-                    break;
-                case 1:
-                    break;
-
-                case 2:
-                    break;
-
-                default:
-                    break;
-           }
-
-        }
-
-
 
 
         public override String ToString()

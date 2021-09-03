@@ -134,6 +134,10 @@ namespace editorDeGrafos
 
         #endregion
 
+
+
+        Node selectedNode_F = null; // this variable represent the node selkected at the moment if exist
+
         #region MouseEvents
         /************* tha mouse , tha f()#/&g boss*****************/
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -205,30 +209,10 @@ namespace editorDeGrafos
 
                         if (oneNode != null)//one Node was clicked
                         {
-                            if (oneNode.SelectedBool == true)//if the node selected was selected already in any state.
-                                                             //if(oneNode == selected)
-                            {
-                                if (oneNode.Status == 3)// in the third state
-                                {
-                                    deselect();
-                                }
-                                else
-                                {
-                                    if (oneNode.Status == 2)//selected more than one time(second State).
-                                    {
-                                        oneNode.Status = 3;//change to thid state for directed links.
-                                        oneNode.COLOR = Color.Red;//change to red color(third state).
-                                    }
-                                    else
-                                    {
-                                        if (oneNode.Status == 1)//selected one time.
-                                        {
-                                            oneNode.Status = 2;//change to the second selected State.
-                                            oneNode.COLOR = Color.Blue;//change to blue color to indicate the status(can do undirected Edges).
-                                        }
 
-                                    }
-                                }
+                            if (selectedNode_F != null &&  oneNode == selectedNode_F )//if the node selected was selected already in any state.
+                            {
+                             oneNode.Click();// a click is performed
                             }
                             else // is tryng to do a link between nodes or select for first time
                             {
@@ -273,14 +257,6 @@ namespace editorDeGrafos
                                         }
                                     }
                                     InvalidatePlus(1);
-                                }
-                                else // select for the first time.                            
-                                {
-                                    // is not selected, (Status == 0).
-                                    oneNode.Status = 1;//change to the first selected state.
-                                    oneNode.COLOR = Color.ForestGreen;//change to green color to indicate the status(can move).
-                                    oneNode.SelectedBool = true;
-                                    selected = oneNode;
                                 }
                             }
                         }
@@ -1417,7 +1393,7 @@ namespace editorDeGrafos
                 }
                 else
                 {
-                    pen = new Pen(nod.NODO.COLOR, 5);
+                    pen = new Pen(nod.NODO.COLORS, 5);
                 }
                 graphics.DrawEllipse(pen, nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
 
@@ -1807,7 +1783,7 @@ namespace editorDeGrafos
             {
                 selected.Status = 0;//change to the original state.
                 selected.COLOR = Color.Black;//change to black color(original state).
-                selected.SelectedBool =AllowDrop = false;//
+                AllowDrop = false;//
                 selected = null;
             }
             Invalidate();
