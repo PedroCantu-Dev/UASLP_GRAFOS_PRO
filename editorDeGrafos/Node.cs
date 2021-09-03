@@ -21,11 +21,11 @@ namespace editorDeGrafos
         //each NodeRef have the reference to the next node and the weight of the edge between them
 
         //*GRAPHICs VARIABLES://those wich help with the graphical enviroment of the graph editor
-        Point position = new Point(0,0);//position for drawing the node
+        Point position = new Point(0, 0);//position for drawing the node
         Color color = Color.Black;      //color for drawing the node
         Boolean justSelected;           //for drawing control
-        int selected;                   //to select nodes in graph mode
-        int radiusLenght= 30;           //the radius of the node to Draw
+        int selected = 0;                   //to select nodes in graph mode
+        int radiusLenght = 30;           //the radius of the node to Draw
 
 
         #region NodeConstructors
@@ -43,18 +43,14 @@ namespace editorDeGrafos
         {
             this.position = position;
             this.radiusLenght = radius;
-            justSelected = false;
-            selected = 0;
             this.index = index;//ID of the node
             color = Color.Black;
             uniqueID = identifier;
         }
-        public Node(Point position  , int radius , int index, int identifier, Color color)
+        public Node(Point position, int radius, int index, int identifier, Color color)
         {
             this.position = position;
             this.radiusLenght = radius;
-            justSelected = false;
-            selected = 0;
             this.index = index;//ID of the node
             this.color = color;
             uniqueID = identifier;
@@ -86,7 +82,17 @@ namespace editorDeGrafos
 
         public Color COLOR
         {
-            get { return this.color; }
+            get {
+                if(justSelected == true)
+                {
+                    
+                }
+                else
+                {
+
+                    return this.color;
+                }
+            }
             set { this.color = value; }
         }
 
@@ -129,6 +135,35 @@ namespace editorDeGrafos
         /*******************************************************
          *                Methods(Begin)                       *
          *******************************************************/
+
+
+        /*
+         * 
+         * 
+         * Description: return the color that node have to take deending of the selected grade
+         * */
+        private Color colorSelected()
+        {
+            switch (this.selected)
+            {
+                case 0:
+                    
+
+                    break;
+                case 1:
+                    break;
+
+                case 2:
+                    break;
+
+                default:
+                    break;
+           }
+
+        }
+
+
+
 
         public override String ToString()
         {
