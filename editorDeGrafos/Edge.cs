@@ -11,7 +11,7 @@ namespace editorDeGrafos
     {
         public Node client = null;
         public Node server = null;
-
+         
         Boolean directed;
         Color color = Color.Black;
         Boolean visited = false;
