@@ -159,6 +159,30 @@ namespace editorDeGrafos
             return res;
         }
 
+        private int createIDAlpha()//crea un id diferente a cualquiera de la lista de nodos
+        {
+            Boolean different;
+            int res;
+            Random random = new Random();
+
+            do
+            {
+                different = true;
+                res = random.Next(1000, 9999);
+                foreach (int num in this.IDList_G)//ID list should be a tree so the time-complexity to compruebe the exixtence of the random number generated could decresse
+                {
+                    if (res == num)
+                    {
+                        different = false;
+                        break;//doesn't make sense continuing serching. Basic heuristic avrd.
+                    }
+                }
+            }
+            while (different == false);
+            return res;
+        }
+
+
         public void addNode(Node nodo)
         {
             List<NodeRef> newNodeRefList = new List<NodeRef>();//the new list for the new node conections.           

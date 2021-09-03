@@ -9,35 +9,29 @@ namespace editorDeGrafos
 {
     public class Node
     {
-        //graphic variables
+        //*FUNCTIONAL VARIABLES:
+        String nameID = "";//a node unique name in the graph
+        int uniqueID;//a primary key for vertices (integer type)
+        int index;//-----------
+        //this three are asigned by the Graph with the method create.
 
-        String nameID = "";//a node unique name in the graph 
-        
-        int radiusLenght;//
-        Boolean justSelected;//
-        int selected;//
-        int index;//
-        int uniqueID;//
+        Boolean visited = false;                      //for routing
+        Boolean colored = false;                      //for especial algorithms that use color atribute
+        List<NodeRef> neighbors = new List<NodeRef>();//this represent the list of nodes that can be reached from this one
+        //each NodeRef have the reference to the next node and the weight of the edge between them
 
-
-        //functional variables
-        Boolean visited = false;
-        Boolean colored = false;
-
-        Point position;//position for drawing the node
-        Color color;//color for drawing the node
-
-
-
-        List<NodeRef> neighbors = new List<NodeRef>();
+        //*GRAPHICs VARIABLES://those wich help with the graphical enviroment of the graph editor
+        Point position = new Point(0,0);//position for drawing the node
+        Color color = Color.Black;      //color for drawing the node
+        Boolean justSelected;           //for drawing control
+        int selected;                   //to select nodes in graph mode
+        int radiusLenght= 30;           //the radius of the node to Draw
 
 
-
-
-
+        #region NodeConstructors
         public Node() //default constructor of the class Node
         {
-
+            //sometimes you need an empty Node
         }
 
         public Node(int x, int y)
@@ -55,7 +49,7 @@ namespace editorDeGrafos
             color = Color.Black;
             uniqueID = identifier;
         }
-        public Node(Point position, int radius, int index, int identifier, Color color)
+        public Node(Point position  , int radius , int index, int identifier, Color color)
         {
             this.position = position;
             this.radiusLenght = radius;
@@ -65,6 +59,9 @@ namespace editorDeGrafos
             this.color = color;
             uniqueID = identifier;
         }
+        #endregion
+
+        #region NodeGetSet
 
         /*******************************************************
          *               Geters and seters(Begin)              *
@@ -113,8 +110,8 @@ namespace editorDeGrafos
 
         public Boolean Visitado
         {
-            get { return this.visitado; }
-            set { this.visitado = value; }
+            get { return this.visited; }
+            set { this.visited = value; }
         }
 
         public List<NodeRef> NEIGHBORS
@@ -125,6 +122,10 @@ namespace editorDeGrafos
          *                Geters and seters(End)               *
          *******************************************************/
 
+        #endregion
+
+        #region NodeMethods
+
         /*******************************************************
          *                Methods(Begin)                       *
          *******************************************************/
@@ -133,12 +134,10 @@ namespace editorDeGrafos
         {
             return this.ID + this.position.ToString() + " -index = " + this.Index;
         }
-
-
-
-
-
-
+        #endregion
 
     }//Node class.
+
+
+
 }
