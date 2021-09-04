@@ -128,7 +128,7 @@ namespace editorDeGrafos
             generalRadius_FV = 30;
             mousePressed_FV = false;
             graph_FV = new Graph();
-            statusTB.Text = "Nombre :" + fileName;
+            statusTB.Text = "Nombre :" + fileName_FV;
             terminal.Text = "Node selected : ";
         }
 
@@ -144,8 +144,8 @@ namespace editorDeGrafos
                 offWhenClickingMouseOrKey();
                  if (Move_M_Do || MoveAll_A_Do || Remove_R_Do || MoRe_F_Do || Link_Do || Link_D_Do || Link_U_Do)//######## Do operations ##########
                 {
-                    selectedJustFor_Moving = findNodeClicked(new Point(e.X, e.Y));
-                    selected = selectedJustFor_Moving;
+                    selectedNode_Moving_FV = findNodeClicked(new Point(e.X, e.Y));
+                    selectedNode_FV = selectedNode_Moving_FV;
 
                     if (Remove_R_Do)
                     {
@@ -153,25 +153,25 @@ namespace editorDeGrafos
                     }
                     else if (MoRe_F_Do)
                     {
-                        selected = selectedJustFor_Moving;
+                        selectedNode_FV = selectedNode_Moving_FV;
                         if (e.Button == System.Windows.Forms.MouseButtons.Right)
                         {
                             eliminate();
                         }
                         else
                         {
-                            if (selected == null)
+                            if (selectedNode_FV == null)
                             {
-                                graph.create(new Point(e.X, e.Y), generalRadius);
-                                justSaved = false;
+                                graph_FV.create(new Point(e.X, e.Y), generalRadius_FV);
+                                justSaved_FV = false;
                             }
                         }
                     }
                     else if (Link_Do || Link_D_Do || Link_U_Do) // if doing a link and mousedown
                     {
-                        if (selectedJustFor_Linking == null)
+                        if (selectedNode_Linking_FV == null)
                         {
-                            if (selected == null)
+                            if (selectedNode_FV == null)
                             {
                                 Color colorToCreateNode = Color.Black;
                                 if (Link_Do)
@@ -187,12 +187,12 @@ namespace editorDeGrafos
                                     colorToCreateNode = Color.RoyalBlue;
                                 }
 
-                                graph.create(new Coordenate(e.X, e.Y), generalRadius, colorToCreateNode);
-                                justSaved = false;
+                                graph_FV.create(new Coordenate(e.X, e.Y), generalRadius_FV, colorToCreateNode);
+                                justSaved_FV = false;
                             }
                             else
                             {
-                                selectedJustFor_Linking = selected;
+                                selectedNode_Linking_FV = selectedNode_FV;
                             }
                         }
                     }
@@ -215,9 +215,9 @@ namespace editorDeGrafos
                             }
                             else // is tryng to do a link between nodes or select for first time
                             {
-                                if (selected != null)//want to do a link between nodes.
+                                if (selectedNode_FV != null)//want to do a link between nodes.
                                 {
-                                    if (selected.Status == 2)//undirected link
+                                    if (selectedNode_FV.Status == 2)//undirected link
                                     {
                                         int weight;
                                         //here i have to ask the weight of the link.
@@ -233,11 +233,11 @@ namespace editorDeGrafos
                                         //int weight = 0;
                                         if (weight >= 0)
                                         {
-                                            Edge edge = new Edge(selected, oneNode, weight);
-                                            graph.addUndirectedEdge(edge, weight);
+                                            Edge edge = new Edge(selectedNode_FV, oneNode, weight);
+                                            graph_FV.addUndirectedEdge(edge, weight);
                                         }
                                     }
-                                    if (selected.Status == 3)//directed link
+                                    if (selectedNode_FV.Status == 3)//directed link
                                     {
                                         int weight;
                                         //here i have to ask the weight of the link.
@@ -252,7 +252,7 @@ namespace editorDeGrafos
 
                                         if (weight >= 0)
                                         {
-                                            graph.addDirectedEdge(selected, oneNode, weight);
+                                            graph_FV.addDirectedEdge(selectedNode_FV, oneNode, weight);
                                         }
                                     }
                                     InvalidatePlus(1);
@@ -261,20 +261,20 @@ namespace editorDeGrafos
                         }
                         else // want to make and add a new node 
                         {
-                            graph.create(new Point(e.X, e.Y), generalRadius);
-                            justSaved = false;
+                            graph_FV.create(new Point(e.X, e.Y), generalRadius_FV);
+                            justSaved_FV = false;
                         }
 
                     }//left mouse button presed.           
                     else//right mouse button pressed.
                     {
-                        if (selected != null)
+                        if (selectedNode_FV != null)
                         {
-                            if (selected == findNodeClicked(new Point(e.X, e.Y)))
+                            if (selectedNode_FV == findNodeClicked(new Point(e.X, e.Y)))
                             {
-                                if (selected.Status > 1)
+                                if (selectedNode_FV.Status > 1)
                                 {
-                                    if (selected.Status == 2)//make a own link
+                                    if (selectedNode_FV.Status == 2)//make a own link
                                     {
                                         int weight;
                                         //here i have to ask the weight of the link.
@@ -289,8 +289,8 @@ namespace editorDeGrafos
 
                                         if (weight >= 0)
                                         {
-                                            graph.addCicledEdge(selected, weight);
-                                            justSaved = false;
+                                            graph_FV.addCicledEdge(selectedNode_FV, weight);
+                                            justSaved_FV = false;
                                         }
                                         InvalidatePlus(1);
                                     }
@@ -310,14 +310,14 @@ namespace editorDeGrafos
         {
             if (e.Button == MouseButtons.Left)
             {
-                mousePressed = false;
+                mousePressed_FV = false;
             }
             if (Link_Do || Link_D_Do || Link_U_Do)//Linking
             {
                 int weight = 0;
 
                 Node auxMouseUperNode = findNodeClicked(new Point(e.X, e.Y));
-                if (auxMouseUperNode != null && selectedJustFor_Linking != null)
+                if (auxMouseUperNode != null && selectedNode_Linking_FV != null)
                 {
                     if (Link_Do)
                     {
@@ -336,8 +336,8 @@ namespace editorDeGrafos
 
                             if (weight >= 0)
                             {
-                                graph.addUndirectedEdge(selectedJustFor_Linking, auxMouseUperNode, weight);
-                                justSaved = false;
+                                graph_FV.addUndirectedEdge(selectedNode_Linking_FV, auxMouseUperNode, weight);
+                                justSaved_FV = false;
                             }
                         }
                         else if (right_Linking)//directed
@@ -354,8 +354,8 @@ namespace editorDeGrafos
 
                             if (weight >= 0)
                             {
-                                graph.addDirectedEdge(selectedJustFor_Linking, auxMouseUperNode, weight);
-                                justSaved = false;
+                                graph_FV.addDirectedEdge(selectedNode_Linking_FV, auxMouseUperNode, weight);
+                                justSaved_FV = false;
                             }
                         }
                     }
@@ -372,8 +372,8 @@ namespace editorDeGrafos
                         }
                         if (weight >= 0)
                         {
-                            graph.addDirectedEdge(selectedJustFor_Linking, auxMouseUperNode, weight);
-                            justSaved = false;
+                            graph_FV.addDirectedEdge(selectedNode_Linking_FV, auxMouseUperNode, weight);
+                            justSaved_FV = false;
                         }
                     }
                     else if (Link_U_Do)
@@ -389,12 +389,12 @@ namespace editorDeGrafos
                         }
                         if (weight >= 0)
                         {
-                            graph.addUndirectedEdge(selectedJustFor_Linking, auxMouseUperNode, weight);
-                            justSaved = false;
+                            graph_FV.addUndirectedEdge(selectedNode_Linking_FV, auxMouseUperNode, weight);
+                            justSaved_FV = false;
                         }
                     }
                 }
-                selectedJustFor_Linking = null;
+                selectedNode_Linking_FV = null;
                 InvalidatePlus(1);
             }
         }
@@ -404,27 +404,27 @@ namespace editorDeGrafos
 
         public void Form1_MouseMove(object sender, MouseEventArgs e)//for the mouse moving.
         {
-            if (mousePressed == true && e.Button == MouseButtons.Right && selected != null && selected.Status == 1)//Selected: mouse moving 
+            if (mousePressed_FV == true && e.Button == MouseButtons.Right && selectedNode_FV != null && selectedNode_FV.Status == 1)//Selected: mouse moving 
             {
-                selected.Position = e.Location;
+                selectedNode_FV.Position = e.Location;
                 InvalidatePlus(1);
             }
-            if (mousePressed == true && Move_M_Do == true && selectedJustFor_Moving != null)//Move
+            if (mousePressed_FV == true && Move_M_Do == true && selectedNode_Moving_FV != null)//Move
             {
-                selectedJustFor_Moving.Position = e.Location;
+                selectedNode_Moving_FV.Position = e.Location;
 
                 InvalidatePlus(1);
             }
-            if (mousePressed == true && MoveAll_A_Do == true && selectedJustFor_Moving != null)//MoveAll
+            if (mousePressed_FV == true && MoveAll_A_Do == true && selectedNode_Moving_FV != null)//MoveAll
             {
                 if (mouseLastPosition != null)
                 {
                     //Calculate delta of the mouse moving
-                    int deltaX = selectedJustFor_Moving.Position.X - e.X;
-                    int deltaY = selectedJustFor_Moving.Position.Y - e.Y;
+                    int deltaX = selectedNode_Moving_FV.Position.X - e.X;
+                    int deltaY = selectedNode_Moving_FV.Position.Y - e.Y;
                     Coordenate deltaOfCoordenate = new Coordenate(deltaX, deltaY);
 
-                    foreach (Node node in graph.NODE_LIST)
+                    foreach (Node node in graph_FV.NODE_LIST)
                     {
                        int xPo =  node.Position.X - deltaOfCoordenate.X;
                        int yPo =  node.Position.Y - deltaOfCoordenate.Y;
@@ -435,13 +435,13 @@ namespace editorDeGrafos
                 mouseLastPosition = new Coordenate(e.X, e.Y);
                 InvalidatePlus(1);
             }
-            if (mousePressed == true && e.Button == MouseButtons.Left && MoRe_F_Do == true && selectedJustFor_Moving != null)//MoRe
+            if (mousePressed_FV == true && e.Button == MouseButtons.Left && MoRe_F_Do == true && selectedNode_Moving_FV != null)//MoRe
             {
 
-                selectedJustFor_Moving.Position = e.Location;
+                selectedNode_Moving_FV.Position = e.Location;
                 InvalidatePlus(1);
             }
-            if (mousePressed == true && (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right) && Link_Do == true && selectedJustFor_Linking != null)//Linking
+            if (mousePressed_FV == true && (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right) && Link_Do == true && selectedNode_Linking_FV != null)//Linking
             {
                 Node auxMouseUperNode = findNodeClicked(new Point(e.X, e.Y));
                 Point corToDraw;
@@ -455,7 +455,7 @@ namespace editorDeGrafos
                     corToDraw = new Point(e.X, e.Y);
                 }
 
-                linkingEdge = new Edge(selectedJustFor_Linking, corToDraw);
+                linkingEdge = new Edge(selectedNode_Linking_FV, corToDraw);
 
                 if (e.Button == MouseButtons.Left)//for undirected Edges.
                 {
@@ -473,7 +473,7 @@ namespace editorDeGrafos
                 Invalidate();
 
             }
-            if (mousePressed == true && (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right) && Link_D_Do == true && selectedJustFor_Linking != null)//Linking D
+            if (mousePressed_FV == true && (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right) && Link_D_Do == true && selectedNode_Linking_FV != null)//Linking D
             {
                 Node auxMouseUperNode = findNodeClicked(new Point(e.X, e.Y));
                 Point corToDraw;
@@ -490,7 +490,7 @@ namespace editorDeGrafos
                 linkingEdge = new Edge(selectedNode_Linking_FV, corToDraw);
                 Invalidate();
             }
-            if (mousePressed_FV == true && (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right) && Link_U_Do == true && selectedJustFor_Linking != null)//Linking D
+            if (mousePressed_FV == true && (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right) && Link_U_Do == true && selectedNode_Linking_FV != null)//Linking D
             {
                 Node auxMouseUperNode = findNodeClicked(new Point(e.X, e.Y));
                 Point corToDraw;
@@ -565,7 +565,7 @@ namespace editorDeGrafos
         private void Form1_KeyDown(object sender, KeyEventArgs e)// keys down.
         {
             offWhenClickingMouseOrKey();
-            if ((e.KeyCode == Keys.Escape || e.KeyCode == Keys.S) && selected != null)
+            if ((e.KeyCode == Keys.Escape || e.KeyCode == Keys.S) && selectedNode_FV != null)
             {
                 deselect();
 
@@ -598,7 +598,7 @@ namespace editorDeGrafos
             {
                 keyU_OR_U_LinkingClick();
             }
-            if (e.KeyCode == Keys.X && selected != null)
+            if (e.KeyCode == Keys.X && selectedNode_FV != null)
             {
                 eliminate();
                 InvalidatePlus();
@@ -616,7 +616,7 @@ namespace editorDeGrafos
 
             if (Move_M_Do)
             {
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.Black;
                 }
@@ -625,7 +625,7 @@ namespace editorDeGrafos
             else
             {
                 allOperationOff();
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.Green;
                 }
@@ -640,7 +640,7 @@ namespace editorDeGrafos
 
             if (MoveAll_A_Do)
             {
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.Black;
                 }
@@ -649,7 +649,7 @@ namespace editorDeGrafos
             else
             {
                 allOperationOff();
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.LimeGreen;
                 }
@@ -665,7 +665,7 @@ namespace editorDeGrafos
 
             if (Remove_R_Do)
             {
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.Black;
                 }
@@ -674,7 +674,7 @@ namespace editorDeGrafos
             else
             {
                 allOperationOff();
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.Red;
                 }
@@ -689,7 +689,7 @@ namespace editorDeGrafos
 
             if (MoRe_F_Do)
             {
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.Black;
                 }
@@ -698,7 +698,7 @@ namespace editorDeGrafos
             else
             {
                 allOperationOff();
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.Indigo;
                 }
@@ -713,7 +713,7 @@ namespace editorDeGrafos
 
             if (Link_Do)
             {
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.Black;
                 }
@@ -722,7 +722,7 @@ namespace editorDeGrafos
             else
             {
                 allOperationOff();
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.Purple;
                 }
@@ -737,7 +737,7 @@ namespace editorDeGrafos
 
             if (Link_D_Do)
             {
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.Black;
                 }
@@ -746,7 +746,7 @@ namespace editorDeGrafos
             else
             {
                 allOperationOff();
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.Orange;
                 }
@@ -762,7 +762,7 @@ namespace editorDeGrafos
 
             if (Link_U_Do)
             {
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.Black;
                 }
@@ -771,7 +771,7 @@ namespace editorDeGrafos
             else
             {
                 allOperationOff();
-                foreach (Node node in graph.NODE_LIST)
+                foreach (Node node in graph_FV.NODE_LIST)
                 {
                     node.COLOR = Color.RoyalBlue;
                 }
@@ -792,7 +792,7 @@ namespace editorDeGrafos
             Link_Do = false;
             Link_D_Do = false;
             Link_U_Do = false;
-            mousePressed = false;
+            mousePressed_FV = false;
         }
 
         /********************* common key-operations (END) ****************************/
@@ -812,25 +812,25 @@ namespace editorDeGrafos
         //ISOMORFISMO:
         protected virtual void fuerzaBrutaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (IsomorfismForm != null && IsomorfismForm.Visible)
+            if (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible)
             {
-                changeIsomtextBox(this.graph.Isomo_Fuerza_Bruta(IsomorfismForm.graph).ToString());
+                changeIsomtextBox(this.graph_FV.Isomo_Fuerza_Bruta(IsomorfismForm_FV.graph_FV).ToString());
             }
         }
 
         protected virtual void traspuestaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (IsomorfismForm != null && IsomorfismForm.Visible)
+            if (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible)
             {
-                changeIsomtextBox(this.graph.Isom_Traspuesta(IsomorfismForm.graph).ToString());
+                changeIsomtextBox(this.graph_FV.Isom_Traspuesta(IsomorfismForm_FV.graph_FV).ToString());
             }
         }
 
         protected virtual void intercambioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (IsomorfismForm != null && IsomorfismForm.Visible)
+            if (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible)
             {
-                changeIsomtextBox(this.graph.Isom_Inter(IsomorfismForm.graph).ToString());
+                changeIsomtextBox(this.graph_FV.Isom_Inter(IsomorfismForm_FV.graph_FV).ToString());
             }
         }
         public void closeIsoFormClicked(object sender, EventArgs e)
@@ -868,7 +868,7 @@ namespace editorDeGrafos
         {
             deselect();
             reset();
-            if (this.graph.Directed())
+            if (this.graph_FV.Directed())
             {
                 floydAlgorithm();
                 
@@ -877,7 +877,7 @@ namespace editorDeGrafos
             {
                 floydShow = false;
                 MessageBox.Show("El Algoritmo de Floyd es para grafos dirigidos");
-                graph.allBlack();
+                graph_FV.allBlack();
                 Invalidate();
             }
 
@@ -898,11 +898,11 @@ namespace editorDeGrafos
         {
             deselect();
             reset();
-            if (this.graph.Directed())
+            if (this.graph_FV.Directed())
             {
                 primShow = false;
                 MessageBox.Show("El Algoritmo de Prim es para grafos no dirigidos");
-                graph.allBlack();
+                graph_FV.allBlack();
                 Invalidate();
             }
             else
@@ -916,11 +916,11 @@ namespace editorDeGrafos
         {
             deselect();
             reset();
-            if (this.graph.Directed())
+            if (this.graph_FV.Directed())
             {
                 kruskalShow = false;
                 MessageBox.Show("El Algoritmo de Kruskal es para grafos no dirigidos");
-                graph.allBlack();
+                graph_FV.allBlack();
                 Invalidate();
             }
             else
@@ -944,10 +944,10 @@ namespace editorDeGrafos
                 f3.Operation = 0;
             }
 
-            if (matIn)
-                matIn = false;
+            if (matIn_FV)
+                matIn_FV = false;
             else
-                matIn = true;
+                matIn_FV = true;
             InvalidatePlus();
         }
 
@@ -966,7 +966,7 @@ namespace editorDeGrafos
 
         private void pesosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pesosActivated = !pesosActivated;
+            pesosActivated_FV = !pesosActivated_FV;
             Invalidate();
         }
 
@@ -986,13 +986,13 @@ namespace editorDeGrafos
         private void Load_Click(object sender, EventArgs e)
         {
             offWhenClickingMouseOrKey(false);
-            if (justSaved == false)
+            if (justSaved_FV == false)
             {
-                gdc = new SaveChangesWindow();
-                gdc.ShowDialog();
-                if (gdc.Operation == 1 || gdc.Operation == 2)
+                gdcForm_FV = new SaveChangesWindow();
+                gdcForm_FV.ShowDialog();
+                if (gdcForm_FV.Operation == 1 || gdcForm_FV.Operation == 2)
                 {
-                    if (gdc.Operation == 1)
+                    if (gdcForm_FV.Operation == 1)
                     {
                         saveFile();
                     }
@@ -1008,7 +1008,7 @@ namespace editorDeGrafos
         private void New_Click(object sender, EventArgs e)
         {
             offWhenClickingMouseOrKey();
-            if (justSaved == false)//si el trabajo no ha sido guardado
+            if (justSaved_FV == false)//si el trabajo no ha sido guardado
             {
                 SaveChangesWindow gdc = new SaveChangesWindow();
                 gdc.ShowDialog();
@@ -1021,9 +1021,9 @@ namespace editorDeGrafos
                 }
             }
             this.reset();
-            graph.reset();
-            fileName = "";
-            justSaved = true;
+            graph_FV.reset();
+            fileName_FV = "";
+            justSaved_FV = true;
             InvalidatePlus();
         }
 
@@ -1033,29 +1033,29 @@ namespace editorDeGrafos
         //if it is no possible to load, the values are retored.
         private void loadCommonActions()
         {
-            Graph graph_BU = graph;
-            List<Node> nodeList_BU = graph.NODE_LIST;
-            List<Edge> edgeList_BU = graph.EDGE_LIST;
-            List<Edge> diEdgeList_BU = graph.DIEDGE_LIST;
-            List<Edge> cicleEdgeList_BU = graph.CIEDGE_LIST;
+            Graph graph_BU = graph_FV;
+            List<Node> nodeList_BU = graph_FV.NODE_LIST;
+            List<Edge> edgeList_BU = graph_FV.EDGE_LIST;
+            List<Edge> diEdgeList_BU = graph_FV.DIEDGE_LIST;
+            List<Edge> cicleEdgeList_BU = graph_FV.CIEDGE_LIST;
 
-            graph = new Graph();
-            graph.NODE_LIST = new List<Node>();
-            graph.EDGE_LIST = new List<Edge>();
-            graph.DIEDGE_LIST = new List<Edge>();
-            graph.CIEDGE_LIST = new List<Edge>();
+            graph_FV = new Graph();
+            graph_FV.NODE_LIST = new List<Node>();
+            graph_FV.EDGE_LIST = new List<Edge>();
+            graph_FV.DIEDGE_LIST = new List<Edge>();
+            graph_FV.CIEDGE_LIST = new List<Edge>();
 
             if (openFile() == 0)//couldn't open
             {
-                graph = graph_BU;
-                graph.NODE_LIST = nodeList_BU;
-                graph.EDGE_LIST = edgeList_BU;
-                graph.DIEDGE_LIST = diEdgeList_BU;
-                graph.CIEDGE_LIST = cicleEdgeList_BU;
+                graph_FV = graph_BU;
+                graph_FV.NODE_LIST = nodeList_BU;
+                graph_FV.EDGE_LIST = edgeList_BU;
+                graph_FV.DIEDGE_LIST = diEdgeList_BU;
+                graph_FV.CIEDGE_LIST = cicleEdgeList_BU;
             }
             else//it was opened succesfully
             {                
-                justSaved = true;
+                justSaved_FV = true;
             }
             InvalidatePlus();
         }
@@ -1073,7 +1073,7 @@ namespace editorDeGrafos
                 MessageBox.Show(saveFileDialog.FileName);
 
                 String auxFileName  = saveFileDialog.FileName;
-                fileName = " " + auxFileName.Substring(auxFileName.LastIndexOf(@"\") + 1 ,auxFileName.Length - auxFileName.LastIndexOf(@"\") -1);
+                fileName_FV = " " + auxFileName.Substring(auxFileName.LastIndexOf(@"\") + 1 ,auxFileName.Length - auxFileName.LastIndexOf(@"\") -1);
             }
             /********************************************* 
                 atributes of a node that can be unique
@@ -1085,12 +1085,12 @@ namespace editorDeGrafos
             if (sw != null)
             {
 
-                foreach (Node node in graph.NODE_LIST)//all about the node
+                foreach (Node node in graph_FV.NODE_LIST)//all about the node
                 {
                     sw.WriteLine(node.ID + "," + node.Index + "," + node.Position.X + "," + node.Position.Y + "," + node.Radius);
                 }
                 sw.WriteLine("Matrix");
-                foreach (List<NodeRef> row in graph.GRAPH)
+                foreach (List<NodeRef> row in graph_FV.GRAPH)
                 {
                     foreach (NodeRef nodeR in row)
                     {
@@ -1099,22 +1099,22 @@ namespace editorDeGrafos
                     sw.WriteLine();
                 }
                 sw.WriteLine("Edges");
-                foreach (Edge edge in graph.EDGE_LIST)
+                foreach (Edge edge in graph_FV.EDGE_LIST)
                 {
                     sw.WriteLine(edge.Client.Index + "," + edge.Server.Index + "," + edge.Weight);
                 }
                 sw.WriteLine("D_Edges");
-                foreach (Edge edge in graph.DIEDGE_LIST)
+                foreach (Edge edge in graph_FV.DIEDGE_LIST)
                 {
                     sw.WriteLine(edge.Client.Index + "," + edge.Server.Index + "," + edge.Weight);
                 }
                 sw.WriteLine("C_Edges");
-                foreach (Edge edge in graph.CIEDGE_LIST)
+                foreach (Edge edge in graph_FV.CIEDGE_LIST)
                 {
                     sw.WriteLine(edge.Client.Index + "," + edge.Weight);
                 }
                 sw.Close();
-                justSaved = true;
+                justSaved_FV = true;
             }
             InvalidatePlus();
         }
@@ -1130,7 +1130,7 @@ namespace editorDeGrafos
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 String auxFileName = openFileDialog.FileName;
-                fileName = " " + auxFileName.Substring(auxFileName.LastIndexOf(@"\") + 1, auxFileName.Length - auxFileName.LastIndexOf(@"\") - 1);
+                fileName_FV = " " + auxFileName.Substring(auxFileName.LastIndexOf(@"\") + 1, auxFileName.Length - auxFileName.LastIndexOf(@"\") - 1);
 
                 sr = new StreamReader(auxFileName);
                 char[] Delimiters = new char[] { ',' };
@@ -1154,7 +1154,7 @@ namespace editorDeGrafos
 
                     Point cor = new Point(x, y);
                     Node node = new Node(cor, radiusON, indexON, idON);
-                    graph.addNode(node);
+                    graph_FV.addNode(node);
                     //nodeList.Add(node);
                     Input = sr.ReadLine().Split(Delimiters, StringSplitOptions.RemoveEmptyEntries);
                 }
@@ -1171,7 +1171,7 @@ namespace editorDeGrafos
                     for (int j = 0; j < Input.Length; j++)
                     {
                         int.TryParse(Input[j], out Peso);
-                        graph.GRAPH[i][j].W = Peso;
+                        graph_FV.GRAPH[i][j].W = Peso;
                     }
                     Input = sr.ReadLine().Split(Delimiters, StringSplitOptions.RemoveEmptyEntries);
                     i++;
@@ -1193,21 +1193,21 @@ namespace editorDeGrafos
                     int.TryParse(Input[0], out nodo_S);
 
 
-                    for (int j = 0; j < graph.GRAPH.Count; j++)
+                    for (int j = 0; j < graph_FV.GRAPH.Count; j++)
                     {
-                        if (graph.GRAPH[j][j].NODO.Index == nodo_C)
+                        if (graph_FV.GRAPH[j][j].NODO.Index == nodo_C)
                         {
-                            client = graph.GRAPH[j][j].NODO;
+                            client = graph_FV.GRAPH[j][j].NODO;
                         }
-                        if (graph.GRAPH[j][j].NODO.Index == nodo_S)
+                        if (graph_FV.GRAPH[j][j].NODO.Index == nodo_S)
                         {
-                            server = graph.GRAPH[j][j].NODO;
+                            server = graph_FV.GRAPH[j][j].NODO;
                         }
                     }
 
                     Edge edge = new Edge(server, client,weigth);
 
-                    graph.addUndirectedEdge(edge);
+                    graph_FV.addUndirectedEdge(edge);
                     Input = sr.ReadLine().Split(Delimiters, StringSplitOptions.RemoveEmptyEntries);
                 }
                 if (Input[0] == "D_Edges" && !sr.EndOfStream)
@@ -1226,20 +1226,20 @@ namespace editorDeGrafos
                     int nodo_S;
                     int.TryParse(Input[0], out nodo_S);
 
-                    for (int j = 0; j < graph.GRAPH.Count; j++)
+                    for (int j = 0; j < graph_FV.GRAPH.Count; j++)
                     {
-                        if (graph.GRAPH[j][j].NODO.Index == nodo_C)
+                        if (graph_FV.GRAPH[j][j].NODO.Index == nodo_C)
                         {
-                            client = graph.GRAPH[j][j].NODO;
+                            client = graph_FV.GRAPH[j][j].NODO;
                         }
-                        if (graph.GRAPH[j][j].NODO.Index == nodo_S)
+                        if (graph_FV.GRAPH[j][j].NODO.Index == nodo_S)
                         {
-                            server = graph.GRAPH[j][j].NODO;
+                            server = graph_FV.GRAPH[j][j].NODO;
                         }
                     }
 
                     Edge edge = new Edge(server, client,weight);
-                    graph.DIEDGE_LIST.Add(edge);
+                    graph_FV.DIEDGE_LIST.Add(edge);
                     Input = sr.ReadLine().Split(Delimiters, StringSplitOptions.RemoveEmptyEntries);
                 }
                 if (Input[0] == "C_Edges" && !sr.EndOfStream)
@@ -1255,15 +1255,15 @@ namespace editorDeGrafos
                     int nodo_S;
                     int.TryParse(Input[0], out nodo_S);
 
-                    for (int j = 0; j < graph.GRAPH.Count; j++)
+                    for (int j = 0; j < graph_FV.GRAPH.Count; j++)
                     {
-                        if (graph.GRAPH[j][j].NODO.Index == nodo_S)
+                        if (graph_FV.GRAPH[j][j].NODO.Index == nodo_S)
                         {
-                            server = graph.GRAPH[j][j].NODO;
+                            server = graph_FV.GRAPH[j][j].NODO;
                         }
                     }
                                         
-                    graph.addCicledEdge(server,weight);
+                    graph_FV.addCicledEdge(server,weight);
                     Input = sr.ReadLine().Split(Delimiters, StringSplitOptions.RemoveEmptyEntries);
                 }
                 sr.Close();
@@ -1289,16 +1289,16 @@ namespace editorDeGrafos
             Brush brush = new SolidBrush(BackColor);
             Rectangle rectangle;           
 
-            foreach (Edge edge in graph.CIEDGE_LIST)//cicled edge.
+            foreach (Edge edge in graph_FV.CIEDGE_LIST)//cicled edge.
             {
                 drawCicledEdge(graphics, edge, e);
             }
 
-                foreach (Edge edge in graph.EDGE_LIST)//undirected edges.
+                foreach (Edge edge in graph_FV.EDGE_LIST)//undirected edges.
                 {
                     drawEdge(graphics, edge);
                 }
-                foreach (Edge edge in graph.DIEDGE_LIST)//directed edges.
+                foreach (Edge edge in graph_FV.DIEDGE_LIST)//directed edges.
                 {
                     drawDirectedEdge(graphics, edge);
                 }            
@@ -1312,7 +1312,7 @@ namespace editorDeGrafos
                         floydShowFunction();
                         
 
-                        foreach(Edge diEdge in graph.DIEDGE_LIST)
+                        foreach(Edge diEdge in graph_FV.DIEDGE_LIST)
                         {
                             if(edgesFloyd.Contains(diEdge))
                             {
@@ -1325,7 +1325,7 @@ namespace editorDeGrafos
                             }
                         }
 
-                        foreach (Edge edge in graph.EDGE_LIST)
+                        foreach (Edge edge in graph_FV.EDGE_LIST)
                         {
                             if (edgesFloyd.Contains(edge))
                             {
@@ -1349,7 +1349,7 @@ namespace editorDeGrafos
                         warshallShowFunction();
 
 
-                        foreach (Edge diEdge in graph.DIEDGE_LIST)
+                        foreach (Edge diEdge in graph_FV.DIEDGE_LIST)
                         {
                             if (edgesWarshall.Contains(diEdge))
                             {
@@ -1362,7 +1362,7 @@ namespace editorDeGrafos
                             }
                         }
 
-                        foreach (Edge edge in graph.EDGE_LIST)
+                        foreach (Edge edge in graph_FV.EDGE_LIST)
                         {
                             if (edgesWarshall.Contains(edge))
                             {
@@ -1381,9 +1381,9 @@ namespace editorDeGrafos
                 
             }
 
-            for (int i = 0; i < graph.GRAPH.Count; i++)//Nodes.
+            for (int i = 0; i < graph_FV.GRAPH.Count; i++)//Nodes.
             {
-                NodeRef nod = graph.GRAPH[i][i];
+                NodeRef nod = graph_FV.GRAPH[i][i];
                 rectangle = new Rectangle(nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
                 graphics.FillEllipse(brush, rectangle);
                 if (dijkstraShow || primShow || kruskalShow)
@@ -1398,7 +1398,7 @@ namespace editorDeGrafos
 
                 //draw inside the node a index.
                 String index_S = "" + nod.NODO.Index;
-                int fontSize = generalRadius - 10;
+                int fontSize = generalRadius_FV - 10;
                 graphics.DrawString(index_S, new Font(FontFamily.GenericSansSerif, fontSize), new SolidBrush(Color.Black), nod.NODO.Position.X - (fontSize / 2), nod.NODO.Position.Y - (fontSize / 2));
             }
 
@@ -1443,7 +1443,7 @@ namespace editorDeGrafos
             }
             graphics.DrawLine(pen2, edge.A.X, edge.A.Y, edge.B.X, edge.B.Y);
 
-            if (pesosActivated)
+            if (pesosActivated_FV)
             {
                 Brush brush = new SolidBrush(Color.Gray);
                 String fuente = "Arial";
@@ -1458,7 +1458,7 @@ namespace editorDeGrafos
 
             graphics.DrawLine(pen2, edge.A.X, edge.A.Y, edge.B.X, edge.B.Y);
 
-            if (pesosActivated)
+            if (pesosActivated_FV)
             {
                 Brush brush = new SolidBrush(Color.Gray);
                 String fuente = "Arial";
@@ -1471,13 +1471,13 @@ namespace editorDeGrafos
         {
             Pen pen = new Pen(Color.Black, 5);
             Point StartPoint = new Point(edge.A.X, edge.A.Y);
-            Point unoP = new Point(edge.A.X - generalRadius * 4, edge.A.Y - generalRadius * 4);
-            Point dosP = new Point(edge.A.X - generalRadius * 4, edge.A.Y + generalRadius * 4);
+            Point unoP = new Point(edge.A.X - generalRadius_FV * 4, edge.A.Y - generalRadius_FV * 4);
+            Point dosP = new Point(edge.A.X - generalRadius_FV * 4, edge.A.Y + generalRadius_FV * 4);
             GraphicsPath gPath = new GraphicsPath();
             gPath.AddBezier(StartPoint, unoP, dosP, StartPoint);
             e.Graphics.DrawPath(pen, gPath);
 
-            if (pesosActivated)
+            if (pesosActivated_FV)
             {
                 Brush brush = new SolidBrush(Color.Green);
                 String fuente = "Arial";
@@ -1505,12 +1505,12 @@ namespace editorDeGrafos
             penDirect.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
             Double equis_X;
             Double ye_Y;
-            Double rate = edge.Distancia / generalRadius;
+            Double rate = edge.Distancia / generalRadius_FV;
             equis_X = (edge.A.X + rate * edge.B.X) / (1 + rate);
             ye_Y = (edge.A.Y + rate * edge.B.Y) / (1 + rate);
             graphics.DrawLine(penDirect, edge.A.X, edge.A.Y, (float)equis_X, (float)ye_Y);
 
-            if (pesosActivated)
+            if (pesosActivated_FV)
             {
                 Brush brush = new SolidBrush(Color.Gray);
                 String fuente = "Arial";
@@ -1526,12 +1526,12 @@ namespace editorDeGrafos
             penDirect.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
             Double equis_X;
             Double ye_Y;
-            Double rate = edge.Distancia / generalRadius;
+            Double rate = edge.Distancia / generalRadius_FV;
             equis_X = (edge.A.X + rate * edge.B.X) / (1 + rate);
             ye_Y = (edge.A.Y + rate * edge.B.Y) / (1 + rate);
             graphics.DrawLine(penDirect, edge.A.X, edge.A.Y, (float)equis_X, (float)ye_Y);
 
-            if (pesosActivated)
+            if (pesosActivated_FV)
             {
                 Brush brush = new SolidBrush(Color.Gray);
                 String fuente = "Arial";
@@ -1557,7 +1557,7 @@ namespace editorDeGrafos
         }
         public void InvalidatePlus(int code)// just save change to false because of an operation.
         {
-            justSaved = false;// almost all that requires invalidate also should change the jusSaved state.           
+            justSaved_FV = false;// almost all that requires invalidate also should change the jusSaved state.           
             commonInvalidateActions();
             Invalidate();
         }
@@ -1565,15 +1565,15 @@ namespace editorDeGrafos
         /****************** invalidate common (Begin) ***************************/
         public void commonInvalidateActions()
         {
-            matrixTB.Text = graph.ToString(matIn);
+            matrixTB.Text = graph_FV.ToString(matIn_FV);
 
-            if (selected != null)
+            if (selectedNode_FV != null)
             {
-                terminal.Text = "Node selected : " + System.Environment.NewLine + "ID = " + selected.ID + System.Environment.NewLine + "Index = " + selected.Index + "\t" + System.Environment.NewLine;
-                if (graph.Directed() == true)
+                terminal.Text = "Node selected : " + System.Environment.NewLine + "ID = " + selectedNode_FV.ID + System.Environment.NewLine + "Index = " + selectedNode_FV.Index + "\t" + System.Environment.NewLine;
+                if (graph_FV.Directed() == true)
                 {
                     DirectedGrade dG;
-                    dG = graph.GradeOfDirectedNode(selected);
+                    dG = graph_FV.GradeOfDirectedNode(selectedNode_FV);
                     terminal.Text += "Grado(Nodo): " + dG.Total;
                     terminal.Text += System.Environment.NewLine;
                     terminal.Text += "  GradoEntrada ( [<-] ): " + dG.Input;
@@ -1582,28 +1582,28 @@ namespace editorDeGrafos
                 }
                 else
                 {
-                    terminal.Text += "Grado(Nodo): " + graph.GradeOfNode(selected);
+                    terminal.Text += "Grado(Nodo): " + graph_FV.GradeOfNode(selectedNode_FV);
                 }
             }
             else
             {
                 terminal.Text = "Node selected : ";
             }
-            statusTB.Text = "Nombre :" + fileName + System.Environment.NewLine;
-            statusTB.Text += "Grado(Grafo) : " + graph.Grade();
+            statusTB.Text = "Nombre :" + fileName_FV + System.Environment.NewLine;
+            statusTB.Text += "Grado(Grafo) : " + graph_FV.Grade();
             statusTB.Text += System.Environment.NewLine;
-            statusTB.Text += "Dirigido : " + graph.Directed();
+            statusTB.Text += "Dirigido : " + graph_FV.Directed();
             statusTB.Text += System.Environment.NewLine;
-            statusTB.Text += "Completo : " + graph.Complete();
+            statusTB.Text += "Completo : " + graph_FV.Complete();
             statusTB.Text += System.Environment.NewLine;
-            statusTB.Text += "Pseudo: " + graph.Pseudo();
+            statusTB.Text += "Pseudo: " + graph_FV.Pseudo();
             statusTB.Text += System.Environment.NewLine;
-            statusTB.Text += "Cíclico : " + graph.Cicled();
+            statusTB.Text += "Cíclico : " + graph_FV.Cicled();
             statusTB.Text += System.Environment.NewLine;
-            statusTB.Text += "Bipartita : " + graph.Bip();
+            statusTB.Text += "Bipartita : " + graph_FV.Bip();
             statusTB.Text += System.Environment.NewLine;
 
-            if ((IsomorfismForm == null || (IsomorfismForm != null && IsomorfismForm.Visible == false)) && isoForm == false)
+            if ((IsomorfismForm_FV == null || (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible == false)) && isoForm == false)
             {
                 IsomtextBox.Visible = false;
             }
@@ -1623,10 +1623,10 @@ namespace editorDeGrafos
         {
                 deselect();
             
-             selectedJustFor_Moving = null;//for moving.
-             selectedJustFor_Linking = null;
-             mousePressed = false;
-             justSaved = true;// -> storage saveStateAuxiliar.        
+             selectedNode_Moving_FV = null;//for moving.
+             selectedNode_Linking_FV = null;
+             mousePressed_FV = false;
+             justSaved_FV = true;// -> storage saveStateAuxiliar.        
             //Boolean matIn = false;
          Move_M_Do = false;
          MoveAll_A_Do = false;
@@ -1673,10 +1673,10 @@ namespace editorDeGrafos
                 deselect();
             }
 
-            selectedJustFor_Moving = null;//for moving.
-            selectedJustFor_Linking = null;
-            mousePressed = false;
-            justSaved = true;// -> storage saveStateAuxiliar.        
+            selectedNode_Moving_FV = null;//for moving.
+            selectedNode_Linking_FV = null;
+            mousePressed_FV = false;
+            justSaved_FV = true;// -> storage saveStateAuxiliar.        
                              //Boolean matIn = false;
             Move_M_Do = false;
             MoveAll_A_Do = false;
@@ -1725,7 +1725,7 @@ namespace editorDeGrafos
             kruskalShow = false;
             if (hamiltonOrEulerJustDone)
             {
-                this.graph.allBlack();
+                this.graph_FV.allBlack();
                 hamiltonOrEulerJustDone = false;
             }
             //reset(false);
@@ -1741,7 +1741,7 @@ namespace editorDeGrafos
             kruskalShow = false;
             if (hamiltonOrEulerJustDone)
             {
-                this.graph.allBlack();
+                this.graph_FV.allBlack();
                 hamiltonOrEulerJustDone = false;
             }
             reset(resetB);
@@ -1762,7 +1762,7 @@ namespace editorDeGrafos
         {
             Node resNode = null;
 
-            foreach (Node onNode in graph.NODE_LIST)
+            foreach (Node onNode in graph_FV.NODE_LIST)
             {
                 if (cor.X > onNode.Position.X - onNode.Radius //for conditions in order to determine wheter or not , a click hit the specific node
                    && cor.X < onNode.Position.X + onNode.Radius
@@ -1778,29 +1778,29 @@ namespace editorDeGrafos
         public void deselect()
         {
             offWhenClickingMouseOrKey();
-            if (selected != null)
+            if (selectedNode_FV != null)
             {
-                selected.Status = 0;//change to the original state.
-                selected.COLOR = Color.Black;//change to black color(original state).
+                selectedNode_FV.Status = 0;//change to the original state.
+                selectedNode_FV.COLOR = Color.Black;//change to black color(original state).
                 AllowDrop = false;//
-                selected = null;
+                selectedNode_FV = null;
             }
             Invalidate();
         }
 
         public void eliminate()
         {
-            if (graph.NODE_LIST.Count() <= 1)
-                justSaved = true;
+            if (graph_FV.NODE_LIST.Count() <= 1)
+                justSaved_FV = true;
 
-            if (selected != null)
+            if (selectedNode_FV != null)
             {
-                graph.eliminateNexetEdges(selected);
-                graph.eliminateNexetDirectedEdges(selected);
-                graph.eliminateCicledEdges(selected);
-                graph.removeNode(selected);
+                graph_FV.eliminateNexetEdges(selectedNode_FV);
+                graph_FV.eliminateNexetDirectedEdges(selectedNode_FV);
+                graph_FV.eliminateCicledEdges(selectedNode_FV);
+                graph_FV.removeNode(selectedNode_FV);
 
-                selected = null;
+                selectedNode_FV = null;
             }
             InvalidatePlus(1);
         }
@@ -1849,7 +1849,7 @@ namespace editorDeGrafos
         public Boolean allConected(List<Node> nodeList)
         {
             // Mark all the vertices as not visited 
-            graph.markAllLikeNotVisited();
+            graph_FV.markAllLikeNotVisited();
 
             // Start DFS traversal from a vertex with non-zero degree 
             DFSUtilAllConected(nodeList[0]);
@@ -1893,7 +1893,7 @@ namespace editorDeGrafos
 
 
             // Recur for all the vertices adjacent to this vertex
-            foreach (Node node in graph.neighborListNode(workingNode))
+            foreach (Node node in graph_FV.neighborListNode(workingNode))
             {
                 if (node.Visited == false)
                 {
@@ -1905,15 +1905,15 @@ namespace editorDeGrafos
         public Boolean isABridgeBool(Edge posibleBridge)
         {
             // Mark all the vertices as not visited 
-            graph.markAllLikeNotVisited();
+            graph_FV.markAllLikeNotVisited();
 
             // Start DFS traversal from a vertex with non-zero degree 
             //DFSUtilAllConectedBridge(aux.LIST_NODES[0], posibleBridge);
-            DFSUtilAllConectedBridge(graph.NODE_LIST[0], posibleBridge);
+            DFSUtilAllConectedBridge(graph_FV.NODE_LIST[0], posibleBridge);
 
             // Check if all non-zero degree vertices are visited 
             //foreach (Node node in aux.LIST_NODES)
-            foreach (Node node in graph.NODE_LIST)
+            foreach (Node node in graph_FV.NODE_LIST)
             {
                 if (node.Visited == false)
                 {
@@ -1934,7 +1934,7 @@ namespace editorDeGrafos
 
 
             // Recur for all the vertices adjacent to this vertex
-            foreach (Node node in graph.neighborListNode(workingNode))
+            foreach (Node node in graph_FV.neighborListNode(workingNode))
             {
                 if (workingNode == posibleBridge.Client && node == posibleBridge.Server
                  || workingNode == posibleBridge.Server && node == posibleBridge.Client)
@@ -1968,7 +1968,7 @@ namespace editorDeGrafos
 
             // Check if all non-zero degree vertices are visited 
             //foreach (Node node in aux.LIST_NODES)
-            foreach (Node node in this.graph.NODE_LIST)
+            foreach (Node node in this.graph_FV.NODE_LIST)
             {
                 if (node.Visited == false)
                 {
@@ -2045,10 +2045,10 @@ namespace editorDeGrafos
             //offWhenClickingMouseOrKey();
             Invalidate();
             
-            if (IsomorfismForm == null || IsomorfismForm.Visible == false)
+            if (IsomorfismForm_FV == null || IsomorfismForm_FV.Visible == false)
             {
-                IsomorfismForm = new GraphFormIsomorphic(this);
-                IsomorfismForm.Show();
+                IsomorfismForm_FV = new GraphFormIsomorphic(this);
+                IsomorfismForm_FV.Show();
             }
 
             fuerzaBrutaToolStripMenuItem.Visible = true;
@@ -2068,7 +2068,7 @@ namespace editorDeGrafos
                 timerColor.Stop();
                 if(f3.Operation == 1)
                 {
-                    graph.allBlack();
+                    graph_FV.allBlack();
                     Invalidate();
                     f3.Operation = 0;
                 }
@@ -2092,9 +2092,9 @@ namespace editorDeGrafos
                             serverIndex = 0;
                         }
 
-                        Edge otroX = this.graph.thisEdge(pathOfNodes[tmpCount], pathOfNodes[serverIndex]);
+                        Edge otroX = this.graph_FV.thisEdge(pathOfNodes[tmpCount], pathOfNodes[serverIndex]);
 
-                        Edge auxEdge = this.graph.thisEdge(pathOfNodes[tmpCount], pathOfNodes[serverIndex]);
+                        Edge auxEdge = this.graph_FV.thisEdge(pathOfNodes[tmpCount], pathOfNodes[serverIndex]);
                         if (auxEdge != null)
                         {
                             auxEdge.COLOR = Color.Red;
@@ -2110,7 +2110,7 @@ namespace editorDeGrafos
                     timerColor.Stop();
                     if (f3.Operation == 1)
                     {
-                        graph.allBlack();
+                        graph_FV.allBlack();
                         Invalidate();
                         f3.Operation = 0;
                     }
@@ -2126,13 +2126,13 @@ namespace editorDeGrafos
 
         public void GraphTimerColor2(object sender, EventArgs e)
         {
-            graph.markAllLikeNotVisited();
+            graph_FV.markAllLikeNotVisited();
             
-            Edge[] workingEdgesArray = new Edge[graph.EDGE_LIST.Count()];
-            graph.EDGE_LIST.CopyTo(workingEdgesArray);
+            Edge[] workingEdgesArray = new Edge[graph_FV.EDGE_LIST.Count()];
+            graph_FV.EDGE_LIST.CopyTo(workingEdgesArray);
             workingEdgesList = workingEdgesArray.ToList();
 
-            graph.markAllEdgesAsNotVisited(workingEdgesList);
+            graph_FV.markAllEdgesAsNotVisited(workingEdgesList);
 
             do {
                 BFSColored(initialNodePath);
@@ -2147,7 +2147,7 @@ namespace editorDeGrafos
             node.Visited = true;
             node.COLOR = Color.Red;
 
-            foreach(Node nodo in graph.neighborListNode(node))
+            foreach(Node nodo in graph_FV.neighborListNode(node))
             {
                 foreach (Edge edge in workingEdgesList)
                 {
@@ -2182,7 +2182,7 @@ namespace editorDeGrafos
         {
             if (f3.Operation == 1)
             {
-                graph.allBlack();
+                graph_FV.allBlack();
                 Invalidate();
                 f3.Operation = 0;
             }
@@ -2191,7 +2191,7 @@ namespace editorDeGrafos
 
         private void brToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach(Edge edge in graph.EDGE_LIST)
+            foreach(Edge edge in graph_FV.EDGE_LIST)
             {
                 isABridgeBool(edge);
             }
@@ -2222,7 +2222,7 @@ namespace editorDeGrafos
             {
                 //deploy a OK form to finish.
                 MessageBox.Show("no hay circuito de Euler");
-                graph.allBlack();
+                graph_FV.allBlack();
                 Invalidate();
             }
             else//a trabajar
@@ -2234,7 +2234,7 @@ namespace editorDeGrafos
                 {
                     //deploy a OK form to finish.
                     MessageBox.Show("no hay circuito de Euler");
-                    graph.allBlack();
+                    graph_FV.allBlack();
                     Invalidate();
                 }
                 else
@@ -2265,9 +2265,9 @@ namespace editorDeGrafos
             // aux = new AdjacencyList();
             workingNodes = new List<Node>();
 
-            foreach (Node node in graph.NODE_LIST)
+            foreach (Node node in graph_FV.NODE_LIST)
             {
-                int degreeByN = graph.neighborListNode(node).Count();
+                int degreeByN = graph_FV.neighborListNode(node).Count();
 
                 if (degreeByN > 0)//atleast one neightboor
                 {
@@ -2299,11 +2299,11 @@ namespace editorDeGrafos
             pathToAnimate = new List<Edge>();
             cutEdges = new List<Edge>();
 
-            graph.markAllLikeNotBridge();
-            graph.markAllNodeAndEdgesNotVisited();
+            graph_FV.markAllLikeNotBridge();
+            graph_FV.markAllNodeAndEdgesNotVisited();
 
 
-            foreach (Edge edge in graph.EDGE_LIST)
+            foreach (Edge edge in graph_FV.EDGE_LIST)
             {
                 if (isABridgeBool(edge))
                 {
@@ -2315,7 +2315,7 @@ namespace editorDeGrafos
             // Start DFS traversal from a vertex with non-zero degree 
             //return DFSHamiltonCycle(initialNodePath);
 
-            graph.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no Visiteds.
+            graph_FV.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no Visiteds.
 
             return DFS_Any_EulerCycle(initialNodePath);
         }
@@ -2325,16 +2325,16 @@ namespace editorDeGrafos
         //List<Node> nodesPath = new List<Node>();
         Boolean DFS_Any_EulerCycle(Node workingNode)//recursive function.
         {            
-            List<Edge> notVisitedYet = graph.notVisitedListEdge();//nodos sin visitar para restauraciones.
-            List<Node> neightboors = graph.neighborListNode(workingNode);//vecinos del nodo actual.
+            List<Edge> notVisitedYet = graph_FV.notVisitedListEdge();//nodos sin visitar para restauraciones.
+            List<Node> neightboors = graph_FV.neighborListNode(workingNode);//vecinos del nodo actual.
 
             /*********************
              *       Caso Base. 
              * *********************/
-            if (notVisitedYet.Count() == 1 && neightboors.Contains(initialNodePath) && graph.thisEdge(workingNode, initialNodePath).visitada == false)//todos los nodos visitados && el nodo actual tiene de vecino al nodo inicial
+            if (notVisitedYet.Count() == 1 && neightboors.Contains(initialNodePath) && graph_FV.thisEdge(workingNode, initialNodePath).visitada == false)//todos los nodos visitados && el nodo actual tiene de vecino al nodo inicial
             {
-                graph.thisEdge(workingNode, initialNodePath).visitada = true;
-                Edge edge = graph.thisEdge(workingNode, initialNodePath);
+                graph_FV.thisEdge(workingNode, initialNodePath).visitada = true;
+                Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
                 pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
                 pathOfNodes.Add(initialNodePath);//se agrega por primera vez el nodoInicial(mismo que nodoFinal) al camino de nodos;
                 pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
@@ -2344,7 +2344,7 @@ namespace editorDeGrafos
             //acomodar los vecinos de menor a mayor en cuestion de grado.
             neightboors.Sort(delegate (Node x, Node y)
             {
-                return graph.neighborListNodeNoVisited(x).Count().CompareTo(graph.neighborListNodeNoVisited(y).Count());
+                return graph_FV.neighborListNodeNoVisited(x).Count().CompareTo(graph_FV.neighborListNodeNoVisited(y).Count());
             });
 
             /*********************
@@ -2352,37 +2352,37 @@ namespace editorDeGrafos
              * *********************/
             foreach (Node node in neightboors)
             {
-                if (this.graph.thisEdge(workingNode,node).visitada == false && node != initialNodePath)
+                if (this.graph_FV.thisEdge(workingNode,node).visitada == false && node != initialNodePath)
                 {
-                    this.graph.thisEdge(workingNode, node).visitada = true;
+                    this.graph_FV.thisEdge(workingNode, node).visitada = true;
 
                     if (DFS_Any_EulerCycle(node))//si el nodo vecino retorna un ciclo
                     {
                         // nodesPath.Add(workingNode);
-                        Edge edge = graph.thisEdge(workingNode, node);
+                        Edge edge = graph_FV.thisEdge(workingNode, node);
                         pathOfNodes.Add(workingNode);
                         pathToAnimate.Add(edge);
                         return true;
                     }
                     else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                        graph.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
+                        graph_FV.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
                 }
 
             }
-            if(neightboors.Contains(initialNodePath) && graph.thisEdge(workingNode,initialNodePath).visitada == false)
+            if(neightboors.Contains(initialNodePath) && graph_FV.thisEdge(workingNode,initialNodePath).visitada == false)
             {
-                this.graph.thisEdge(workingNode, initialNodePath).visitada = true;
+                this.graph_FV.thisEdge(workingNode, initialNodePath).visitada = true;
 
                 if (DFS_Any_EulerCycle(initialNodePath))//si el nodo vecino retorna un ciclo
                 {
                     // nodesPath.Add(workingNode);
-                    Edge edge = graph.thisEdge(workingNode, initialNodePath);
+                    Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
                     pathOfNodes.Add(workingNode);
                     pathToAnimate.Add(edge);
                     return true;
                 }
                 else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                    graph.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
+                    graph_FV.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
             }
             //no se encontro nigun ciclo.
             return false;
@@ -2398,24 +2398,24 @@ namespace editorDeGrafos
             {
                 //deploy a OK form to finish.
                 MessageBox.Show("no hay camino de Euler por Bool");
-                graph.allBlack();
+                graph_FV.allBlack();
                 Invalidate();
             }
             else//a trabajar
             {
-                if (graph.neighborListNode(initialNodePath).Count() % 2 == 0
-                 || graph.neighborListNode(finalNodePath).Count() % 2 == 0)
+                if (graph_FV.neighborListNode(initialNodePath).Count() % 2 == 0
+                 || graph_FV.neighborListNode(finalNodePath).Count() % 2 == 0)
                 {
                     if (estimadedIniFinNodes.Count() > 1)
                     {
                         MessageBox.Show("Existe un camino de Euler pero no el sugerido, intenta con " + estimadedIniFinNodes[0].Index + "," + estimadedIniFinNodes[1].Index);
-                        graph.allBlack();
+                        graph_FV.allBlack();
                         Invalidate();
                     }
                     else
                     {
                         MessageBox.Show("No existe el camino de Euler");
-                        graph.allBlack();
+                        graph_FV.allBlack();
                         Invalidate();
                     }
                 }
@@ -2444,9 +2444,9 @@ namespace editorDeGrafos
             estimadedIniFinNodes = new List<Node>();
             int oddDegreeCont = 0;
 
-            foreach (Node node in graph.NODE_LIST)
+            foreach (Node node in graph_FV.NODE_LIST)
             {
-                int degreeByN = graph.neighborListNode(node).Count();
+                int degreeByN = graph_FV.neighborListNode(node).Count();
 
                 if (degreeByN > 0)//atleast one neightboor
                 {
@@ -2482,11 +2482,11 @@ namespace editorDeGrafos
             pathToAnimate = new List<Edge>();
             cutEdges = new List<Edge>();
 
-            graph.markAllLikeNotBridge();
-            graph.markAllNodeAndEdgesNotVisited();
+            graph_FV.markAllLikeNotBridge();
+            graph_FV.markAllNodeAndEdgesNotVisited();
 
 
-            foreach (Edge edge in graph.EDGE_LIST)
+            foreach (Edge edge in graph_FV.EDGE_LIST)
             {
                 if (isABridgeBool(edge))
                 {
@@ -2498,7 +2498,7 @@ namespace editorDeGrafos
             // Start DFS traversal from a vertex with non-zero degree 
             //return DFSHamiltonCycle(initialNodePath);
 
-            graph.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no visitados.
+            graph_FV.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no visitados.
 
             return DFS_Any_EulerPath(initialNodePath);
         }
@@ -2508,8 +2508,8 @@ namespace editorDeGrafos
         //List<Node> nodesPath = new List<Node>();
         Boolean DFS_Any_EulerPath(Node workingNode)//recursive function.
         {
-            List<Edge> notVisitedYet = graph.notVisitedListEdge();//nodos sin visitar para restauraciones.
-            List<Node> neightboors = graph.neighborListNode(workingNode);//vecinos del nodo actual.
+            List<Edge> notVisitedYet = graph_FV.notVisitedListEdge();//nodos sin visitar para restauraciones.
+            List<Node> neightboors = graph_FV.neighborListNode(workingNode);//vecinos del nodo actual.
 
             /*********************
              *       Caso Base. 
@@ -2523,7 +2523,7 @@ namespace editorDeGrafos
             //acomodar los vecinos de menor a mayor en cuestion de grado.
             neightboors.Sort(delegate (Node x, Node y)
             {
-                return graph.neighborListNodeNoVisited(x).Count().CompareTo(graph.neighborListNodeNoVisited(y).Count());
+                return graph_FV.neighborListNodeNoVisited(x).Count().CompareTo(graph_FV.neighborListNodeNoVisited(y).Count());
             });
 
             /*********************
@@ -2531,37 +2531,37 @@ namespace editorDeGrafos
              * *********************/
             foreach (Node node in neightboors)
             {
-                if (this.graph.thisEdge(workingNode, node).visitada == false && node != finalNodePath)
+                if (this.graph_FV.thisEdge(workingNode, node).visitada == false && node != finalNodePath)
                 {
-                    this.graph.thisEdge(workingNode, node).visitada = true;
+                    this.graph_FV.thisEdge(workingNode, node).visitada = true;
 
                     if (DFS_Any_EulerPath(node))//si el nodo vecino retorna un ciclo
                     {
                         // nodesPath.Add(workingNode);
-                        Edge edge = graph.thisEdge(workingNode, node);
+                        Edge edge = graph_FV.thisEdge(workingNode, node);
                         pathOfNodes.Add(workingNode);
                         pathToAnimate.Add(edge);
                         return true;
                     }
                     else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                        graph.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
+                        graph_FV.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
                 }
 
             }
-            if(neightboors.Contains(finalNodePath) && this.graph.thisEdge(workingNode, finalNodePath).visitada == false)
+            if(neightboors.Contains(finalNodePath) && this.graph_FV.thisEdge(workingNode, finalNodePath).visitada == false)
             {
-                this.graph.thisEdge(workingNode, finalNodePath).visitada = true;
+                this.graph_FV.thisEdge(workingNode, finalNodePath).visitada = true;
 
                 if (DFS_Any_EulerPath(finalNodePath))//si el nodo vecino retorna un ciclo
                 {
                     // nodesPath.Add(workingNode);
-                    Edge edge = graph.thisEdge(workingNode, finalNodePath);
+                    Edge edge = graph_FV.thisEdge(workingNode, finalNodePath);
                     pathOfNodes.Add(workingNode);
                     pathToAnimate.Add(edge);
                     return true;
                 }
                 else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                    graph.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
+                    graph_FV.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
             }
             //no se encontro nigun ciclo.
             return false;
@@ -2589,7 +2589,7 @@ namespace editorDeGrafos
             if (!cycleOfHamiltonBool())
             {
                 MessageBox.Show("no hay ciclos de hamilton");
-                graph.allBlack();
+                graph_FV.allBlack();
                 Invalidate();
             }
             else//a trabajar
@@ -2611,7 +2611,7 @@ namespace editorDeGrafos
                 else
                 {
                     MessageBox.Show("no existe el ciclo de hamilton especificado");
-                    graph.allBlack();
+                    graph_FV.allBlack();
                     Invalidate();
                 }
 
@@ -2624,12 +2624,12 @@ namespace editorDeGrafos
             Boolean res = true;
 
             //can not have a disconnected node
-            if (!allConected(graph))
+            if (!allConected(graph_FV))
             {
                 return false;
             }
             //not cut vertices
-            foreach (Edge edge in graph.EDGE_LIST)
+            foreach (Edge edge in graph_FV.EDGE_LIST)
             {
                 if (isABridgeBool(edge))//if any edge is a bridge it return false to hamilton cycle.
                 {
@@ -2637,13 +2637,13 @@ namespace editorDeGrafos
                 }
             }
 
-            foreach (Node node in graph.NODE_LIST)
+            foreach (Node node in graph_FV.NODE_LIST)
             {
-                if (graph.isACutNodeBool(node))//if any node is a cut node return false to hamilton cycle.
+                if (graph_FV.isACutNodeBool(node))//if any node is a cut node return false to hamilton cycle.
                 {
                     return false;
                 }
-                if (graph.neighborListNode(node).Count() < 2)
+                if (graph_FV.neighborListNode(node).Count() < 2)
                 {
                     return false;
                 }
@@ -2659,11 +2659,11 @@ namespace editorDeGrafos
             pathToAnimate = new List<Edge>();
             cutEdges = new List<Edge>();
 
-            graph.markAllLikeNotBridge();
-            graph.markAllLikeNotVisited(1);
+            graph_FV.markAllLikeNotBridge();
+            graph_FV.markAllLikeNotVisited(1);
 
 
-            foreach (Edge edge in graph.EDGE_LIST)
+            foreach (Edge edge in graph_FV.EDGE_LIST)
             {
                 if (isABridgeBool(edge))
                 {
@@ -2675,7 +2675,7 @@ namespace editorDeGrafos
             // Start DFS traversal from a vertex with non-zero degree 
             //return DFSHamiltonCycle(initialNodePath);
 
-            graph.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no visitados.
+            graph_FV.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no visitados.
 
             return DFS_Any_HamiltonCycle(initialNodePath);
         }
@@ -2684,15 +2684,15 @@ namespace editorDeGrafos
         Boolean DFS_Any_HamiltonCycle(Node workingNode)//recursive function.
         {
             workingNode.Visited = true;//marcar el nodo actual como Visited.
-            List<Node> notVisitedYet = graph.notVisitedList();//nodos sin visitar para restauraciones.
-            List<Node> neightboors = graph.neighborListNode(workingNode);//vecinos del nodo actual.
+            List<Node> notVisitedYet = graph_FV.notVisitedList();//nodos sin visitar para restauraciones.
+            List<Node> neightboors = graph_FV.neighborListNode(workingNode);//vecinos del nodo actual.
 
             /*********************
              *       Caso Base. 
              * *********************/
             if (notVisitedYet.Count() < 1 && neightboors.Contains(initialNodePath))//todos los nodos Visiteds && el nodo actual tiene de vecino al nodo inicial
             {
-                Edge edge = graph.thisEdge(workingNode, initialNodePath);
+                Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
                 pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
                 pathOfNodes.Add(initialNodePath);//se agrega por primera vez el nodoInicial(mismo que nodoFinal) al camino de nodos;
                 pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
@@ -2702,7 +2702,7 @@ namespace editorDeGrafos
             //acomodar los vecinos de menor a mayor en cuestion de grado.
             neightboors.Sort(delegate (Node x, Node y)
             {
-                return graph.neighborListNodeNoVisited(x).Count().CompareTo(graph.neighborListNodeNoVisited(y).Count());
+                return graph_FV.neighborListNodeNoVisited(x).Count().CompareTo(graph_FV.neighborListNodeNoVisited(y).Count());
             });
 
             /*********************
@@ -2716,13 +2716,13 @@ namespace editorDeGrafos
                     {
 
                         // nodesPath.Add(workingNode);
-                        Edge edge = graph.thisEdge(workingNode, node);
+                        Edge edge = graph_FV.thisEdge(workingNode, node);
                         pathOfNodes.Add(workingNode);
                         pathToAnimate.Add(edge);
                         return true;
                     }
                     else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                        graph.restoreNotVisited(notVisitedYet);//restaturacion.
+                        graph_FV.restoreNotVisited(notVisitedYet);//restaturacion.
                 }
 
             }
@@ -2738,7 +2738,7 @@ namespace editorDeGrafos
             {
                 //deploy a OK form to finish.
                 MessageBox.Show("no hay path of hamilton por Bool");
-                graph.allBlack();
+                graph_FV.allBlack();
                 Invalidate();
             }
             else//a trabajar
@@ -2767,7 +2767,7 @@ namespace editorDeGrafos
         public Boolean pathOfHamiltonBool()
         {
             //can not have a disconnected node
-            if (allConected(graph))
+            if (allConected(graph_FV))
             {
                 return true;
             }
@@ -2780,10 +2780,10 @@ namespace editorDeGrafos
             pathToAnimate = new List<Edge>();
             cutEdges = new List<Edge>();
 
-            graph.markAllLikeNotBridge();
-            graph.markAllNodeAndEdgesNotVisited();
+            graph_FV.markAllLikeNotBridge();
+            graph_FV.markAllNodeAndEdgesNotVisited();
 
-            foreach (Edge edge in graph.EDGE_LIST)
+            foreach (Edge edge in graph_FV.EDGE_LIST)
             {
                 if (isABridgeBool(edge))
                 {
@@ -2794,22 +2794,22 @@ namespace editorDeGrafos
             // Mark all the vertices as not visited 
             // Start DFS traversal from a vertex with non-zero degree 
 
-            graph.markAllNodeAndEdgesNotVisited();
+            graph_FV.markAllNodeAndEdgesNotVisited();
             return DFS_Any_HamiltonPath(initialNodePath);
         }
 
         Boolean DFS_Any_HamiltonPath(Node workingNode)//recursive function.
         {
             workingNode.Visited = true;//marcar el nodo actual como Visited.
-            List<Node> notVisitedYet = graph.notVisitedList();//nodos sin visitar para restauraciones.
-            List<Node> neightboors = graph.neighborListNode(workingNode);//vecinos del nodo actual.
+            List<Node> notVisitedYet = graph_FV.notVisitedList();//nodos sin visitar para restauraciones.
+            List<Node> neightboors = graph_FV.neighborListNode(workingNode);//vecinos del nodo actual.
 
             /*********************
              *       Caso Base. 
              * *********************/
             if (notVisitedYet.Count() < 1 && workingNode == finalNodePath)//todos los nodos Visiteds && el nodo actual tiene de vecino al nodo inicial
             {
-                //Edge edge = graph.thisEdge(workingNode, initialNodePath);
+                //Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
                 //pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
                 //pathOfNodes.Add(initialNodePath);//se agrega por primera vez el nodoInicial(mismo que nodoFinal) al camino de nodos;
                 pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
@@ -2819,7 +2819,7 @@ namespace editorDeGrafos
             //acomodar los vecinos de menor a mayor en cuestion de grado.
             neightboors.Sort(delegate (Node x, Node y)
             {
-                return graph.neighborListNodeNoVisited(x).Count().CompareTo(graph.neighborListNodeNoVisited(y).Count());
+                return graph_FV.neighborListNodeNoVisited(x).Count().CompareTo(graph_FV.neighborListNodeNoVisited(y).Count());
             });
 
             /*********************
@@ -2831,19 +2831,19 @@ namespace editorDeGrafos
                 {
                     if (DFS_Any_HamiltonPath(node))//si el nodo vecino retorna un ciclo
                     {
-                        Edge edge = graph.thisEdge(workingNode, node);
+                        Edge edge = graph_FV.thisEdge(workingNode, node);
                         pathOfNodes.Add(workingNode);
                         pathToAnimate.Add(edge);
                         return true;
                     }
                     else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                        graph.restoreNotVisited(notVisitedYet);//restaturacion.
+                        graph_FV.restoreNotVisited(notVisitedYet);//restaturacion.
                 }
                 else if (notVisitedYet.Count() == 1 && node == finalNodePath)
                 {
                     if (DFS_Any_HamiltonPath(node))//si el nodo vecino retorna un ciclo
                     {
-                        Edge edge = graph.thisEdge(workingNode, node);
+                        Edge edge = graph_FV.thisEdge(workingNode, node);
                         pathOfNodes.Add(workingNode);
                         pathToAnimate.Add(edge);
                         return true;
@@ -2867,9 +2867,9 @@ namespace editorDeGrafos
 
         void dijkstraAlgorithm()
         {
-            if (this.graph.isConected())
+            if (this.graph_FV.isConected())
             {
-                int n = this.graph.GRAPH.Count();
+                int n = this.graph_FV.GRAPH.Count();
                 int minVal = int.MaxValue;
 
 
@@ -2898,11 +2898,11 @@ namespace editorDeGrafos
                         }
                     }
 
-                   foreach(Node neightboor in graph.neighborListIndex(workingNode))
+                   foreach(Node neightboor in graph_FV.neighborListIndex(workingNode))
                     {
-                        if (visited[neightboor.Index] == false && graph.GRAPH[workingNode][neightboor.Index].W > -1 && weights[neightboor.Index] > weights[workingNode] + graph.GRAPH[workingNode][neightboor.Index].W)
+                        if (visited[neightboor.Index] == false && graph_FV.GRAPH[workingNode][neightboor.Index].W > -1 && weights[neightboor.Index] > weights[workingNode] + graph_FV.GRAPH[workingNode][neightboor.Index].W)
                         {
-                            weights[neightboor.Index] = weights[workingNode] + graph.GRAPH[workingNode][neightboor.Index].W;
+                            weights[neightboor.Index] = weights[workingNode] + graph_FV.GRAPH[workingNode][neightboor.Index].W;
                             edgesToColor[neightboor.Index] = workingNode;
                         }
                     }
@@ -2917,7 +2917,7 @@ namespace editorDeGrafos
                 //mostrar un mensaje de error dijkstra
                 //deploy a OK form to finish.
                 MessageBox.Show("no existe camino de Dijkstra porque no es un grafo conexo");
-                graph.allBlack();
+                graph_FV.allBlack();
                 Invalidate();
             }            
         }
@@ -2929,7 +2929,7 @@ namespace editorDeGrafos
         Boolean floydShow = false;
         public void floydAlgorithm()
         {
-            int n = graph.GRAPH.Count();
+            int n = graph_FV.GRAPH.Count();
             matrixFloydWeight = new int[n,n];
             matrixFloydPaths = new int[n,n];
 
@@ -2937,9 +2937,9 @@ namespace editorDeGrafos
             {
                 for (int i = 0; i < n; i++)
                 {
-                    if (graph.GRAPH[j][i].W > -1 && i!=j) 
+                    if (graph_FV.GRAPH[j][i].W > -1 && i!=j) 
                     {
-                        matrixFloydWeight[j, i] = graph.GRAPH[j][i].W;
+                        matrixFloydWeight[j, i] = graph_FV.GRAPH[j][i].W;
                         matrixFloydPaths[j, i] = j;
                     }
                     else
@@ -2981,7 +2981,7 @@ namespace editorDeGrafos
         public void floydShowFunction()
         {
             edgesFloyd = new List<Edge>();
-            graph.markAllNodeAndEdgesNotVisited();
+            graph_FV.markAllNodeAndEdgesNotVisited();
             floydShow_BFS(initialNodePath.Index);
         }
 
@@ -2990,14 +2990,14 @@ namespace editorDeGrafos
             List<int> directIncidenceNodes = new List<int>();
             for (int i = 0; i < matrixFloydPaths.GetLength(0); i++)
             {
-                if (matrixFloydPaths[workingNode,i] == workingNode && graph.thisnode(i).Visited == false)
+                if (matrixFloydPaths[workingNode,i] == workingNode && graph_FV.thisnode(i).Visited == false)
                 {
-                    Edge edgeToAdd = this.graph.thisEdgeDirOrIndir(workingNode, i);
+                    Edge edgeToAdd = this.graph_FV.thisEdgeDirOrIndir(workingNode, i);
                     if (edgeToAdd != null)
                     {
                         edgesFloyd.Add(edgeToAdd);
                     }
-                    graph.markAsVisited_T_F(i, true);
+                    graph_FV.markAsVisited_T_F(i, true);
                     directIncidenceNodes.Add(i);
                 }
             }
@@ -3016,7 +3016,7 @@ namespace editorDeGrafos
 
         public void warshallAlgorithm()
         {
-            int n = graph.GRAPH.Count();
+            int n = graph_FV.GRAPH.Count();
             matrixWarshallWeight = new int[n, n];
             matrixWarshallPaths = new int[n, n];
 
@@ -3024,7 +3024,7 @@ namespace editorDeGrafos
             {
                 for (int i = 0; i < n; i++)
                 {
-                    if(graph.GRAPH[j][i].W > -1)
+                    if(graph_FV.GRAPH[j][i].W > -1)
                     {
                         matrixWarshallWeight[j, i] = 1;
                         matrixWarshallPaths[j, i] = j;
@@ -3061,7 +3061,7 @@ namespace editorDeGrafos
         public void warshallShowFunction()
         {
             edgesWarshall = new List<Edge>();
-            graph.markAllNodeAndEdgesNotVisited();
+            graph_FV.markAllNodeAndEdgesNotVisited();
             warshallShow_BFS(initialNodePath.Index);
         }
 
@@ -3070,14 +3070,14 @@ namespace editorDeGrafos
             List<int> directIncidenceNodes = new List<int>();
             for (int i = 0; i < matrixWarshallPaths.GetLength(0); i++)
             {
-                if (matrixWarshallPaths[workingNode, i] == workingNode && graph.thisnode(i).Visited == false)
+                if (matrixWarshallPaths[workingNode, i] == workingNode && graph_FV.thisnode(i).Visited == false)
                 {
-                    Edge edgeToAdd = this.graph.thisEdgeDirOrIndir(workingNode, i);
+                    Edge edgeToAdd = this.graph_FV.thisEdgeDirOrIndir(workingNode, i);
                     if (edgeToAdd != null)
                     {
                         edgesWarshall.Add(edgeToAdd);
                     }
-                    graph.markAsVisited_T_F(i, true);
+                    graph_FV.markAsVisited_T_F(i, true);
                     directIncidenceNodes.Add(i);
                 }
             }
@@ -3097,9 +3097,9 @@ namespace editorDeGrafos
         List<Edge> prim_And_Kruskal_Edges;
         void PrimAlgoritm()
         {
-            if (this.graph.isConected() && this.graph.GRAPH.Count() > 1 )
+            if (this.graph_FV.isConected() && this.graph_FV.GRAPH.Count() > 1 )
             {
-                int n = graph.GRAPH.Count();
+                int n = graph_FV.GRAPH.Count();
                 int minVal = int.MaxValue;
                 Boolean[] visitatedNodes = new Boolean[n];
                 Boolean[,] visitatedEdgesPrim = new Boolean[n,n];                
@@ -3121,12 +3121,12 @@ namespace editorDeGrafos
                         {
                                 if (visitatedEdgesPrim[j, i] == false && (!visitatedNodes[j] || !visitatedNodes[i]))
                                 {
-                                    if (minVal > graph.GRAPH[j][i].W)
+                                    if (minVal > graph_FV.GRAPH[j][i].W)
                                     {
-                                        if (graph.GRAPH[j][i].W > -1 && j != i)
+                                        if (graph_FV.GRAPH[j][i].W > -1 && j != i)
                                         {
-                                            minVal = graph.GRAPH[j][i].W;
-                                            edgeMin = graph.thisEdge_Undirected(j, i);
+                                            minVal = graph_FV.GRAPH[j][i].W;
+                                            edgeMin = graph_FV.thisEdge_Undirected(j, i);
                                         }
                                     }
                                 }                            
@@ -3151,7 +3151,7 @@ namespace editorDeGrafos
                 primShow = false;
                 //deploy a OK form to finish.
                 MessageBox.Show("no existe el arbol recubridor de Prim, porque no es un grafo conexo");
-                graph.allBlack();
+                graph_FV.allBlack();
                 Invalidate();
             }
         }
@@ -3164,9 +3164,9 @@ namespace editorDeGrafos
         /*el kruskal con esteroides */
         void kruskalAlgorithm()
         {
-            if (this.graph.isConected() && this.graph.GRAPH.Count() > 1)
+            if (this.graph_FV.isConected() && this.graph_FV.GRAPH.Count() > 1)
             {
-                int n = graph.GRAPH.Count();
+                int n = graph_FV.GRAPH.Count();
                 int minVal = int.MaxValue;
                 int maxVal = int.MinValue;
 
@@ -3178,7 +3178,7 @@ namespace editorDeGrafos
                 {
                     for (int i = 0; i < n; i++)
                     {
-                        int peso = this.graph.GRAPH[j][i].W;
+                        int peso = this.graph_FV.GRAPH[j][i].W;
                         if (peso > -1)
                         {
                             if (minVal > peso)
@@ -3194,9 +3194,9 @@ namespace editorDeGrafos
                 }
                 if (minVal == maxVal)
                 {
-                    foreach (Edge edge in this.graph.thisEdgesWeight_Undirected(maxVal))
+                    foreach (Edge edge in this.graph_FV.thisEdgesWeight_Undirected(maxVal))
                     {
-                        if (!visitatedEdgesKruskal[edge.client.Index, edge.server.Index] && !graph.generateCycle(prim_And_Kruskal_Edges, edge))
+                        if (!visitatedEdgesKruskal[edge.client.Index, edge.server.Index] && !graph_FV.generateCycle(prim_And_Kruskal_Edges, edge))
                         {
                             visitatedEdgesKruskal[edge.client.Index, edge.server.Index] = true;
                             visitatedEdgesKruskal[edge.server.Index, edge.client.Index] = true;
@@ -3210,9 +3210,9 @@ namespace editorDeGrafos
                 {
                     for (int i = minVal; i < maxVal; i++)
                     {
-                        foreach (Edge edge in this.graph.thisEdgesWeight_Undirected(i))
+                        foreach (Edge edge in this.graph_FV.thisEdgesWeight_Undirected(i))
                         {
-                            if (!visitatedEdgesKruskal[edge.client.Index, edge.server.Index] && !graph.generateCycle(prim_And_Kruskal_Edges, edge))
+                            if (!visitatedEdgesKruskal[edge.client.Index, edge.server.Index] && !graph_FV.generateCycle(prim_And_Kruskal_Edges, edge))
                             {
                                 visitatedEdgesKruskal[edge.client.Index, edge.server.Index] = true;
                                 visitatedEdgesKruskal[edge.server.Index, edge.client.Index] = true;
@@ -3231,7 +3231,7 @@ namespace editorDeGrafos
                 primShow = false;
                 //deploy a OK form to finish.
                 MessageBox.Show("no existe el arbol recubridor de Kruskal, porque no es un grafo conexo");
-                graph.allBlack();
+                graph_FV.allBlack();
                 Invalidate();
             }
         }
