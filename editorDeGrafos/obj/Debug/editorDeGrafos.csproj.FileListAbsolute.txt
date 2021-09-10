@@ -55,3 +55,6 @@ C:\Users\pjco9\Dev\GRAFOS_PRO\editorDeGrafos\obj\Debug\editorDeGrafos.csproj.Gen
 C:\Users\pjco9\Dev\GRAFOS_PRO\editorDeGrafos\obj\Debug\editorDeGrafos.csproj.CoreCompileInputs.cache
 C:\Users\pjco9\Dev\GRAFOS_PRO\editorDeGrafos\obj\Debug\editorDeGrafos.exe
 C:\Users\pjco9\Dev\GRAFOS_PRO\editorDeGrafos\obj\Debug\editorDeGrafos.pdb
+C:\Users\pjco9\Dev\GRAFOS_PRO\editorDeGrafos\bin\Debug\editorDeGrafos.exe.config
+C:\Users\pjco9\Dev\GRAFOS_PRO\editorDeGrafos\bin\Debug\editorDeGrafos.exe
+C:\Users\pjco9\Dev\GRAFOS_PRO\editorDeGrafos\bin\Debug\editorDeGrafos.pdb

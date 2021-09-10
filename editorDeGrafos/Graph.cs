@@ -20,6 +20,8 @@ namespace editorDeGrafos
 
         private List<List<NodeRef>> graph;//list of lists of NodeRef is a graph
 
+        private List<List<NodeRef>> transposedGraph;// a transposed gragph created 
+
         private List<Node> nodeList_G = new List<Node>();//all Nodes in the graph.
 
         private List<Edge> edgeList_G = new List<Edge>();//all undirected Edges.
@@ -29,6 +31,34 @@ namespace editorDeGrafos
         private List<Edge> cicleEdgeList_G = new List<Edge>();// all cicled Edges.
 
         private List<int> IDList_G;//list of created IDs.
+        
+
+        /*
+         * 
+         * 
+         * STYLES for the graph */
+
+
+        Color[] colorsArray = new Color[] { Color.Black, Color.ForestGreen, Color.Blue, Color.Red };
+        //normal colors:
+        //0 is the default color
+        //1 is the first color depending on the selection
+        //2 is the next color depending on the selection
+        //3....
+        //.....
+
+        Color _colorDefault = Color.Black;
+        // this colors will be used dependig on the selected state of the node.
+        //this can grow depending on the different options you want to give to the users
+        //this are alternative colors, this is util when editing modes are active
+
+        Color[] _colorsArray = new Color[] { Color.Black, Color.ForestGreen, Color.Blue, Color.Red };
+        //mode actives
+        //0 is the default color
+        //1 is the first color depending on the selection
+        //2 is the next color depending on the selection
+        //3....
+        //.....
 
 
         /*******************************************************************
@@ -67,6 +97,39 @@ namespace editorDeGrafos
             IDList_G = new List<int>();
             IDList_G.Add(1000);
         }
+
+        /**********************************************
+         * 
+         * 
+         * ||||||||||||| Styles of the graph |||||||||||||||||
+         * 
+         * 
+         * *******************************************/
+      // for asking for color
+       public Color COLORS (Node nodo){
+           
+          //depending on the slected state the node have different colors
+           return this.colorsArray[nodo.Status];
+           
+       }
+
+        public Color COLORS(int indice)
+        {
+            //depending on the slected state the node have different colors
+            return this.colorsArray[indice];
+            
+        }
+
+        //// when inverted colors are asked.
+        public Color _COLORS(Node nodo)
+        {
+            return this._colorsArray[nodo.Status];
+        }
+        public Color _COLORS(int indice)
+        {
+            return this._colorsArray[indice];
+        }
+
 
         /*********************************************************
          * 
@@ -505,6 +568,8 @@ namespace editorDeGrafos
         {
             graph = new List<List<NodeRef>>();//list of lists of NodeRef is a graph
 
+            transposedGraph = new List<List<NodeRef>>();//list of reference nodes 
+
             this.nodeList_G = new List<Node>();//all Nodes in the graph.
 
             this.edgeList_G = new List<Edge>();//all undirected Edges.
@@ -543,30 +608,28 @@ namespace editorDeGrafos
             return res;
         }
 
-        /*
-        public int GradeOfNode(Node nodo)
+        public Node getNodeByPosition(Point cor)
         {
-            int res = 0;
-            int i = 0;
-            int nodeIndex = nodo.Index;
-            foreach (NodeRef nodeR in graph[nodeIndex])
+
+            Node resNode = null;           
+
+            foreach (Node onNode in this.NODE_LIST)
             {
-                if (nodeR.W > -1)
+                if (cor.X > onNode.Position.X - onNode.Radius //for conditions in order to determine wheter or not , a click hit the specific node
+                   && cor.X < onNode.Position.X + onNode.Radius
+                   && cor.Y < onNode.Position.Y + onNode.Radius
+                   && cor.Y > onNode.Position.Y - onNode.Radius)
                 {
-                    if (i == nodeIndex)
-                    {
-                        res += 2;
-                    }
-                    else
-                    {
-                        res++;
-                    }
-                }
-                i++;
-            }
-            return res;
+                    resNode = onNode;
+                }//one node clicked.
+            }//check all the node list.
+            return resNode;
+
         }
-        */
+
+
+
+
 
 
         public int GradeOfNode(Node node)

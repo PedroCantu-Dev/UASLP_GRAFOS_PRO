@@ -43,7 +43,7 @@ namespace editorDeGrafos
          * sample: Button_key_type. 
          * 
          * ************************************************************/
-        Boolean Move_M_Do = false;
+        Boolean Move_M_Do = false;//
         Boolean MoveAll_A_Do = false;
         Boolean Remove_R_Do = false;
         Boolean MoRe_F_Do = false;
@@ -144,7 +144,7 @@ namespace editorDeGrafos
                 offWhenClickingMouseOrKey();
                  if (Move_M_Do || MoveAll_A_Do || Remove_R_Do || MoRe_F_Do || Link_Do || Link_D_Do || Link_U_Do)//######## Do operations ##########
                 {
-                    selectedNode_Moving_FV = findNodeClicked(new Point(e.X, e.Y));
+                    selectedNode_Moving_FV = this.graph_FV.getNodeByPosition(new Point(e.X, e.Y));
                     selectedNode_FV = selectedNode_Moving_FV;
 
                     if (Remove_R_Do)
@@ -204,7 +204,7 @@ namespace editorDeGrafos
                     {
                         Node oneNode = null;
                         //in orther to determine if one existing node was clicked, check all the node list.
-                        oneNode = findNodeClicked(new Point(e.X, e.Y));
+                        oneNode = graph_FV.getNodeByPosition(new Point(e.X, e.Y));
 
                         if (oneNode != null)//one Node was clicked
                         {
@@ -221,7 +221,7 @@ namespace editorDeGrafos
                                     {
                                         int weight;
                                         //here i have to ask the weight of the link.
-                                        if (trunquedGrade)
+                                        if (trunquedGrade)//if trunqued means the weight is automatic
                                         {
                                             int.TryParse(trunquedGradeTextBox.Text, out weight);
                                         }
@@ -237,7 +237,7 @@ namespace editorDeGrafos
                                             graph_FV.addUndirectedEdge(edge, weight);
                                         }
                                     }
-                                    if (selectedNode_FV.Status == 3)//directed link
+                                    else if (selectedNode_FV.Status == 3)//directed link
                                     {
                                         int weight;
                                         //here i have to ask the weight of the link.
@@ -397,6 +397,17 @@ namespace editorDeGrafos
                 selectedNode_Linking_FV = null;
                 InvalidatePlus(1);
             }
+        }
+
+
+
+        public int AFWeight(String edgeType)
+        {
+            int res = 0;
+            AskForWeight afaw = new AskForWeight(edgeType);
+            afaw.ShowDialog();
+            res = afaw.getX;
+            return res;
         }
 
 
@@ -1392,7 +1403,7 @@ namespace editorDeGrafos
                 }
                 else
                 {
-                    pen = new Pen(nod.NODO.COLORS, 5);
+                    pen = new Pen(this.graph_FV.COLORS(nod.NODO), 5);
                 }
                 graphics.DrawEllipse(pen, nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
 
@@ -1718,7 +1729,7 @@ namespace editorDeGrafos
 
         void offWhenClickingMouseOrKey()
         {
-            dijkstraShow = false;
+           /* dijkstraShow = false;
             floydShow = false;
             warshallShow = false;
             primShow = false;
@@ -1728,6 +1739,7 @@ namespace editorDeGrafos
                 this.graph_FV.allBlack();
                 hamiltonOrEulerJustDone = false;
             }
+            */
             //reset(false);
             Invalidate();
         }
@@ -1749,15 +1761,7 @@ namespace editorDeGrafos
         }
 
 
-        public int AFWeight(String type)
-        {
-            int res = 0;
-            AskForWeight afaw = new AskForWeight(type);
-            afaw.ShowDialog();
-            res = afaw.getX;
-            return res;
-        }    
-
+    
         public Node findNodeClicked(Point cor)
         {
             Node resNode = null;

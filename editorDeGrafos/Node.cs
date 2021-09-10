@@ -16,26 +16,7 @@ namespace editorDeGrafos
         //this can grow depending on the different options you want to give to the users
         //
 
-        Color[] colorsArray = new Color[] { Color.Black, Color.ForestGreen, Color.Blue, Color.Red};
-        //normal colors:
-        //0 is the default color
-        //1 is the first color depending on the selection
-        //2 is the next color depending on the selection
-        //3....
-        //.....
-
-        Color _colorDefault = Color.Black;
-        // this colors will be used dependig on the selected state of the node.
-        //this can grow depending on the different options you want to give to the users
-        //this are alternative colors, this is util when editing modes are active
-
-        Color[] _colorsArray = new Color[] { Color.Black, Color.ForestGreen, Color.Blue, Color.Red };
-        //mode actives
-        //0 is the default color
-        //1 is the first color depending on the selection
-        //2 is the next color depending on the selection
-        //3....
-        //.....
+    
         int numSelectionStates = 3;
 
         //this two arrays control the node colors depending on the node state and the selection mode active in the graphic envirtoment
@@ -110,6 +91,7 @@ namespace editorDeGrafos
             set { selected = value; }
         }
 
+
         public Color COLOR
         {
             get
@@ -122,21 +104,7 @@ namespace editorDeGrafos
             }
         }
 
-        //for asking for color
-        public Color COLORS {
-            get {
-                //depending on the slected state the node have different colors
-                return this.colorsArray[this.selected];
-            }
-        }
-
-        // when inverted colors are asked.
-        public Color _COLORS {
-            get {
-                return this._colorsArray[this.selected];
-            }
-        }
-
+  
         public void Click()
         {
            if(selected == numSelectionStates)
