@@ -173,11 +173,8 @@ namespace editorDeGrafos
                         }
                         else if (e.Button == System.Windows.Forms.MouseButtons.Left)
                         {
-                            if (selectedNode_FV == null)
-                            {
                                 graph_FV.create(new Point(e.X, e.Y), generalRadius_FV);
                                 justSaved_FV = false;
-                            }
                         }
                         break;
                     case 5 |6 | 7://Link 
@@ -320,35 +317,16 @@ namespace editorDeGrafos
                                         graph_FV.addDirectedEdge(selectedNode_FV, oneNode, weight);
                                     }
                                     break;
-                                default:
+                                    default:
                                     break;
                             }
                         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        
                     }
                 }
                 else//operations for the form
                 {
 
                 }
-
             }
             InvalidatePlus();
         }//Form_MouseDown(). BYE FOR THE MDF KING!!!! 
