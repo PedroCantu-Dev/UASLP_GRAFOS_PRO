@@ -121,7 +121,7 @@ namespace editorDeGrafos
         {
             selected = 0;
             visited = false;
-
+            colored = false;
         }
 
         public Boolean SelectedBool
@@ -167,11 +167,29 @@ namespace editorDeGrafos
 
         #endregion
 
+
+
+
         #region NodeMethods
 
         /*******************************************************
          *                Methods(Begin)                       *
          *******************************************************/
+
+
+        //node Equals for node comparation, only the ID is needed due to is unique
+        public Boolean nodeEquals(Node other)
+        {
+            if (other != null)
+            {
+                if (other.ID == this.ID)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
 
         public override String ToString()
