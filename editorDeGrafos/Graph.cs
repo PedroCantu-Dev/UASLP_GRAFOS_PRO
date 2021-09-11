@@ -1714,10 +1714,10 @@ namespace editorDeGrafos
             {
                 edge.COLOR = Color.Black;
             }
-            foreach (Node node in nodeList_G)
-            {
-                node.COLOR = Color.Black;
-            }
+            //foreach (Node node in nodeList_G)
+            //{
+            //    node.COLOR = Color.Black;
+            //}
         }
 
         public void eliminateNexetEdges(Node node)
@@ -1974,7 +1974,7 @@ namespace editorDeGrafos
                 for (int i = 0; i < graph.Count(); i++)
                 {
                     graph[j][i].NODO.Visited = false;
-                    graph[j][i].NODO.COLOR = Color.Black;
+                    //graph[j][i].NODO.COLOR = Color.Black;
                 }
         }
 

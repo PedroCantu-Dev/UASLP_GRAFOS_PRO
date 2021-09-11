@@ -43,16 +43,22 @@ namespace editorDeGrafos
          * sample: Button_key_type. 
          * 
          * ************************************************************/
-        Boolean Move_M_Do = false;//
-        Boolean MoveAll_A_Do = false;
-        Boolean Remove_R_Do = false;
-        Boolean MoRe_F_Do = false;
-        Boolean Link_Do = false;
-        Boolean Link_D_Do = false;
-        Boolean Link_U_Do = false;
+        Boolean Move_M_Do = false;//for moving all vertices individally with right and left mousedown
+        Boolean MoveAll_A_Do = false;//for moving all vertices at the same time with rigth and left mousedown
+        Boolean Remove_R_Do = false;//for remove vertices with rigth and left mouse down
+        Boolean MoRe_F_Do = false;//for move with left click and remove with right click 
 
-        /********** for linking operations ************************/
-        Boolean D_linkingAnimation = false;
+        Boolean Link_Do = false;//make directed links with right and undirected links with left mouse pressed
+        Color Link_Do_Color = Color.Purple;
+
+        Boolean Link_D_Do = false;//make directed links
+        Color Link_D_Do_Color = Color.Orange;
+
+        Boolean Link_U_Do = false;//make undirected links
+        Color Link_U_Do_Color = Color.RoyalBlue;
+
+    /********** for linking operations ************************/
+    Boolean D_linkingAnimation = false;
         Boolean U_LinkingAnimation = false;
         Edge linkingEdge = null;
         Boolean left_Linkind = false;
@@ -627,19 +633,19 @@ namespace editorDeGrafos
 
             if (Move_M_Do)
             {
-                foreach (Node node in graph_FV.NODE_LIST)
-                {
-                    node.COLOR = Color.Black;
-                }
+                //foreach (Node node in graph_FV.NODE_LIST)
+                //{
+                //    node.COLOR = Color.Black;
+                //}
                 Move_M_Do = (!Move_M_Do);
             }
             else
             {
                 allOperationOff();
-                foreach (Node node in graph_FV.NODE_LIST)
-                {
-                    node.COLOR = Color.Green;
-                }
+                //foreach (Node node in graph_FV.NODE_LIST)
+                //{
+                //    node.COLOR = Color.Green;
+                //}
                 Move_M_Do = (!Move_M_Do);
             }
             InvalidatePlus(1);
@@ -651,19 +657,19 @@ namespace editorDeGrafos
 
             if (MoveAll_A_Do)
             {
-                foreach (Node node in graph_FV.NODE_LIST)
-                {
-                    node.COLOR = Color.Black;
-                }
+                //foreach (Node node in graph_FV.NODE_LIST)
+                //{
+                //    node.COLOR = Color.Black;
+                //}
                 MoveAll_A_Do = (!MoveAll_A_Do);
             }
             else
             {
                 allOperationOff();
-                foreach (Node node in graph_FV.NODE_LIST)
-                {
-                    node.COLOR = Color.LimeGreen;
-                }
+                //foreach (Node node in graph_FV.NODE_LIST)
+                //{
+                //    node.COLOR = Color.LimeGreen;
+                //}
                 MoveAll_A_Do = (!MoveAll_A_Do);
             }
             InvalidatePlus(1);
@@ -676,19 +682,19 @@ namespace editorDeGrafos
 
             if (Remove_R_Do)
             {
-                foreach (Node node in graph_FV.NODE_LIST)
-                {
-                    node.COLOR = Color.Black;
-                }
+                //foreach (Node node in graph_FV.NODE_LIST)
+                //{
+                //    node.COLOR = Color.Black;
+                //}
                 Remove_R_Do = (!Remove_R_Do);
             }
             else
             {
                 allOperationOff();
-                foreach (Node node in graph_FV.NODE_LIST)
-                {
-                    node.COLOR = Color.Red;
-                }
+                //foreach (Node node in graph_FV.NODE_LIST)
+                //{
+                //    node.COLOR = Color.Red;
+                //}
                 Remove_R_Do = (!Remove_R_Do);
             }
 
@@ -700,19 +706,19 @@ namespace editorDeGrafos
 
             if (MoRe_F_Do)
             {
-                foreach (Node node in graph_FV.NODE_LIST)
-                {
-                    node.COLOR = Color.Black;
-                }
+                //foreach (Node node in graph_FV.NODE_LIST)
+                //{
+                //    node.COLOR = Color.Black;
+                //}
                 MoRe_F_Do = (!MoRe_F_Do);
             }
             else
             {
                 allOperationOff();
-                foreach (Node node in graph_FV.NODE_LIST)
-                {
-                    node.COLOR = Color.Indigo;
-                }
+                //foreach (Node node in graph_FV.NODE_LIST)
+                //{
+                //    node.COLOR = Color.Indigo;
+                //}
                 MoRe_F_Do = (!MoRe_F_Do);
             }
 
@@ -724,19 +730,19 @@ namespace editorDeGrafos
 
             if (Link_Do)
             {
-                foreach (Node node in graph_FV.NODE_LIST)
-                {
-                    node.COLOR = Color.Black;
-                }
+                //foreach (Node node in graph_FV.NODE_LIST)
+                //{
+                //    node.COLOR = Color.Black;
+                //}
                 Link_Do = (!Link_Do);
             }
             else
             {
                 allOperationOff();
-                foreach (Node node in graph_FV.NODE_LIST)
-                {
-                    node.COLOR = Color.Purple;
-                }
+                //foreach (Node node in graph_FV.NODE_LIST)
+                //{
+                //    node.COLOR = Color.Purple;
+                //}
                 Link_Do = (!Link_Do);
             }
             InvalidatePlus(1);
