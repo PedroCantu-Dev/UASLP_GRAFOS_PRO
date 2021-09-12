@@ -59,8 +59,9 @@ namespace editorDeGrafos
             Color.Orange,//Link_U_Do
             Color.AliceBlue//Link_D_Do
         };
+        
 
-
+        //this will go.........
         private Boolean Move_M_Do {
             get
             {
@@ -90,20 +91,6 @@ namespace editorDeGrafos
             }
         }
 
-        private Boolean Remove_E_Do
-        {
-            get
-            {
-                if (operationIndex_FV == 3)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
 
         private Boolean MoRe_F_Do
         {
@@ -254,26 +241,31 @@ namespace editorDeGrafos
 
 
         #region MouseEvents
-        /************* tha mouse , tha f()#/&g boss*****************/
+        /************* Mouse Events*****************/
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             offWhenClickingMouseOrKey();
             Node oneNode = null;
-            selectedNode_Moving_FV = this.graph_FV.getNodeByPosition(new Point(e.X, e.Y));
-            selectedNode_FV = selectedNode_Moving_FV;
-            //in orther to determine if one existing node was clicked, check all the node list.
-            oneNode = graph_FV.getNodeByPosition(new Point(e.X, e.Y));
-
             if (operationIndex_FV > 0)//graph operation activated
             {
+                selectedNode_Moving_FV = graph_FV.getNodeByPosition(new Point(e.X, e.Y));
+                selectedNode_FV = selectedNode_Moving_FV;
+                oneNode = selectedNode_Moving_FV;
                 Form1_MouseDown_G_Operations(sender, e, oneNode);
+
             }
             else if(operationIndex_FV == 0) //operations for Vertex and form
             {
-                Form1_MouseDown_Node_Operations(sender, e, oneNode);
+                oneNode = graph_FV.getNodeByPosition(new Point(e.X, e.Y));
+                if (selectedNode_FV == null)
+                {
+                    selectedNode_FV = oneNode;
+                }
+                    Form1_MouseDown_Node_Operations(sender, e, oneNode);
             }
-            InvalidatePlus();
+            InvalidatePlus(1);
         }//Form_MouseDown(). BYE FOR THE MDF KING!!!! 
+
 
         private void Form1_MouseDown_G_Operations(object sender, MouseEventArgs e, Node oneNode)
         {
@@ -287,20 +279,20 @@ namespace editorDeGrafos
                             if (e.Button == System.Windows.Forms.MouseButtons.Right)
                             {
                                 mousePressed_R_FV = true;
-                                
                             }
                             else if (e.Button == System.Windows.Forms.MouseButtons.Left)
                             {
                                 mousePressed_L_FV = true;
                             }
-                            this.selectedNode_FV = oneNode;
+                        this.selectedNode_FV.Status = 0;
+                        this.selectedNode_FV = oneNode;
+                        
                             break;
                         case 2://Moving all
                             mousePressed_FV = true;
                             if (e.Button == System.Windows.Forms.MouseButtons.Right)
                             {
                                 mousePressed_R_FV = true;
-
                             }
                             else if (e.Button == System.Windows.Forms.MouseButtons.Left)
                             {
@@ -322,8 +314,7 @@ namespace editorDeGrafos
                             }
                             break;
                         case 5:
-                        
-                            if(!oneNode.Equals(this.selectedNode_Linking_FV))//The links are made only if a diferent node was cliked so not equals
+                            if(!oneNode.Equals(this.selectedNode_Linking_FV) && selectedNode_Linking_FV != null)//The links are made only if a diferent node was cliked so not equals
                             {
                                 if (e.Button == System.Windows.Forms.MouseButtons.Right)//directed link
                                 {
@@ -337,8 +328,8 @@ namespace editorDeGrafos
                                     }
                                     if (weight >= 0)
                                     {
-                                        Edge edge = new Edge(selectedNode_FV, oneNode, weight);
-                                        graph_FV.addDirectedEdge(selectedNode_FV, oneNode, weight);
+                                        Edge edge = new Edge(selectedNode_Linking_FV,oneNode , weight);
+                                        graph_FV.addDirectedEdge(selectedNode_Linking_FV, oneNode, weight);
                                     }
                                 }
                                 else if (e.Button == System.Windows.Forms.MouseButtons.Left)//undirected link
@@ -353,7 +344,7 @@ namespace editorDeGrafos
                                     }
                                     if (weight >= 0)
                                     {
-                                        Edge edge = new Edge(selectedNode_FV, oneNode, weight);
+                                        Edge edge = new Edge(selectedNode_Linking_FV, oneNode, weight);
                                         graph_FV.addUndirectedEdge(edge, weight);
                                     }
                                 }
@@ -373,36 +364,35 @@ namespace editorDeGrafos
                             }
                             break;
                         case 6:
-                        if (!oneNode.Equals(this.selectedNode_Linking_FV))//The links are made only if a diferent node was cliked so not equals
-                        {
-                                if (trunquedGrade)//if trunqued means the weight is automatic
-                                {
-                                    int.TryParse(trunquedGradeTextBox.Text, out weight);
-                                }
-                                else
-                                {
-                                    weight = AFWeight("Bidireccional");
-                                }
-                                if (weight >= 0)
-                                {
-                                    Edge edge = new Edge(selectedNode_FV, oneNode, weight);
-                                    graph_FV.addUndirectedEdge(edge, weight);
-                                }
-                        }
-                        else
-                        {
-                            this.selectedNode_Linking_FV = oneNode;
-                            mousePressed_FV = true;
-                            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                            if (!oneNode.Equals(this.selectedNode_Linking_FV) && this.selectedNode_Linking_FV != null)//The links are made only if a diferent node was cliked so not equals
                             {
-                                mousePressed_R_FV = true;
+                                    if (trunquedGrade)//if trunqued means the weight is automatic
+                                    {
+                                        int.TryParse(trunquedGradeTextBox.Text, out weight);
+                                    }
+                                    else
+                                    {
+                                        weight = AFWeight("Bidireccional");
+                                    }
+                                    if (weight >= 0)
+                                    {
+                                        Edge edge = new Edge(selectedNode_Linking_FV, oneNode, weight);
+                                        graph_FV.addUndirectedEdge(edge, weight);
+                                    }
                             }
-                            else if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                            else
                             {
-                                mousePressed_L_FV = true;
+                                this.selectedNode_Linking_FV = oneNode;
+                                mousePressed_FV = true;
+                                if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                                {
+                                    mousePressed_R_FV = true;
+                                }
+                                else if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                                {
+                                    mousePressed_L_FV = true;
+                                }
                             }
-                        }
-
                         break;
                         case 7:
                             if (trunquedGrade)//if trunqued means the weight is automatic
@@ -419,7 +409,6 @@ namespace editorDeGrafos
                                 graph_FV.addDirectedEdge(selectedNode_FV, oneNode, weight);
                             }
                         break;
-
                     }
             }
             else//operations for the form
@@ -427,9 +416,6 @@ namespace editorDeGrafos
                 graph_FV.create(e.Location, generalRadius_FV);
             }
         }
-
-
-
 
         private void Form1_MouseDown_Node_Operations(object sender, MouseEventArgs e, Node oneNode)
         {
@@ -439,7 +425,7 @@ namespace editorDeGrafos
             {
                 if (oneNode.nodeEquals(selectedNode_FV))//if the selected node is equals the node clicked
                 {
-                    if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                    if (e.Button == System.Windows.Forms.MouseButtons.Right)//RIGHT
                     {
                         switch (selectedNode_FV.Status)
                         {
@@ -476,86 +462,93 @@ namespace editorDeGrafos
                     else if (e.Button == System.Windows.Forms.MouseButtons.Left)
                     {
                         oneNode.Click();
+                        if(oneNode.Status == 0)
+                        {
+                            selectedNode_FV = null;
+                        }
                     }
                 }
                 else//if the node is a diferent one----> OTHER
                 {
-                    if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                    if (selectedNode_FV != null)
                     {
-                        switch (selectedNode_FV.Status)
+                        if (e.Button == System.Windows.Forms.MouseButtons.Right)
                         {
-                            case 1:
-                                //do nothing
-                                break;
-                            default://change of node selected
-                                oneNode.Status = selectedNode_FV.Status;
-                                selectedNode_FV.Status = 0;
-                                selectedNode_FV = oneNode;
-                                break;
+                            switch (selectedNode_FV.Status)
+                            {
+                                case 1:
+                                    //do nothing
+                                    break;
+                                default://change of node selected
+                                    oneNode.Status = selectedNode_FV.Status;
+                                    selectedNode_FV.Status = 0;
+                                    selectedNode_FV = oneNode;
+                                    break;
+                            }
+                        }
+                        else if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                        {
+                            int weight;
+                            switch (selectedNode_FV.Status)
+                            {
+                                case 1:
+                                    //nothing to do
+                                    break;
+                                case 2:
+                                    //here i have to ask the weight of the link.
+                                    if (trunquedGrade)//if trunqued means the weight is automatic
+                                    {
+                                        int.TryParse(trunquedGradeTextBox.Text, out weight);
+                                    }
+                                    else
+                                    {
+                                        weight = AFWeight("Bidireccional");
+                                    }
+                                    if (weight >= 0)
+                                    {
+                                        Edge edge = new Edge(selectedNode_FV, oneNode, weight);
+                                        graph_FV.addUndirectedEdge(edge, weight);
+                                    }
+                                    break;
+                                case 3:
+                                    //int weight;
+                                    //here i have to ask the weight of the link.
+                                    if (trunquedGrade)//if trunqued means the weight is automatic
+                                    {
+                                        int.TryParse(trunquedGradeTextBox.Text, out weight);
+                                    }
+                                    else
+                                    {
+                                        weight = AFWeight("Directed");
+                                    }
+                                    if (weight >= 0)
+                                    {
+                                        Edge edge = new Edge(selectedNode_FV, oneNode, weight);
+                                        graph_FV.addDirectedEdge(selectedNode_FV, oneNode, weight);
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
-                    else if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                    else
                     {
-                        int weight;
-                        switch (selectedNode_FV.Status)
+                        if (e.Button == System.Windows.Forms.MouseButtons.Left)
                         {
-                            case 1:
-
-                                break;
-                            case 2:
-                                //here i have to ask the weight of the link.
-                                if (trunquedGrade)//if trunqued means the weight is automatic
-                                {
-                                    int.TryParse(trunquedGradeTextBox.Text, out weight);
-                                }
-                                else
-                                {
-                                    weight = AFWeight("Bidireccional");
-                                }
-                                if (weight >= 0)
-                                {
-                                    Edge edge = new Edge(selectedNode_FV, oneNode, weight);
-                                    graph_FV.addUndirectedEdge(edge, weight);
-                                }
-                                break;
-                            case 3:
-                                //int weight;
-                                //here i have to ask the weight of the link.
-                                if (trunquedGrade)//if trunqued means the weight is automatic
-                                {
-                                    int.TryParse(trunquedGradeTextBox.Text, out weight);
-                                }
-                                else
-                                {
-                                    weight = AFWeight("Directed");
-                                }
-                                if (weight >= 0)
-                                {
-                                    Edge edge = new Edge(selectedNode_FV, oneNode, weight);
-                                    graph_FV.addDirectedEdge(selectedNode_FV, oneNode, weight);
-                                }
-                                break;
-                            default:
-                                break;
+                            selectedNode_FV = oneNode;
                         }
                     }
                 }
             }
             else//operations for the form
             {
-                graph_FV.create(e.Location, generalRadius_FV);
+                if (selectedNode_FV == null || (selectedNode_FV != null && selectedNode_FV.Status != 1))
+                {
+                    graph_FV.create(e.Location, generalRadius_FV);
+                }
             }
         }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -564,32 +557,96 @@ namespace editorDeGrafos
             if (e.Button == MouseButtons.Left)
             {
                 mousePressed_FV = false;
+                mousePressed_L_FV = false;
             }
-            switch (operationIndex_FV)
+            else if(e.Button == MouseButtons.Right)
             {
-                case 1:
+                mousePressed_R_FV = false;
+            }
+            if (Link_Do || Link_D_Do || Link_U_Do)//Linking
+            {
+                int weight = 0;
 
-                    break;
-                case 2:
+                Node auxMouseUperNode = findNodeClicked(new Point(e.X, e.Y));
+                if (auxMouseUperNode != null && selectedNode_Linking_FV != null)
+                {
+                    if (Link_Do)
+                    {
+                        if (left_Linkind)//undirected
+                        {
 
-                    break;
-                case 3:
+                            //here i have to ask the weight of the link.
+                            if (trunquedGrade)
+                            {
+                                int.TryParse(trunquedGradeTextBox.Text, out weight);
+                            }
+                            else
+                            {
+                                weight = AFWeight("Bidireccional");
+                            }
 
-                    break;
-                case 4:
+                            if (weight >= 0)
+                            {
+                                this.graph_FV.addUndirectedEdge(selectedNode_Linking_FV, auxMouseUperNode, weight);
+                                justSaved_FV = false;
+                            }
+                        }
+                        else if (right_Linking)//directed
+                        {
+                            //here i have to ask the weight of the link.
+                            if (trunquedGrade)
+                            {
+                                int.TryParse(trunquedGradeTextBox.Text, out weight);
+                            }
+                            else
+                            {
+                                weight = AFWeight("Dirijido");
+                            }
 
-                    break;
-                case 5:
-
-                    break;
-                case 6:
-
-                    break;
-                case 7:
-
-                    break;
-                default:
-                    break;
+                            if (weight >= 0)
+                            {
+                                graph_FV.addDirectedEdge(selectedNode_Linking_FV, auxMouseUperNode, weight);
+                                justSaved_FV = false;
+                            }
+                        }
+                    }
+                    else if (Link_D_Do)
+                    {
+                        //here i have to ask the weight of the link.
+                        if (trunquedGrade)
+                        {
+                            int.TryParse(trunquedGradeTextBox.Text, out weight);
+                        }
+                        else
+                        {
+                            weight = AFWeight("Dirijido");
+                        }
+                        if (weight >= 0)
+                        {
+                            graph_FV.addDirectedEdge(selectedNode_Linking_FV, auxMouseUperNode, weight);
+                            justSaved_FV = false;
+                        }
+                    }
+                    else if (Link_U_Do)
+                    {
+                        //here i have to ask the weight of the link.
+                        if (trunquedGrade)
+                        {
+                            int.TryParse(trunquedGradeTextBox.Text, out weight);
+                        }
+                        else
+                        {
+                            weight = AFWeight("Bidireccional");
+                        }
+                        if (weight >= 0)
+                        {
+                            graph_FV.addUndirectedEdge(selectedNode_Linking_FV, auxMouseUperNode, weight);
+                            justSaved_FV = false;
+                        }
+                    }
+                }
+                selectedNode_Linking_FV = null;
+                InvalidatePlus(1);
             }
         }
 
@@ -597,6 +654,7 @@ namespace editorDeGrafos
 
         public void Form1_MouseMove(object sender, MouseEventArgs e)//for the mouse moving.
         {
+
             if (mousePressed_FV == true && e.Button == MouseButtons.Right && selectedNode_FV != null && selectedNode_FV.Status == 1)//Selected: mouse moving 
             {
                 selectedNode_FV.Position = e.Location;
