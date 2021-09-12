@@ -626,12 +626,6 @@ namespace editorDeGrafos
             return resNode;
 
         }
-
-
-
-
-
-
         public int GradeOfNode(Node node)
         {
             return neighborListNode(node).Count();
@@ -681,18 +675,6 @@ namespace editorDeGrafos
 
         public Boolean Directed()
         {
-            /*
-            for (int i = 0; i < graph.Count(); i++)
-            {
-                for (int j = 0; j < graph.Count(); j++)
-                {
-                    if (graph[i][j].W != graph[j][i].W)
-                    {
-                        return true;
-                    }
-                }
-            }
-            */
             if (diEdgeList_G.Count() > 0)
             {
                 return true;
@@ -2005,28 +1987,7 @@ namespace editorDeGrafos
             return res;
         }
 
-        /******************************************************************************************************************
-        * 
-        * STARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTART
-        * 
-        *                         ----- START OF PATHS AND CIRCUITS -----
-        *                                    
-        * STARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTARTSTART
-        * 
-        ********************************************************************************************************************/
-
-
-        /******************************************************************************************************************
-       * 
-       * ENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDEND
-       * 
-       *                              ----- END OF PATHS AND CIRCUITS -----
-       *                                    
-       * ENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDEND
-       * 
-       ********************************************************************************************************************/
-
-
+   
 
     }//AdjacencyList(END).    
 }

@@ -59,7 +59,12 @@ namespace editorDeGrafos
             Color.Orange,//Link_U_Do
             Color.AliceBlue//Link_D_Do
         };
+
+
+
+        Dictionary<String, Action> algorithms = new Dictionary<string, Action>();
         
+
 
         //this will go.........
         private Boolean Move_M_Do {
@@ -166,17 +171,19 @@ namespace editorDeGrafos
 
 
         /******************************** for ALGORITMOS EVENTS  **********************************************/
-        //Dos...............................
-        Boolean Isomorphism_FB_Do = false;
-        Boolean Isomorphism_TS_Do = false;
-        Boolean Isomorphism_IN_Do = false;
-        Boolean path_Euler_Do = false;
+        //Dos..............................
+        Boolean DFS_Auto_Do = false;
+        Boolean DFS_Manual_Do = false;
+        Boolean kruskal_Do = false;       //Undirected graphs only
+        Boolean prim_Do = false;          //Undirected grpaphs only
+        Boolean Isomorphism_FB_Do = false;//any kind of graph
+        Boolean Isomorphism_TS_Do = false;//any kind of graph
+        Boolean Isomorphism_IN_Do = false;//any kind of graph
+        Boolean path_Euler_Do = false;    //both 
         Boolean path_Hamilton_Do = false;
         Boolean dijkstra_Do = false;
         Boolean floyd_Do = false;
         Boolean warshall_Do = false;
-        Boolean prim_Do = false;
-        Boolean kruskal_Do = false;
         //Dos--------------------------------
         /****************** for Isomorphism *************************/
         Boolean isoForm;
@@ -282,8 +289,12 @@ namespace editorDeGrafos
 
         private void resetSelectedNode_FV()
         {
-            this.selectedNode_FV.Status = 0;
-            this.selectedNode_FV = null;
+            if(selectedNode_FV != null)
+            {
+                this.selectedNode_FV.Status = 0;
+                this.selectedNode_FV = null;
+            }
+            
         }
         private void Form1_MouseDown_Node_Operations(object sender, MouseEventArgs e, Node oneNode)
         {
@@ -299,6 +310,7 @@ namespace editorDeGrafos
                         {
                             case 1://R--> Move 
                                 mousePressed_FV = true;
+                                mousePressed_R_FV = true;
                                 break;
                             case 2://R--> Cicled Edge
                                 int weight;
@@ -775,9 +787,7 @@ namespace editorDeGrafos
                 linkingEdge = new Edge(selectedNode_Linking_FV, corToDraw);
                 Invalidate();
             }
-
         }
-
 
         public int AFWeight(String edgeType)
         {
@@ -787,9 +797,6 @@ namespace editorDeGrafos
             res = afaw.getX;
             return res;
         }
-
-
-        
 
         #endregion
 
@@ -879,7 +886,11 @@ namespace editorDeGrafos
             {
                 keyU_OR_U_LinkingClick();
             }
-            if (e.KeyCode == Keys.X && selectedNode_FV != null)
+            if (e.KeyCode == Keys.Q)// (Q for quit any mode)
+            {
+                keyQ_OR_QuitClick();
+            }
+            if (e.KeyCode == Keys.X && selectedNode_FV != null)//((eliminate node selected))
             {
                 eliminate();
                 InvalidatePlus();
@@ -998,6 +1009,12 @@ namespace editorDeGrafos
                 operationIndex_FV = 7;
             }
             InvalidatePlus(1);
+        }
+
+        private void keyQ_OR_QuitClick()
+        {
+            resetSelectedNode_FV();
+            operationIndex_FV = 0;
         }
 
         /**************** deselect Operations ***************/
@@ -1163,6 +1180,18 @@ namespace editorDeGrafos
                 kruskalAlgorithm();
             }
             
+        }
+
+
+
+        private void dFSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void manualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
         /***************||||||||||||||  ALGORITMOS EVENTS (END) |||||||||||||||||||||||*******************/
@@ -1878,15 +1907,7 @@ namespace editorDeGrafos
              selectedNode_Moving_FV = null;//for moving.
              selectedNode_Linking_FV = null;
              mousePressed_FV = false;
-             justSaved_FV = true;// -> storage saveStateAuxiliar.        
-            //Boolean matIn = false;
-         //Move_M_Do = false;
-         //MoveAll_A_Do = false;
-         //Remove_R_Do = false;
-         //MoRe_F_Do = false;
-         //Link_Do = false;
-         //Link_D_Do = false;
-         //Link_U_Do = false;
+             justSaved_FV = true;// -> storage saveStateAuxiliar.    
 
         /********** for linking operations ************************/
          D_linkingAnimation = false;
@@ -1930,13 +1951,6 @@ namespace editorDeGrafos
             mousePressed_FV = false;
             justSaved_FV = true;// -> storage saveStateAuxiliar.        
                              //Boolean matIn = false;
-            //Move_M_Do = false;
-            //MoveAll_A_Do = false;
-            //Remove_R_Do = false;
-            //MoRe_F_Do = false;
-            //Link_Do = false;
-            //Link_D_Do = false;
-            //Link_U_Do = false;
 
             /********** for linking operations ************************/
             D_linkingAnimation = false;
@@ -3490,5 +3504,6 @@ namespace editorDeGrafos
             Invalidate();
         }
 
+       
     }//Form(END).
 }//namespace(END).
