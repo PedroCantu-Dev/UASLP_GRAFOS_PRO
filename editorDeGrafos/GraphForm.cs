@@ -245,12 +245,13 @@ namespace editorDeGrafos
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
 
-            if (e.Button == MouseButtons.Middle)
+            if (e.Button == MouseButtons.Middle)//the scroll button works ass deselecter
             {
                 if (selectedNode_FV != null)
                 {
                     this.resetSelectedNode_FV();
                 }
+                this.operationIndex_FV = 0;
 
             }
             else
@@ -286,7 +287,6 @@ namespace editorDeGrafos
         }
         private void Form1_MouseDown_Node_Operations(object sender, MouseEventArgs e, Node oneNode)
         {
-            
             //in orther to determine if one existing node was clicked, check all the node list.
             oneNode = graph_FV.getNodeByPosition(new Point(e.X, e.Y));
             if (oneNode != null)//one node was clicked
@@ -299,7 +299,6 @@ namespace editorDeGrafos
                         {
                             case 1://R--> Move 
                                 mousePressed_FV = true;
-                                oneNode.Position = e.Location;
                                 break;
                             case 2://R--> Cicled Edge
                                 int weight;
@@ -418,11 +417,7 @@ namespace editorDeGrafos
                     graph_FV.create(e.Location, generalRadius_FV);
                 }
             }
-        }
-
-
-
-
+        }//Node operations END
 
         private void Form1_MouseDown_G_Operations(object sender, MouseEventArgs e, Node oneNode)
         {
@@ -572,10 +567,7 @@ namespace editorDeGrafos
             {
                 graph_FV.create(e.Location, generalRadius_FV);
             }
-        }
-
-        
-
+        }//Graph operations.
 
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
@@ -1537,113 +1529,131 @@ namespace editorDeGrafos
                 drawCicledEdge(graphics, edge, e);
             }
 
-                foreach (Edge edge in graph_FV.EDGE_LIST)//undirected edges.
-                {
-                    drawEdge(graphics, edge);
-                }
-                foreach (Edge edge in graph_FV.DIEDGE_LIST)//directed edges.
-                {
-                    drawDirectedEdge(graphics, edge);
-                }            
-
-            if (floydShow || warshallShow)
+            foreach (Edge edge in graph_FV.EDGE_LIST)//undirected edges.
             {
-                if (floydShow)
-                {   
-                    if (initialNodePath != null)
-                    {
-                        floydShowFunction();
+                drawEdge(graphics, edge);
+            }
+            foreach (Edge edge in graph_FV.DIEDGE_LIST)//directed edges.
+            {
+                drawDirectedEdge(graphics, edge);
+            }            
+
+            //if (floydShow || warshallShow)
+            //{
+            //    if (floydShow)
+            //    {   
+            //        if (initialNodePath != null)
+            //        {
+            //            floydShowFunction();
                         
 
-                        foreach(Edge diEdge in graph_FV.DIEDGE_LIST)
-                        {
-                            if(edgesFloyd.Contains(diEdge))
-                            {
-                                diEdge.Server.COLOR = Color.Aquamarine;
-                                drawDirectedEdge(graphics, diEdge, Color.Red);
-                            }
-                            else
-                            {
-                                drawDirectedEdge(graphics, diEdge, Color.Gray);
-                            }
-                        }
+            //            foreach(Edge diEdge in graph_FV.DIEDGE_LIST)
+            //            {
+            //                if(edgesFloyd.Contains(diEdge))
+            //                {
+            //                    diEdge.Server.COLOR = Color.Aquamarine;
+            //                    drawDirectedEdge(graphics, diEdge, Color.Red);
+            //                }
+            //                else
+            //                {
+            //                    drawDirectedEdge(graphics, diEdge, Color.Gray);
+            //                }
+            //            }
 
-                        foreach (Edge edge in graph_FV.EDGE_LIST)
-                        {
-                            if (edgesFloyd.Contains(edge))
-                            {
-                                edge.client.COLOR = Color.Aquamarine;
-                                edge.Server.COLOR = Color.Aquamarine;
-                                drawEdge(graphics, edge, Color.Red);
-                            }
-                            else
-                            {
-                                drawEdge(graphics, edge, Color.Black);
-                            }
-                        }
-                        initialNodePath.COLOR = Color.Red;
-                    }
+            //            foreach (Edge edge in graph_FV.EDGE_LIST)
+            //            {
+            //                if (edgesFloyd.Contains(edge))
+            //                {
+            //                    edge.client.COLOR = Color.Aquamarine;
+            //                    edge.Server.COLOR = Color.Aquamarine;
+            //                    drawEdge(graphics, edge, Color.Red);
+            //                }
+            //                else
+            //                {
+            //                    drawEdge(graphics, edge, Color.Black);
+            //                }
+            //            }
+            //            initialNodePath.COLOR = Color.Red;
+            //        }
                     
-                }
-                else if (warshallShow)
-                {
-                    if (initialNodePath != null)
-                    {
-                        warshallShowFunction();
+            //    }
+            //    else if (warshallShow)
+            //    {
+            //        if (initialNodePath != null)
+            //        {
+            //            warshallShowFunction();
 
 
-                        foreach (Edge diEdge in graph_FV.DIEDGE_LIST)
-                        {
-                            if (edgesWarshall.Contains(diEdge))
-                            {
-                                diEdge.Server.COLOR = Color.Aquamarine;
-                                drawDirectedEdge(graphics, diEdge, Color.Red);
-                            }
-                            else
-                            {
-                                drawDirectedEdge(graphics, diEdge, Color.Gray);
-                            }
-                        }
+            //            foreach (Edge diEdge in graph_FV.DIEDGE_LIST)
+            //            {
+            //                if (edgesWarshall.Contains(diEdge))
+            //                {
+            //                    diEdge.Server.COLOR = Color.Aquamarine;
+            //                    drawDirectedEdge(graphics, diEdge, Color.Red);
+            //                }
+            //                else
+            //                {
+            //                    drawDirectedEdge(graphics, diEdge, Color.Gray);
+            //                }
+            //            }
 
-                        foreach (Edge edge in graph_FV.EDGE_LIST)
-                        {
-                            if (edgesWarshall.Contains(edge))
-                            {
-                                edge.client.COLOR = Color.Aquamarine;
-                                edge.Server.COLOR = Color.Aquamarine;
-                                drawEdge(graphics, edge, Color.Red);
-                            }
-                            else
-                            {
-                                drawEdge(graphics, edge, Color.Black);
-                            }
-                        }
-                        initialNodePath.COLOR = Color.Red;
-                    }
-                }
+            //            foreach (Edge edge in graph_FV.EDGE_LIST)
+            //            {
+            //                if (edgesWarshall.Contains(edge))
+            //                {
+            //                    edge.client.COLOR = Color.Aquamarine;
+            //                    edge.Server.COLOR = Color.Aquamarine;
+            //                    drawEdge(graphics, edge, Color.Red);
+            //                }
+            //                else
+            //                {
+            //                    drawEdge(graphics, edge, Color.Black);
+            //                }
+            //            }
+            //            initialNodePath.COLOR = Color.Red;
+            //        }
+            //    }
                 
-            }
+            //}
 
-            for (int i = 0; i < graph_FV.GRAPH.Count; i++)//Nodes.
+            if(operationIndex_FV == 0)
             {
-                NodeRef nod = graph_FV.GRAPH[i][i];
-                rectangle = new Rectangle(nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
-                graphics.FillEllipse(brush, rectangle);
-                if (dijkstraShow || primShow || kruskalShow)
+                for (int i = 0; i < graph_FV.GRAPH.Count; i++)//Nodes.
                 {
-                    pen = new Pen(Color.CadetBlue, 5);
-                }
-                else
-                {
-                    pen = new Pen(this.graph_FV.COLORS(nod.NODO), 5);
-                }
-                graphics.DrawEllipse(pen, nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
+                    NodeRef nod = graph_FV.GRAPH[i][i];
+                    rectangle = new Rectangle(nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
+                    graphics.FillEllipse(brush, rectangle);
 
-                //draw inside the node a index.
-                String index_S = "" + nod.NODO.Index;
-                int fontSize = generalRadius_FV - 10;
-                graphics.DrawString(index_S, new Font(FontFamily.GenericSansSerif, fontSize), new SolidBrush(Color.Black), nod.NODO.Position.X - (fontSize / 2), nod.NODO.Position.Y - (fontSize / 2));
+                    pen.Color = this.graph_FV.COLORS(nod.NODO);
+                    graphics.DrawEllipse(pen, nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
+
+                    //draw inside the node a index.
+                    String index_S = "" + nod.NODO.Index;
+                    int fontSize = generalRadius_FV - 10;
+                    graphics.DrawString(index_S, new Font(FontFamily.GenericSansSerif, fontSize), new SolidBrush(Color.Black), nod.NODO.Position.X - (fontSize / 2), nod.NODO.Position.Y - (fontSize / 2));
+                }
             }
+            else
+            {
+                for (int i = 0; i < graph_FV.GRAPH.Count; i++)//Nodes.
+                {
+                    NodeRef nod = graph_FV.GRAPH[i][i];
+                    rectangle = new Rectangle(nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
+                    graphics.FillEllipse(brush, rectangle);
+
+                    pen.Color = this.operationVertexColorArray[operationIndex_FV];
+
+
+                    graphics.DrawEllipse(pen, nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
+
+                    //draw inside the node a index.
+                    String index_S = "" + nod.NODO.Index;
+                    int fontSize = generalRadius_FV - 10;
+                    graphics.DrawString(index_S, new Font(FontFamily.GenericSansSerif, fontSize), new SolidBrush(Color.Black), nod.NODO.Position.X - (fontSize / 2), nod.NODO.Position.Y - (fontSize / 2));
+                }
+            }
+
+           
 
             if (D_linkingAnimation || U_LinkingAnimation)
             { 
@@ -1660,7 +1670,6 @@ namespace editorDeGrafos
                 U_LinkingAnimation = false;
             }
         }
-
                
 
         private void drawEdge(Graphics graphics, Edge edge)
