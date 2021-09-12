@@ -244,27 +244,184 @@ namespace editorDeGrafos
         /************* Mouse Events*****************/
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-            offWhenClickingMouseOrKey();
-            Node oneNode = null;
-            if (operationIndex_FV > 0)//graph operation activated
+
+            if (e.Button == MouseButtons.Middle)
             {
-                selectedNode_Moving_FV = graph_FV.getNodeByPosition(new Point(e.X, e.Y));
-                selectedNode_FV = selectedNode_Moving_FV;
-                oneNode = selectedNode_Moving_FV;
-                Form1_MouseDown_G_Operations(sender, e, oneNode);
+                if (selectedNode_FV != null)
+                {
+                    this.resetSelectedNode_FV();
+                }
 
             }
-            else if(operationIndex_FV == 0) //operations for Vertex and form
+            else
             {
-                oneNode = graph_FV.getNodeByPosition(new Point(e.X, e.Y));
-                if (selectedNode_FV == null)
+                offWhenClickingMouseOrKey();
+                Node oneNode = null;
+                if (operationIndex_FV > 0)//graph operation activated
                 {
-                    selectedNode_FV = oneNode;
+                    selectedNode_Moving_FV = graph_FV.getNodeByPosition(new Point(e.X, e.Y));
+                    selectedNode_FV = selectedNode_Moving_FV;
+                    oneNode = selectedNode_Moving_FV;
+                    Form1_MouseDown_G_Operations(sender, e, oneNode);
+
                 }
+                else if (operationIndex_FV == 0) //operations for Vertex and form
+                {
+                    oneNode = graph_FV.getNodeByPosition(new Point(e.X, e.Y));
+                    if (selectedNode_FV == null)
+                    {
+                        selectedNode_FV = oneNode;
+                    }
                     Form1_MouseDown_Node_Operations(sender, e, oneNode);
+                }
             }
+           
             InvalidatePlus(1);
         }//Form_MouseDown(). BYE FOR THE MDF KING!!!! 
+
+        private void resetSelectedNode_FV()
+        {
+            this.selectedNode_FV.Status = 0;
+            this.selectedNode_FV = null;
+        }
+        private void Form1_MouseDown_Node_Operations(object sender, MouseEventArgs e, Node oneNode)
+        {
+            
+            //in orther to determine if one existing node was clicked, check all the node list.
+            oneNode = graph_FV.getNodeByPosition(new Point(e.X, e.Y));
+            if (oneNode != null)//one node was clicked
+            {
+                if (oneNode.nodeEquals(selectedNode_FV))//if the selected node is equals the node clicked
+                {
+                    if (e.Button == System.Windows.Forms.MouseButtons.Right)//RIGHT
+                    {
+                        switch (selectedNode_FV.Status)
+                        {
+                            case 1://R--> Move 
+                                mousePressed_FV = true;
+                                oneNode.Position = e.Location;
+                                break;
+                            case 2://R--> Cicled Edge
+                                int weight;
+                                //here i have to ask the weight of the link.
+                                if (trunquedGrade)//if trunqued means the weight is automatic
+                                {
+                                    int.TryParse(trunquedGradeTextBox.Text, out weight);
+                                }
+                                else
+                                {
+                                    weight = AFWeight("Cicled");
+                                }
+
+                                if (weight >= 0)
+                                {
+                                    Edge edge = new Edge(selectedNode_FV, oneNode, weight);
+                                    graph_FV.addCicledEdge(oneNode, weight);
+                                }
+                                break;
+                            case 3://R--> Remove 
+                                this.graph_FV.removeNode(oneNode);
+                                this.selectedNode_FV = null;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                    {
+                        oneNode.Click();
+                        if (oneNode.Status == 0)
+                        {
+                            selectedNode_FV = null;
+                        }
+                    }
+                }
+                else//if the node is a diferent one----> OTHER
+                {
+                    if (selectedNode_FV != null)
+                    {
+                        if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                        {
+                            switch (selectedNode_FV.Status)
+                            {
+                                case 1:
+                                    //do nothing
+                                    break;
+                                default://change of node selected
+                                    oneNode.Status = selectedNode_FV.Status;
+                                    selectedNode_FV.Status = 0;
+                                    selectedNode_FV = oneNode;
+                                    break;
+                            }
+                        }
+                        else if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                        {
+                            int weight;
+                            switch (selectedNode_FV.Status)
+                            {
+                                case 1:
+                                    oneNode.Status = selectedNode_FV.Status;
+                                    selectedNode_FV.Status = 0;
+                                    selectedNode_FV = oneNode;
+                                    break;
+                                case 2:
+                                    //here i have to ask the weight of the link.
+                                    if (trunquedGrade)//if trunqued means the weight is automatic
+                                    {
+                                        int.TryParse(trunquedGradeTextBox.Text, out weight);
+                                    }
+                                    else
+                                    {
+                                        weight = AFWeight("Bidireccional");
+                                    }
+                                    if (weight >= 0)
+                                    {
+                                        Edge edge = new Edge(selectedNode_FV, oneNode, weight);
+                                        graph_FV.addUndirectedEdge(edge, weight);
+                                    }
+                                    break;
+                                case 3:
+                                    //int weight;
+                                    //here i have to ask the weight of the link.
+                                    if (trunquedGrade)//if trunqued means the weight is automatic
+                                    {
+                                        int.TryParse(trunquedGradeTextBox.Text, out weight);
+                                    }
+                                    else
+                                    {
+                                        weight = AFWeight("Directed");
+                                    }
+                                    if (weight >= 0)
+                                    {
+                                        Edge edge = new Edge(selectedNode_FV, oneNode, weight);
+                                        graph_FV.addDirectedEdge(selectedNode_FV, oneNode, weight);
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                        {
+                            selectedNode_FV = oneNode;
+                        }
+                    }
+                }
+            }
+            else//operations for the form
+            {
+                if (selectedNode_FV == null || !(selectedNode_FV != null && selectedNode_FV.Status == 1 && e.Button == MouseButtons.Right))
+                {
+                    graph_FV.create(e.Location, generalRadius_FV);
+                }
+            }
+        }
+
+
+
 
 
         private void Form1_MouseDown_G_Operations(object sender, MouseEventArgs e, Node oneNode)
@@ -417,139 +574,7 @@ namespace editorDeGrafos
             }
         }
 
-        private void Form1_MouseDown_Node_Operations(object sender, MouseEventArgs e, Node oneNode)
-        {
-            //in orther to determine if one existing node was clicked, check all the node list.
-            oneNode = graph_FV.getNodeByPosition(new Point(e.X, e.Y));
-            if (oneNode != null)//one node was clicked
-            {
-                if (oneNode.nodeEquals(selectedNode_FV))//if the selected node is equals the node clicked
-                {
-                    if (e.Button == System.Windows.Forms.MouseButtons.Right)//RIGHT
-                    {
-                        switch (selectedNode_FV.Status)
-                        {
-                            case 1://R--> Move 
-                                mousePressed_FV = true;
-                                oneNode.Position = e.Location;
-                                break;
-                            case 2://R--> Cicled Edge
-                                int weight;
-                                //here i have to ask the weight of the link.
-                                if (trunquedGrade)//if trunqued means the weight is automatic
-                                {
-                                    int.TryParse(trunquedGradeTextBox.Text, out weight);
-                                }
-                                else
-                                {
-                                    weight = AFWeight("Cicled");
-                                }
-
-                                if (weight >= 0)
-                                {
-                                    Edge edge = new Edge(selectedNode_FV, oneNode, weight);
-                                    graph_FV.addCicledEdge(oneNode, weight);
-                                }
-                                break;
-                            case 3://R--> Remove 
-                                this.graph_FV.removeNode(oneNode);
-                                this.selectedNode_FV = null;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    else if (e.Button == System.Windows.Forms.MouseButtons.Left)
-                    {
-                        oneNode.Click();
-                        if(oneNode.Status == 0)
-                        {
-                            selectedNode_FV = null;
-                        }
-                    }
-                }
-                else//if the node is a diferent one----> OTHER
-                {
-                    if (selectedNode_FV != null)
-                    {
-                        if (e.Button == System.Windows.Forms.MouseButtons.Right)
-                        {
-                            switch (selectedNode_FV.Status)
-                            {
-                                case 1:
-                                    //do nothing
-                                    break;
-                                default://change of node selected
-                                    oneNode.Status = selectedNode_FV.Status;
-                                    selectedNode_FV.Status = 0;
-                                    selectedNode_FV = oneNode;
-                                    break;
-                            }
-                        }
-                        else if (e.Button == System.Windows.Forms.MouseButtons.Left)
-                        {
-                            int weight;
-                            switch (selectedNode_FV.Status)
-                            {
-                                case 1:
-                                    //nothing to do
-                                    break;
-                                case 2:
-                                    //here i have to ask the weight of the link.
-                                    if (trunquedGrade)//if trunqued means the weight is automatic
-                                    {
-                                        int.TryParse(trunquedGradeTextBox.Text, out weight);
-                                    }
-                                    else
-                                    {
-                                        weight = AFWeight("Bidireccional");
-                                    }
-                                    if (weight >= 0)
-                                    {
-                                        Edge edge = new Edge(selectedNode_FV, oneNode, weight);
-                                        graph_FV.addUndirectedEdge(edge, weight);
-                                    }
-                                    break;
-                                case 3:
-                                    //int weight;
-                                    //here i have to ask the weight of the link.
-                                    if (trunquedGrade)//if trunqued means the weight is automatic
-                                    {
-                                        int.TryParse(trunquedGradeTextBox.Text, out weight);
-                                    }
-                                    else
-                                    {
-                                        weight = AFWeight("Directed");
-                                    }
-                                    if (weight >= 0)
-                                    {
-                                        Edge edge = new Edge(selectedNode_FV, oneNode, weight);
-                                        graph_FV.addDirectedEdge(selectedNode_FV, oneNode, weight);
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (e.Button == System.Windows.Forms.MouseButtons.Left)
-                        {
-                            selectedNode_FV = oneNode;
-                        }
-                    }
-                }
-            }
-            else//operations for the form
-            {
-                if (selectedNode_FV == null || (selectedNode_FV != null && selectedNode_FV.Status != 1))
-                {
-                    graph_FV.create(e.Location, generalRadius_FV);
-                }
-            }
-        }
-
+        
 
 
         private void Form1_MouseUp(object sender, MouseEventArgs e)
