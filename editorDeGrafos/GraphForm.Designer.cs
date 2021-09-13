@@ -94,7 +94,7 @@
             this.helpToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(180, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(141, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -185,7 +185,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(155, 1);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(320, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(470, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -289,14 +289,14 @@
             // algoritmosToolStripMenuItem
             // 
             this.algoritmosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.isomorfismoToolStripMenuItem,
-            this.caminosToolStripMenuItem1,
-            this.dijkstraToolStripMenuItem,
-            this.floydToolStripMenuItem,
-            this.warshallToolStripMenuItem,
-            this.primToolStripMenuItem,
+            this.dFSToolStripMenuItem,
             this.kruskalToolStripMenuItem,
-            this.dFSToolStripMenuItem});
+            this.primToolStripMenuItem,
+            this.warshallToolStripMenuItem,
+            this.floydToolStripMenuItem,
+            this.dijkstraToolStripMenuItem,
+            this.caminosToolStripMenuItem1,
+            this.isomorfismoToolStripMenuItem});
             this.algoritmosToolStripMenuItem.Name = "algoritmosToolStripMenuItem";
             this.algoritmosToolStripMenuItem.Size = new System.Drawing.Size(97, 24);
             this.algoritmosToolStripMenuItem.Text = "Algoritmos";

@@ -63,10 +63,8 @@ namespace editorDeGrafos
 
 
         Dictionary<String, Action> algorithms = new Dictionary<string, Action>();
-        
 
-
-        //this will go.........
+        #region operationsDoBooleans
         private Boolean Move_M_Do {
             get
             {
@@ -156,7 +154,7 @@ namespace editorDeGrafos
                 }
             }
         }
-
+        #endregion
 
         /********** for linking operations ************************/
         Edge linkingEdge = null;
@@ -168,7 +166,6 @@ namespace editorDeGrafos
 
         /**************** Trunqued grades ************************/
         Boolean trunquedGrade = false;
-
 
         /******************************** for ALGORITMOS EVENTS  **********************************************/
         //Dos..............................
@@ -184,25 +181,21 @@ namespace editorDeGrafos
         Boolean dijkstra_Do = false;
         Boolean floyd_Do = false;
         Boolean warshall_Do = false;
+
+
         //Dos--------------------------------
         /****************** for Isomorphism *************************/
         Boolean isoForm;
         /****************** for paths and cicles ********************/
-        List<Edge> pathToAnimate;
+        List<Edge> edgePathToAnimate;
         Node initialNodePath = null;
         Node finalNodePath = null;
-        Boolean nodePathsReady = false;
         Timer timerColor = new System.Windows.Forms.Timer();
         //int timerColorOption = 0;
         int tmpCount = 0;
 
-        /****************** for Floyd    *****************************/
-        /****************** for Warshall *****************************/
-        /****************** for Prim     *****************************/
-        /****************** for Kruskal  *****************************/
-
         #endregion
-        #region GraphFormFunctionality
+
         #region GraphFormConstructors
 
         /****************************************************************************************
@@ -241,11 +234,16 @@ namespace editorDeGrafos
             statusTB.Text = "Nombre :" + fileName_FV;
             terminal.Text = "Node selected : ";
         }
-
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            //pruebas pb = new pruebas();
+            //pb.ShowDialog();
+            timerColor = new System.Windows.Forms.Timer();
+            timerColor.Interval = 800;
+            timerColor.Tick += new EventHandler(GraphTimerColor/*GraphTimerColor*/);
+            tmpCount = 0;
+        }
         #endregion
-
-
-
 
         #region MouseEvents
         /************* Mouse Events*****************/
@@ -287,15 +285,7 @@ namespace editorDeGrafos
             InvalidatePlus(1);
         }//Form_MouseDown(). BYE FOR THE MDF KING!!!! 
 
-        private void resetSelectedNode_FV()
-        {
-            if(selectedNode_FV != null)
-            {
-                this.selectedNode_FV.Status = 0;
-                this.selectedNode_FV = null;
-            }
-            
-        }
+       
         private void Form1_MouseDown_Node_Operations(object sender, MouseEventArgs e, Node oneNode)
         {
             //in orther to determine if one existing node was clicked, check all the node list.
@@ -789,27 +779,10 @@ namespace editorDeGrafos
             }
         }
 
-        public int AFWeight(String edgeType)
-        {
-            int res = 0;
-            AskForWeight afaw = new AskForWeight(edgeType);
-            afaw.ShowDialog();
-            res = afaw.getX;
-            return res;
-        }
 
         #endregion
 
-
-
-        /*************************************************************************************************************************
-        * 
-        * |||||||||||||||||||||||||||||||||||||||||||||||||||||  General EVENTS   |||||||||||||||||||||||||||||||||||||||||||||||||||
-        * 
-        * ***********************************************************************************************************************/
-
-
-        #region operation
+        #region operations
         /********************** OPERATIONS *****************/
         #region operationEvents
         /************************ clicking an operation *****************/
@@ -899,6 +872,7 @@ namespace editorDeGrafos
         }
 
         #endregion
+
         #region commonKeyOperations
 
 
@@ -1049,152 +1023,7 @@ namespace editorDeGrafos
 
         /********************* common key-operations (END) ****************************/
         #endregion
-        #endregion
 
-        #region algorithmsEvents
-        /*************************************************************************************************
-        * 
-        * 
-        *||||||||||||||||||||||||||||||||  ALGORITMOS EVENTS (Begin)|||||||||||||||||||||||||||||||||||
-        *          
-        * 
-        * ************************************************************************************************/
-
-
-        //ISOMORFISMO:
-        protected virtual void fuerzaBrutaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible)
-            {
-                changeIsomtextBox(this.graph_FV.Isomo_Fuerza_Bruta(IsomorfismForm_FV.graph_FV).ToString());
-            }
-        }
-
-        protected virtual void traspuestaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible)
-            {
-                changeIsomtextBox(this.graph_FV.Isom_Traspuesta(IsomorfismForm_FV.graph_FV).ToString());
-            }
-        }
-
-        protected virtual void intercambioToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible)
-            {
-                changeIsomtextBox(this.graph_FV.Isom_Inter(IsomorfismForm_FV.graph_FV).ToString());
-            }
-        }
-        public void closeIsoFormClicked(object sender, EventArgs e)
-        {
-            InvalidatePlus();
-        }
-
-        //CAMINOS:
-        //EULER:
-        private void eulerToolStripMenuItem_Click(object sender, EventArgs e)//make happend 
-        {
-            deselect();
-            reset();
-            path_Euler_Do = true;
-        }
-
-        //HAMILTON
-        private void hamiltonToolStripMenuItem_Click(object sender, EventArgs e)//make happend
-        {
-            deselect();
-            reset();
-            path_Hamilton_Do = true;
-        }
-
-        //DIJKSTRA:
-        private void dijkstraToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            deselect();
-            reset();
-            dijkstra_Do = true;
-        }
-
-        //FLOYD
-        private void floydToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            deselect();
-            reset();
-            if (this.graph_FV.Directed())
-            {
-                floydAlgorithm();
-                
-            }
-            else
-            {
-                floydShow = false;
-                MessageBox.Show("El Algoritmo de Floyd es para grafos dirigidos");
-                graph_FV.allBlack();
-                Invalidate();
-            }
-
-            
-        }
-
-        //WARSHALL
-        private void warshallToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            deselect();
-            reset();
-            //warshall_Do
-            warshallAlgorithm();
-        }
-
-        //PRIM:
-        private void primToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            deselect();
-            reset();
-            if (this.graph_FV.Directed())
-            {
-                primShow = false;
-                MessageBox.Show("El Algoritmo de Prim es para grafos no dirigidos");
-                graph_FV.allBlack();
-                Invalidate();
-            }
-            else
-            {
-                PrimAlgoritm();
-            }
-        }
-
-        //KRUSKAL:
-        private void kruskalToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            deselect();
-            reset();
-            if (this.graph_FV.Directed())
-            {
-                kruskalShow = false;
-                MessageBox.Show("El Algoritmo de Kruskal es para grafos no dirigidos");
-                graph_FV.allBlack();
-                Invalidate();
-            }
-            else
-            {
-                kruskalAlgorithm();
-            }
-            
-        }
-
-
-
-        private void dFSToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void manualToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        /***************||||||||||||||  ALGORITMOS EVENTS (END) |||||||||||||||||||||||*******************/
         #endregion
 
         #region viewEvents
@@ -1539,10 +1368,10 @@ namespace editorDeGrafos
         /**************************** file operations(END) **********************/
         #endregion
 
-        #region Paint
+        #region drawing
         /*****************************
          * 
-         *      method for painting.
+         *      method for drawing.
          * 
          * ****************************/
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -1892,13 +1721,34 @@ namespace editorDeGrafos
         /****************** invalidate common (END) ***************************/
         #endregion
 
-
+        #region otherMethods
 
         /*************************************************************************************************************************
          * 
          * |||||||||||||||||||||||||||||||||||||||||||||||||||||   OTHER METHODS ()  |||||||||||||||||||||||||||||||||||||||||||||||||||
          * 
          * ***********************************************************************************************************************/
+
+
+        private void resetSelectedNode_FV()
+        {
+            if (selectedNode_FV != null)
+            {
+                this.selectedNode_FV.Status = 0;
+                this.selectedNode_FV = null;
+            }
+
+        }
+
+        public int AFWeight(String edgeType)
+        {
+            int res = 0;
+            AskForWeight afaw = new AskForWeight(edgeType);
+            afaw.ShowDialog();
+            res = afaw.getX;
+            return res;
+        }
+
 
         private void reset()
         {
@@ -1936,7 +1786,7 @@ namespace editorDeGrafos
       
          initialNodePath = null;
          finalNodePath = null;
-         nodePathsReady = false;
+         //nodePathsReady = false;
     }
 
         private void reset(Boolean deselectBool)
@@ -1979,12 +1829,12 @@ namespace editorDeGrafos
 
             initialNodePath = null;
             finalNodePath = null;
-            nodePathsReady = false;
+            //nodePathsReady = false;
         }
 
         void offWhenClickingMouseOrKey()
         {
-           /* dijkstraShow = false;
+            dijkstraShow = false;
             floydShow = false;
             warshallShow = false;
             primShow = false;
@@ -1994,7 +1844,7 @@ namespace editorDeGrafos
                 this.graph_FV.allBlack();
                 hamiltonOrEulerJustDone = false;
             }
-            */
+            
             //reset(false);
             Invalidate();
         }
@@ -2058,6 +1908,177 @@ namespace editorDeGrafos
             IsomtextBox.Text += System.Environment.NewLine;
             IsomtextBox.Text += str;
         }
+
+        private void operacionesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            offWhenClickingMouseOrKey();
+            Invalidate();
+        }
+
+        private void viewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            offWhenClickingMouseOrKey();
+            Invalidate();
+        }
+
+        private void algoritmosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            offWhenClickingMouseOrKey();
+            Invalidate();
+        }
+
+        private void helpToolStripButton_Click(object sender, EventArgs e)
+        {
+            offWhenClickingMouseOrKey();
+            Invalidate();
+            System.Diagnostics.Process.Start("https://github.com/Pedejeca135/GRAFOS_PRO");
+        }
+        #endregion
+
+        #region algorithmsEvents
+        /*************************************************************************************************
+        * 
+        * 
+        *||||||||||||||||||||||||||||||||  ALGORITMOS EVENTS (Begin)|||||||||||||||||||||||||||||||||||
+        *          
+        * 
+        * ************************************************************************************************/
+
+
+        //DFS this is for automatic
+        private void dFSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void manualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //KRUSKAL:
+        private void kruskalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            deselect();
+            reset();
+            if (this.graph_FV.Directed())
+            {
+                kruskalShow = false;
+                MessageBox.Show("El Algoritmo de Kruskal es para grafos no dirigidos");
+                graph_FV.allBlack();
+                Invalidate();
+            }
+            else
+            {
+                kruskalAlgorithm();
+            }
+
+        }
+
+
+        //PRIM:
+        private void primToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            deselect();
+            reset();
+            if (this.graph_FV.Directed())
+            {
+                primShow = false;
+                MessageBox.Show("El Algoritmo de Prim es para grafos no dirigidos");
+                graph_FV.allBlack();
+                Invalidate();
+            }
+            else
+            {
+                PrimAlgoritm();
+            }
+        }
+
+        //WARSHALL
+        private void warshallToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            deselect();
+            reset();
+            //warshall_Do
+            warshallAlgorithm();
+        }
+
+        //FLOYD
+        private void floydToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            deselect();
+            reset();
+            if (this.graph_FV.Directed())
+            {
+                floydAlgorithm();
+
+            }
+            else
+            {
+                floydShow = false;
+                MessageBox.Show("El Algoritmo de Floyd es para grafos dirigidos");
+                graph_FV.allBlack();
+                Invalidate();
+            }
+
+
+        }
+
+        //DIJKSTRA:
+        private void dijkstraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            deselect();
+            reset();
+            dijkstra_Do = true;
+        }
+
+        //CAMINOS:
+        //EULER:
+        private void eulerToolStripMenuItem_Click(object sender, EventArgs e)//make happend 
+        {
+            deselect();
+            reset();
+            path_Euler_Do = true;
+        }
+
+        //HAMILTON
+        private void hamiltonToolStripMenuItem_Click(object sender, EventArgs e)//make happend
+        {
+            deselect();
+            reset();
+            path_Hamilton_Do = true;
+        }
+
+        //ISOMORFISMO:
+        protected virtual void fuerzaBrutaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible)
+            {
+                changeIsomtextBox(this.graph_FV.Isomo_Fuerza_Bruta(IsomorfismForm_FV.graph_FV).ToString());
+            }
+        }
+
+        protected virtual void traspuestaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible)
+            {
+                changeIsomtextBox(this.graph_FV.Isom_Traspuesta(IsomorfismForm_FV.graph_FV).ToString());
+            }
+        }
+
+        protected virtual void intercambioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible)
+            {
+                changeIsomtextBox(this.graph_FV.Isom_Inter(IsomorfismForm_FV.graph_FV).ToString());
+            }
+        }
+        public void closeIsoFormClicked(object sender, EventArgs e)
+        {
+            InvalidatePlus();
+        }
+
+        /***************||||||||||||||  ALGORITMOS EVENTS (END) |||||||||||||||||||||||*******************/
         #endregion
 
         #region algorithms
@@ -2084,6 +2105,7 @@ namespace editorDeGrafos
         List<Node> workingNodes;
         pathsOK f3 = new pathsOK();
 
+      
         #region utilAlgorithms
 
         /**************************************
@@ -2413,18 +2435,6 @@ namespace editorDeGrafos
             Invalidate();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            //pruebas pb = new pruebas();
-            //pb.ShowDialog();
-            timerColor = new System.Windows.Forms.Timer();
-            timerColor.Interval = 800;
-            timerColor.Tick += new EventHandler(GraphTimerColor/*GraphTimerColor*/);
-            tmpCount = 0;
-        }
-
-        #endregion
-
         private void caminosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (f3.Operation == 1)
@@ -2444,7 +2454,8 @@ namespace editorDeGrafos
             }
         }
 
-        
+        #endregion
+
         #region Isomorphism
         #endregion
 
@@ -2455,13 +2466,6 @@ namespace editorDeGrafos
         #region Euler
 
         #region cycleEuler
-
-
-        /*
-       cycleOfEuler();
-       pathOfEuler();
-                      */
-
 
         public void cycleOfEuler()//next to the event.
         {
@@ -2543,7 +2547,7 @@ namespace editorDeGrafos
         {
 
             pathOfNodes = new List<Node>();
-            pathToAnimate = new List<Edge>();
+            //pathToAnimate = new List<Edge>();
             cutEdges = new List<Edge>();
 
             graph_FV.markAllLikeNotBridge();
@@ -2582,7 +2586,7 @@ namespace editorDeGrafos
             {
                 graph_FV.thisEdge(workingNode, initialNodePath).visitada = true;
                 Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
-                pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
+                //pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
                 pathOfNodes.Add(initialNodePath);//se agrega por primera vez el nodoInicial(mismo que nodoFinal) al camino de nodos;
                 pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
                 return true;
@@ -2608,7 +2612,7 @@ namespace editorDeGrafos
                         // nodesPath.Add(workingNode);
                         Edge edge = graph_FV.thisEdge(workingNode, node);
                         pathOfNodes.Add(workingNode);
-                        pathToAnimate.Add(edge);
+                        //pathToAnimate.Add(edge);
                         return true;
                     }
                     else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
@@ -2625,7 +2629,7 @@ namespace editorDeGrafos
                     // nodesPath.Add(workingNode);
                     Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
                     pathOfNodes.Add(workingNode);
-                    pathToAnimate.Add(edge);
+                    //pathToAnimate.Add(edge);
                     return true;
                 }
                 else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
@@ -2726,7 +2730,7 @@ namespace editorDeGrafos
         {
 
             pathOfNodes = new List<Node>();
-            pathToAnimate = new List<Edge>();
+            //pathToAnimate = new List<Edge>();
             cutEdges = new List<Edge>();
 
             graph_FV.markAllLikeNotBridge();
@@ -2787,7 +2791,7 @@ namespace editorDeGrafos
                         // nodesPath.Add(workingNode);
                         Edge edge = graph_FV.thisEdge(workingNode, node);
                         pathOfNodes.Add(workingNode);
-                        pathToAnimate.Add(edge);
+                        //pathToAnimate.Add(edge);
                         return true;
                     }
                     else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
@@ -2804,7 +2808,7 @@ namespace editorDeGrafos
                     // nodesPath.Add(workingNode);
                     Edge edge = graph_FV.thisEdge(workingNode, finalNodePath);
                     pathOfNodes.Add(workingNode);
-                    pathToAnimate.Add(edge);
+                    //pathToAnimate.Add(edge);
                     return true;
                 }
                 else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
@@ -2817,12 +2821,6 @@ namespace editorDeGrafos
 
 
         #endregion
-
-
-
-
-
-
 
         #endregion
 
@@ -2903,7 +2901,7 @@ namespace editorDeGrafos
         {
 
             pathOfNodes = new List<Node>();
-            pathToAnimate = new List<Edge>();
+            //pathToAnimate = new List<Edge>();
             cutEdges = new List<Edge>();
 
             graph_FV.markAllLikeNotBridge();
@@ -2940,7 +2938,7 @@ namespace editorDeGrafos
             if (notVisitedYet.Count() < 1 && neightboors.Contains(initialNodePath))//todos los nodos Visiteds && el nodo actual tiene de vecino al nodo inicial
             {
                 Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
-                pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
+                //pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
                 pathOfNodes.Add(initialNodePath);//se agrega por primera vez el nodoInicial(mismo que nodoFinal) al camino de nodos;
                 pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
                 return true;
@@ -2965,7 +2963,7 @@ namespace editorDeGrafos
                         // nodesPath.Add(workingNode);
                         Edge edge = graph_FV.thisEdge(workingNode, node);
                         pathOfNodes.Add(workingNode);
-                        pathToAnimate.Add(edge);
+                        //pathToAnimate.Add(edge);
                         return true;
                     }
                     else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
@@ -3024,7 +3022,7 @@ namespace editorDeGrafos
         public Boolean pathOfHamilton_Algorithm()
         {
             pathOfNodes = new List<Node>();
-            pathToAnimate = new List<Edge>();
+            //pathToAnimate = new List<Edge>();
             cutEdges = new List<Edge>();
 
             graph_FV.markAllLikeNotBridge();
@@ -3080,7 +3078,7 @@ namespace editorDeGrafos
                     {
                         Edge edge = graph_FV.thisEdge(workingNode, node);
                         pathOfNodes.Add(workingNode);
-                        pathToAnimate.Add(edge);
+                        //pathToAnimate.Add(edge);
                         return true;
                     }
                     else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
@@ -3092,7 +3090,7 @@ namespace editorDeGrafos
                     {
                         Edge edge = graph_FV.thisEdge(workingNode, node);
                         pathOfNodes.Add(workingNode);
-                        pathToAnimate.Add(edge);
+                        //pathToAnimate.Add(edge);
                         return true;
                     }
                 }
@@ -3486,27 +3484,6 @@ namespace editorDeGrafos
 
         #endregion
 
-        private void operacionesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            offWhenClickingMouseOrKey();
-            Invalidate();
-        }
-
-        private void viewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            offWhenClickingMouseOrKey();
-            Invalidate();
-        }
-
-        private void algoritmosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            offWhenClickingMouseOrKey();
-            Invalidate();
-        }
-
-        private void helpToolStripButton_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://github.com/Pedejeca135/GRAFOS_PRO");
-        }
+       
     }//Form(END).
 }//namespace(END).

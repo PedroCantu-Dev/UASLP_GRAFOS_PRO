@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forest.cs" />
     <Compile Include="NodeGrade.cs" />
     <Compile Include="NodeListGrade.cs" />
     <Compile Include="Graph.cs" />
@@ -101,6 +102,7 @@
     </Compile>
     <Compile Include="SpecificGradeSets.cs" />
     <Compile Include="TidyPair.cs" />
+    <Compile Include="Tree.cs" />
     <EmbeddedResource Include="AskForWeight.resx">
       <DependentUpon>AskForWeight.cs</DependentUpon>
     </EmbeddedResource>

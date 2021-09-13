@@ -22,13 +22,13 @@ namespace editorDeGrafos
         //this two arrays control the node colors depending on the node state and the selection mode active in the graphic envirtoment
 
         //*FUNCTIONAL VARIABLES:
-        String nameID = "";//a node unique name in the graph
+        //String nameID = "";//a node unique name in the graph
         int uniqueID;//a primary key for vertices (integer type)
         int index;//for control in thwe graph 
         //this three are asigned by the Graph with the method create.
 
         Boolean visited = false;                      //for routing
-        Boolean colored = false;                      //for especial algorithms that use color atribute
+        //Boolean colored = false;                      //for especial algorithms that use color atribute
         List<NodeRef> neighbors = new List<NodeRef>();//this represent the list of nodes that can be reached from this one
         //each NodeRef have the reference to the next node and the weight of the edge between them
 
@@ -121,7 +121,7 @@ namespace editorDeGrafos
         {
             selected = 0;
             visited = false;
-            colored = false;
+            //colored = false;
         }
 
         public Boolean SelectedBool

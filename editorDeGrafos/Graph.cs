@@ -47,11 +47,6 @@ namespace editorDeGrafos
         //3....
         //.....
 
-        Color _colorDefault = Color.Black;
-        // this colors will be used dependig on the selected state of the node.
-        //this can grow depending on the different options you want to give to the users
-        //this are alternative colors, this is util when editing modes are active
-
         Color[] _colorsArray = new Color[] { Color.Black, Color.ForestGreen, Color.Blue, Color.Red };
         //mode actives
         //0 is the default color
@@ -610,9 +605,7 @@ namespace editorDeGrafos
 
         public Node getNodeByPosition(Point cor)
         {
-
             Node resNode = null;           
-
             foreach (Node onNode in this.NODE_LIST)
             {
                 if (cor.X > onNode.Position.X - onNode.Radius //for conditions in order to determine wheter or not , a click hit the specific node
