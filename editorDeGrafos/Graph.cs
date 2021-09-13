@@ -1987,7 +1987,28 @@ namespace editorDeGrafos
             return res;
         }
 
-   
+        #region Algorithms
+            /*
+             *          DFS 
+             *          
+             * 
+             * */
+
+
+
+            /*
+             * 
+             * 
+             * 
+             * */
+
+        #endregion
+
+
+
+
+
+
 
     }//AdjacencyList(END).    
 }

@@ -3504,6 +3504,9 @@ namespace editorDeGrafos
             Invalidate();
         }
 
-       
+        private void helpToolStripButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/Pedejeca135/GRAFOS_PRO");
+        }
     }//Form(END).
 }//namespace(END).

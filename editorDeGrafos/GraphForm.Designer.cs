@@ -64,6 +64,9 @@
             this.warshallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.primToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kruskalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dFSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.automaticToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.isomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fuerzaBrutaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.traspuestaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,9 +76,6 @@
             this.trunquedGradeTextBox = new System.Windows.Forms.TextBox();
             this.matrixTB = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dFSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.automaticToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.manualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -94,7 +94,7 @@
             this.helpToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(141, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(180, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -146,6 +146,7 @@
             this.helpToolStripButton.Name = "helpToolStripButton";
             this.helpToolStripButton.Size = new System.Drawing.Size(29, 24);
             this.helpToolStripButton.Text = "He&lp";
+            this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
             // 
             // terminal
             // 
@@ -184,7 +185,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(155, 1);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(470, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(320, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -204,28 +205,28 @@
             // moveMToolStripMenuItem
             // 
             this.moveMToolStripMenuItem.Name = "moveMToolStripMenuItem";
-            this.moveMToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.moveMToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
             this.moveMToolStripMenuItem.Text = "Move (M) ";
             this.moveMToolStripMenuItem.Click += new System.EventHandler(this.Move_Click);
             // 
             // moveAllAToolStripMenuItem
             // 
             this.moveAllAToolStripMenuItem.Name = "moveAllAToolStripMenuItem";
-            this.moveAllAToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.moveAllAToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
             this.moveAllAToolStripMenuItem.Text = "Move All (A)";
             this.moveAllAToolStripMenuItem.Click += new System.EventHandler(this.MoveAll_Click);
             // 
             // removeXToolStripMenuItem
             // 
             this.removeXToolStripMenuItem.Name = "removeXToolStripMenuItem";
-            this.removeXToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.removeXToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
             this.removeXToolStripMenuItem.Text = "Remove (R)";
             this.removeXToolStripMenuItem.Click += new System.EventHandler(this.Remove_Click);
             // 
             // moReFToolStripMenuItem
             // 
             this.moReFToolStripMenuItem.Name = "moReFToolStripMenuItem";
-            this.moReFToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.moReFToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
             this.moReFToolStripMenuItem.Text = "MoRe (F)";
             this.moReFToolStripMenuItem.Click += new System.EventHandler(this.MoRe_Click);
             // 
@@ -235,7 +236,7 @@
             this.undirectToolStripMenuItem,
             this.directToolStripMenuItem});
             this.linkingToolStripMenuItem.Name = "linkingToolStripMenuItem";
-            this.linkingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.linkingToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
             this.linkingToolStripMenuItem.Text = "Linking (L)";
             this.linkingToolStripMenuItem.Click += new System.EventHandler(this.linking_Click);
             // 
@@ -308,7 +309,7 @@
             this.transpuestaToolStripMenuItem,
             this.intercambioManualToolStripMenuItem});
             this.isomorfismoToolStripMenuItem.Name = "isomorfismoToolStripMenuItem";
-            this.isomorfismoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.isomorfismoToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.isomorfismoToolStripMenuItem.Text = "Isomorfismo";
             // 
             // fuerzaBrutaToolStripMenuItem1
@@ -338,57 +339,81 @@
             this.eulerToolStripMenuItem1,
             this.hamiltonToolStripMenuItem1});
             this.caminosToolStripMenuItem1.Name = "caminosToolStripMenuItem1";
-            this.caminosToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.caminosToolStripMenuItem1.Size = new System.Drawing.Size(238, 26);
             this.caminosToolStripMenuItem1.Text = "Caminos";
             // 
             // eulerToolStripMenuItem1
             // 
             this.eulerToolStripMenuItem1.Name = "eulerToolStripMenuItem1";
-            this.eulerToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.eulerToolStripMenuItem1.Size = new System.Drawing.Size(154, 26);
             this.eulerToolStripMenuItem1.Text = "Euler";
             this.eulerToolStripMenuItem1.Click += new System.EventHandler(this.eulerToolStripMenuItem_Click);
             // 
             // hamiltonToolStripMenuItem1
             // 
             this.hamiltonToolStripMenuItem1.Name = "hamiltonToolStripMenuItem1";
-            this.hamiltonToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.hamiltonToolStripMenuItem1.Size = new System.Drawing.Size(154, 26);
             this.hamiltonToolStripMenuItem1.Text = "Hamilton";
             this.hamiltonToolStripMenuItem1.Click += new System.EventHandler(this.hamiltonToolStripMenuItem_Click);
             // 
             // dijkstraToolStripMenuItem
             // 
             this.dijkstraToolStripMenuItem.Name = "dijkstraToolStripMenuItem";
-            this.dijkstraToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.dijkstraToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.dijkstraToolStripMenuItem.Text = "Dijkstra";
             this.dijkstraToolStripMenuItem.Click += new System.EventHandler(this.dijkstraToolStripMenuItem_Click);
             // 
             // floydToolStripMenuItem
             // 
             this.floydToolStripMenuItem.Name = "floydToolStripMenuItem";
-            this.floydToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.floydToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.floydToolStripMenuItem.Text = "Floyd";
             this.floydToolStripMenuItem.Click += new System.EventHandler(this.floydToolStripMenuItem_Click);
             // 
             // warshallToolStripMenuItem
             // 
             this.warshallToolStripMenuItem.Name = "warshallToolStripMenuItem";
-            this.warshallToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.warshallToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.warshallToolStripMenuItem.Text = "Warshall";
             this.warshallToolStripMenuItem.Click += new System.EventHandler(this.warshallToolStripMenuItem_Click);
             // 
             // primToolStripMenuItem
             // 
             this.primToolStripMenuItem.Name = "primToolStripMenuItem";
-            this.primToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.primToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.primToolStripMenuItem.Text = "Prim";
             this.primToolStripMenuItem.Click += new System.EventHandler(this.primToolStripMenuItem_Click);
             // 
             // kruskalToolStripMenuItem
             // 
             this.kruskalToolStripMenuItem.Name = "kruskalToolStripMenuItem";
-            this.kruskalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.kruskalToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.kruskalToolStripMenuItem.Text = "Kruskal";
             this.kruskalToolStripMenuItem.Click += new System.EventHandler(this.kruskalToolStripMenuItem_Click);
+            // 
+            // dFSToolStripMenuItem
+            // 
+            this.dFSToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.automaticToolStripMenuItem,
+            this.manualToolStripMenuItem});
+            this.dFSToolStripMenuItem.Name = "dFSToolStripMenuItem";
+            this.dFSToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.dFSToolStripMenuItem.Text = "DFS ( tree generation)";
+            this.dFSToolStripMenuItem.Click += new System.EventHandler(this.dFSToolStripMenuItem_Click);
+            // 
+            // automaticToolStripMenuItem
+            // 
+            this.automaticToolStripMenuItem.Name = "automaticToolStripMenuItem";
+            this.automaticToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
+            this.automaticToolStripMenuItem.Text = "Automatic";
+            this.automaticToolStripMenuItem.Click += new System.EventHandler(this.dFSToolStripMenuItem_Click);
+            // 
+            // manualToolStripMenuItem
+            // 
+            this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
+            this.manualToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
+            this.manualToolStripMenuItem.Text = "Manual";
+            this.manualToolStripMenuItem.Click += new System.EventHandler(this.manualToolStripMenuItem_Click);
             // 
             // isomToolStripMenuItem
             // 
@@ -477,30 +502,6 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(279, 163);
             this.dataGridView1.TabIndex = 9;
-            // 
-            // dFSToolStripMenuItem
-            // 
-            this.dFSToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.automaticToolStripMenuItem,
-            this.manualToolStripMenuItem});
-            this.dFSToolStripMenuItem.Name = "dFSToolStripMenuItem";
-            this.dFSToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
-            this.dFSToolStripMenuItem.Text = "DFS ( tree generation)";
-            this.dFSToolStripMenuItem.Click += new System.EventHandler(this.dFSToolStripMenuItem_Click);
-            // 
-            // automaticToolStripMenuItem
-            // 
-            this.automaticToolStripMenuItem.Name = "automaticToolStripMenuItem";
-            this.automaticToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.automaticToolStripMenuItem.Text = "Automatic";
-            this.automaticToolStripMenuItem.Click += new System.EventHandler(this.dFSToolStripMenuItem_Click);
-            // 
-            // manualToolStripMenuItem
-            // 
-            this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
-            this.manualToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.manualToolStripMenuItem.Text = "Manual";
-            this.manualToolStripMenuItem.Click += new System.EventHandler(this.manualToolStripMenuItem_Click);
             // 
             // GraphForm
             // 
