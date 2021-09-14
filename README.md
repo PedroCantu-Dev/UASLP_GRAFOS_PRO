@@ -32,12 +32,74 @@ $ git clone https://github.com/Pedejeca135/GRAFOS_PRO
 El editor cuenta con varias secciones
 
 ### File options:
+Estas opciones nos dejan guardar grafos hechos en el editor como un archivo de texto, para poder abrirlos cuando sea necesario. 
+
+#### New(Nuevo):
+Genera un nuevo archivo para trabajar, si se aprieta y el grafo en el que se esta trabajando tiene cambios si guardar pregunta si los quieres guardar o no.
+
+#### Open(Abrir):
+Abre un buscador de archivs para elegir el archivo que se quiere abrir, si el archivo es efectivo lo abrira sin problemas, de lo contrario mostrara un mensaje de error.
+Si se desea abrir un archivo y el grafo en uso tiene cambios sin guardar se pregunta al usuario si los quiere salvar.
+
+##### Ejemplos:
+Puedes abrir grafos de ejemplo que sirven para verificar los algoritmos implementados dentro de la carpeta del proyecto en una carpeta que se llama ./GraphSamples, cada uno lleva el nombre de el algoritmo que intenta demostrar. Pero en si cualquier algoritmo es valido para cualquier grafo, el editor indica el error de incompatibilidad que puede presentar el grafo, con el algoritmo que se esta intentando correr.
+
+#### Save(Guardar):
+Guarda el archivo en uso en un archivo de texto.
+
+### View (vista):
+Estas son opciones de la vista del editor. Como por ejemplo si los pesos de las aristas son visibles, la vista de la matriz que representa el grafo, etc.
+
+### Boxes:
+Estos son cajas de texto que especifican el estado y caracteristicas del grafo y de los nodos en "tiempo real".
+
+#### Graph Information Box:
+Esta caja especifica informacion del grafo en cuestion, 
+
+#### Node Selected Information Box:
+
+#### Matrix Representation Box:
+
+## Operaciones sobre el grafo y los nodos.
+Las operaciones se refieren a todos los metodos basicos para trabajar con los nodos, estos van desde la creacion y eliminacion de nodos, generacion de aristas, etc.
+
+### Selected Node States (Estados de seleccion de nodo):
+Cualquier nodo puede ser elegi
+
+#### State 0 - Black:
+Es el estado inicial de los nodos.
+##### Any
+* **Left Click:** Selecciona el nodo y aumenta su estado de seleccion(1).
+
+#### State 1 - Green:
+##### Selected(Self)
+* **Left Click:** Cambia el nodo seleccionado al siguiente estado(2).
+* **Right Click:** Mueve el nodo
+##### Other
+* **Left Click:** Cambia el nodo seleccionado a other con el mismo estado(1).
+* **Right Click:** -----
+
+#### State 2 - Blue:
+##### Selected(Self)
+* **Left Click:** Cambia el nodo seleccionado al siguiente estado(3).
+* **Right Click:** crea una oreja en el nodo.
+##### Other
+* **Left Click:** Crea un enlace **no dirigido** entre el nodo seleccionado(Self) y el nodo clickeado(Other). 
+* **Right Click:** Cambia el nodo seleccionado a other con el mismo estado(2).
+
+#### State 3 - Red:
+##### Self
+* **Left Click:** Cambia el estado de seleccion a 0.
+* **Right Click:** Elimina el nodo seleccionado.
+##### Other
+* **Left Click:** Crea un enlace **dirigido** entre el nodo seleccionado y el nodo clickeado(other). 
+* **Right Click:** Cambia el nodo seleccionado a other con el mismo estado(3).
 
 
-### Selected Node States (Estados de seleccion de nodo)
 
 ### Operations (operaciones):
 Son las operaciones que se pueden realizar sobre el grafo mediante el uso del mouse,si es que estan activadas.
+Las operaciones son mutuamente excluyentes y cuando son activadas se deselecciona cualquier nodo.
 
 A continuacion se muestra una tabla que especifica las distintas operaciones que se pueden realizar cuando estan activadas.
 
@@ -58,19 +120,9 @@ Se pueden hacer enlaces **no dirigidos** con cualquier boton.
 ##### Linking Directed (D):
 Se pueden hacer enlaces **dirigidos** con cualquier boton
 
-### View (vista):
-Estas son opciones de la vista del editor. Como por ejemplo si los pesos de las aristas son visibles, la vista de la matriz que representa el grafo, etc.
 
-
-### Boxes:
-Estos son cajas de texto que especifican el estado y caracteristicas del grafo y de los nodos en "tiempo real".
-
-#### Graph Information Box:
-Esta caja especifica informacion del grafo en cuestion, 
-
-#### Node Selected Information Box:
-
-#### Matrix Representation Box:
+### Truncated weight(Peso truncado):
+Esta opcion permite designar un peso especifico para las aristas que se crearan. Se debe de marcar un numero en la caja de texto y apretar el boton, el cual permanecera en verde mientras este activo. Si es así, el editor pondra este valor de peso en cualquier arista que se cree sin preguntar, de lo contrario se abrira una nueva Forma que le pedira un valor para el peso de la arista.
 
 ### Algoritmos:
 
