@@ -16,7 +16,7 @@ namespace editorDeGrafos
             get {
                 List<Node> res = new List<Node>();
                 foreach(Tree t in listOfTrees){
-                    Node node = t.getRoot();
+                    Node node = t.getRoots();
                     if (node != null)
                     {
                         res.Add(node);

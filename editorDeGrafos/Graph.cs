@@ -10,34 +10,23 @@ namespace editorDeGrafos
 {
     public class Graph
     {
-        /**********************************************************
-         * 
-         * 
-         * ||||||||||||||||||  variables  ||||||||||||||||||||||||||
-         * 
-         * 
-         * *************************************************************/
-
+        #region GraphVariables
+        //
         private List<List<NodeRef>> graph;//list of lists of NodeRef is a graph
-
         private List<List<NodeRef>> transposedGraph;// a transposed gragph created 
 
         private List<Node> nodeList_G = new List<Node>();//all Nodes in the graph.
+        private List<int> IDList_G;//list of created IDs.
 
         private List<Edge> edgeList_G = new List<Edge>();//all undirected Edges.
-
         private List<Edge> diEdgeList_G = new List<Edge>();//all directed Edges.
-
         private List<Edge> cicleEdgeList_G = new List<Edge>();// all cicled Edges.
-
-        private List<int> IDList_G;//list of created IDs.
         
+        #endregion
 
-        /*
-         * 
-         * 
-         * STYLES for the graph */
+        #region GraphStyles
 
+        /* STYLES for the graph */
 
         Color[] colorsArray = new Color[] { Color.Black, Color.ForestGreen, Color.Blue, Color.Red };
         //normal colors:
@@ -47,7 +36,7 @@ namespace editorDeGrafos
         //3....
         //.....
 
-        Color[] _colorsArray = new Color[] { Color.Black, Color.ForestGreen, Color.Blue, Color.Red };
+        Color[] _colorsArray = new Color[] { Color.SlateGray, Color.HotPink, Color.RosyBrown, Color.BlueViolet };
         //mode actives
         //0 is the default color
         //1 is the first color depending on the selection
@@ -55,6 +44,36 @@ namespace editorDeGrafos
         //3....
         //.....
 
+        /**********************************************
+         * 
+         * 
+         * ||||||||||||| Styles of the graph |||||||||||||||||
+         * 
+         * 
+         * *******************************************/
+        // for asking for color
+        public Color COLORS(Node nodo)
+        {
+            //depending on the slected state the node have different colors
+            return this.colorsArray[nodo.Status];
+        }
+        public Color COLORS(int indice)
+        {
+            //depending on the slected state the node have different colors
+            return this.colorsArray[indice];
+        }
+        //// when inverted colors are asked.
+        public Color _COLORS(Node nodo)
+        {
+            return this._colorsArray[nodo.Status];
+        }
+        public Color _COLORS(int indice)
+        {
+            return this._colorsArray[indice];
+        }
+        #endregion
+
+        #region GraphConstructor
 
         /*******************************************************************
          * 
@@ -92,39 +111,9 @@ namespace editorDeGrafos
             IDList_G = new List<int>();
             IDList_G.Add(1000);
         }
+        #endregion
 
-        /**********************************************
-         * 
-         * 
-         * ||||||||||||| Styles of the graph |||||||||||||||||
-         * 
-         * 
-         * *******************************************/
-      // for asking for color
-       public Color COLORS (Node nodo){
-           
-          //depending on the slected state the node have different colors
-           return this.colorsArray[nodo.Status];
-           
-       }
-
-        public Color COLORS(int indice)
-        {
-            //depending on the slected state the node have different colors
-            return this.colorsArray[indice];
-            
-        }
-
-        //// when inverted colors are asked.
-        public Color _COLORS(Node nodo)
-        {
-            return this._colorsArray[nodo.Status];
-        }
-        public Color _COLORS(int indice)
-        {
-            return this._colorsArray[indice];
-        }
-
+        #region GraphGeters&Seters
 
         /*********************************************************
          * 
@@ -168,428 +157,12 @@ namespace editorDeGrafos
             get { return this.IDList_G; }
             set { this.IDList_G = value; }
         }
+        #endregion
 
-        /********************************************************
-         * 
-         * 
-         * |||||||||||||||||||| Methods(Begin) |||||||||||
-         * 
-         * 
-         * ******************************************************/
+        #region GraphInfoMethods
 
-        /********************** Basics Operations(Begin) **************************/
-        public void create(Point cor, int generalRadius)
-        {
-            Point newNodePosition = new Point(cor.X, cor.Y);
-            Node newNode;
-            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), this.createID());
-            this.addNode(newNode);
-        }
-
-        public void create(Coordenate cor, int generalRadius, Color color)
-        {
-            Point newNodePosition = new Point(cor.X, cor.Y);
-            Node newNode;
-            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), this.createID(), color);
-            this.addNode(newNode);
-        }
-
-        private int createID()//crea un id diferente a cualquiera de la lista de nodos
-        {
-            Boolean different;
-            int res;
-            Random random = new Random();
-
-            do
-            {
-                different = true;
-                res = random.Next(1000, 9999);
-                foreach (int num in this.IDList_G)//ID list should be a tree so the time-complexity to compruebe the exixtence of the random number generated could decresse
-                {
-                    if (res == num)
-                    {
-                        different = false;
-                        break;//doesn't make sense continuing serching. Basic heuristic avrd.
-                    }
-                }
-            }
-            while (different == false);
-            return res;
-        }
-
-        private int createIDAlpha()//crea un id diferente a cualquiera de la lista de nodos
-        {
-            Boolean different;
-            int res;
-            Random random = new Random();
-
-            do
-            {
-                different = true;
-                res = random.Next(1000, 9999);
-                foreach (int num in this.IDList_G)//ID list should be a tree so the time-complexity to compruebe the exixtence of the random number generated could decresse
-                {
-                    if (res == num)
-                    {
-                        different = false;
-                        break;//doesn't make sense continuing serching. Basic heuristic avrd.
-                    }
-                }
-            }
-            while (different == false);
-            return res;
-        }
-
-
-        public void addNode(Node nodo)
-        {
-            List<NodeRef> newNodeRefList = new List<NodeRef>();//the new list for the new node conections.           
-            nodeList_G.Add(nodo);
-
-            if (graph.Count() == 0)//ther's no elements
-            {
-                TidyPair tidyP = new TidyPair(0, 0); ;
-                NodeRef nodoRef = new NodeRef(-1, nodo, tidyP, true);            //the new Node that is going to be added have no conection, so it have a -1 value.
-                newNodeRefList.Add(nodoRef);
-                graph.Add(newNodeRefList);
-            }
-            else//At least one element.
-            {
-                //int j = 0;
-                for (int i = 0; i < graph.Count; i++)
-                {
-                    if (i == graph.Count)
-                    {
-                        newNodeRefList.Add(new NodeRef(-1, graph[i][i].NODO, new TidyPair(i, graph.Count()), true)); //making the new list for the end of the "array".
-                    }
-                    else
-                    {
-                        newNodeRefList.Add(new NodeRef(-1, graph[i][i].NODO, new TidyPair(i, graph.Count()))); //making the new list for the end of the "array".
-                    }
-
-                }
-
-                graph.Add(newNodeRefList);//adding the list made.
-                                          // terminal = "hay elementos" + graph.Count() + graph[0][0].NODO.ToString();
-                int iF = 0;
-                foreach (List<NodeRef> row in graph)
-                {
-                    row.Add(new NodeRef(-1, nodo, new TidyPair(nodo.Index, iF))); //adding to each row the new Node.
-                    iF++;
-                }
-            }
-        }
-
-        public void removeNode(Node nodo)//almost the same process as addNode() but vice versa.
-        {
-            int nodeIndexToEiminate = nodo.Index;
-            nodeList_G.Remove(nodo);
-
-            foreach (List<NodeRef> row in graph)
-            {
-                row.RemoveAt(nodeIndexToEiminate);//removing the NodeRef of all the list of nodes.                                               
-            }
-
-            graph.RemoveAt(nodeIndexToEiminate);
-
-            for (int j = 0; j < graph.Count(); j++)
-            {
-                List<NodeRef> noRe = graph[j];
-                for (int i = 0; i < noRe.Count(); i++)
-                {
-                    if (i == j && noRe[i].NODO.Index > nodeIndexToEiminate)
-                    {
-                        noRe[i].NODO.Index--;
-                    }
-                }
-            }
-
-        }//remove a node.
-
-        public void addUndirectedEdge(Node client, Node server, int weight)
-        {
-            edgeList_G.Add(new Edge(client, server, weight));
-            if (graph.Count > client.Index && graph.Count > server.Index)
-            {
-                if (graph[client.Index].Count > server.Index && graph[server.Index].Count > client.Index)
-                {
-                    graph[client.Index][server.Index].W = weight;
-                    graph[server.Index][client.Index].W = weight;
-                }
-            }
-        }
-
-        public void addUndirectedEdge(Edge edge)
-        {
-            edgeList_G.Add(edge);
-        }
-        public void addUndirectedEdge(Edge edge, int weight)
-        {
-            edgeList_G.Add(edge);
-            if (graph.Count > edge.client.Index && graph.Count > edge.server.Index)
-            {
-                if (graph[edge.client.Index].Count > edge.server.Index && graph[edge.server.Index].Count > edge.client.Index)
-                {
-                    graph[edge.client.Index][edge.server.Index].W = weight;
-                    graph[edge.server.Index][edge.client.Index].W = weight;
-                }
-            }
-        }
-
-
-
-        public void addDirectedEdge(Node client, Node server, int weight)
-        {
-            graph[client.Index][server.Index].W = weight;
-            this.diEdgeList_G.Add(new Edge(client, server, weight));
-        }
-
-
-
-        public void addCicledEdge(Node node, int weight)
-        {
-            graph[node.Index][node.Index].W = weight;
-            this.cicleEdgeList_G.Add(new Edge(node, weight));
-        }
-
-
-        /*
-         * 
-         * Description: returns a pure bool matrix representing the graph conections
-         * this kind of matrix is known as adjacency Matrix.
-         * 
-         * 
-         * 
-         * */
-        public bool[,] adjacencyMatrix()
-        {
-            //a boolean matrix is created to represent the adjacency matrix
-            //at the begining every space initialize in false.
-            bool[,] res = new bool[this.nodeList_G.Count(), this.nodeList_G.Count()];
-
-            //for each node in the node list of the graph 
-            foreach (Node node in this.nodeList_G)
-            {
-                //for each neighbor in the neirghbr list of the node working
-                foreach (NodeRef neighbor in node.NEIGHBORS)
-                {
-                    res[this.nodeList_G.IndexOf(node), this.nodeList_G.IndexOf(neighbor.NODO)] = true;
-                }
-            }
-            return res;
-        }
-
-        /*
-         * 
-         * Description: returns a boolean matrix represented with 1s and 0s only.
-         * 
-         * 
-         */
-
-        public int[,] adjacencyMatrix(int any)
-        {
-            //a integer matrix is created to represent the adjacency matrix(only 0s and 1s)
-            //at the begining every space initialize in false.
-            int[,] res = new int[this.nodeList_G.Count(), this.nodeList_G.Count()];
-
-            //for each node in the node list of the graph 
-            foreach(Node node in this.nodeList_G)
-            {
-                //for each neighbor in the neirghbr list of the node working
-                foreach (NodeRef neighbor in node.NEIGHBORS)
-                {
-                    res[this.nodeList_G.IndexOf(node), this.nodeList_G.IndexOf(neighbor.NODO)] = 1;
-                }
-            }
-            return res;
-        }
-
-
-        /*
-         * 
-         * Description: return a matrix that representing the graph with the minimum cost edges
-         * 
-         * 
-         */
-        public int[][] incidenceMatrix()
-        {
-            //a boolean matrix is created to represent the adjacency matrix
-            //at the begining every space initialize in false.
-            int[][] res;
-
-          res = Enumerable.Repeat( Enumerable.Repeat(-1, this.nodeList_G.Count()).ToArray(),this.nodeList_G.Count()).ToArray();
-
-            //for each node in the node list of the graph 
-            foreach (Node node in this.nodeList_G)
-            {
-                //for each neighbor in the neirghbor list of the node working
-                foreach (NodeRef neighbor in node.NEIGHBORS)
-                {
-                    int comparison = res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)];
-
-
-                    if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] == -1)
-                    {
-                        res[this.nodeList_G.IndexOf(node)][ this.nodeList_G.IndexOf(neighbor.NODO)] = neighbor.W;
-                    }
-                    else
-                    {
-                        //if the value in the matrix is grater than the value in the list
-                        if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] > neighbor.W)
-                        {
-                            res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] = neighbor.W;
-                        }
-                    }
-
-                }
-            }
-            return res;
-        }
-
-
-
-        /*
- * 
- * Description: return a matrix that representing the graph with the maximum cost edges
- * 
- * 
- */
-        public int[][] incidenceMatrix(int any)
-        {
-            //a boolean matrix is created to represent the adjacency matrix
-            //at the begining every space initialize in false.
-            int[][] res;
-
-            res = Enumerable.Repeat(Enumerable.Repeat(-1, this.nodeList_G.Count()).ToArray(), this.nodeList_G.Count()).ToArray();
-
-            //for each node in the node list of the graph 
-            foreach (Node node in this.nodeList_G)
-            {
-                //for each neighbor in the neirghbor list of the node working
-                foreach (NodeRef neighbor in node.NEIGHBORS)
-                {
-                    int comparison = res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)];
-
-
-                    if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] == -1)
-                    {
-                        res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] = neighbor.W;
-                    }
-                    else
-                    {
-                        //if the value in the matrix is less than the value in the list
-                        if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] < neighbor.W)
-                        {
-                            res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] = neighbor.W;
-                        }
-                    }
-
-                }
-            }
-            return res;
-
-        }
-
-
-
-
-        public String ToString(bool paramBool)
-        {
-            String resString = "";
-            int i = 0;
-            foreach (List<NodeRef> row in graph)
-            {
-                resString += "@" + i;
-                foreach (NodeRef nodoR in row)
-                {
-                    if (paramBool == false)
-                    {
-                        resString += "\t" + "(" + i + ":" + nodoR.NODO.Index + ")= " + nodoR.W;
-                    }
-                    else
-                    {
-                        if (nodoR.W > -1)
-                            resString += "\t" + 1;
-                        else
-                            resString += "\t" + 0;
-                    }
-                }
-                resString += System.Environment.NewLine;
-                i++;
-            }
-            return resString;
-        }
-
-
-        public void markAllEdgesAsNotVisited(List<Edge> listEdge)
-        {
-            foreach (Edge edge in listEdge)
-            {
-                edge.visitada = false;
-                edge.COLOR = Color.Black;
-            }
-        }
-
-
-        public void eliminateNexetDirectedEdges(Node node)
-        {
-            List<Edge> newEdges = new List<Edge>();
-
-            foreach (Edge edge in diEdgeList_G)
-            {
-                if (edge.Client != node && edge.Server != node)
-                {
-                    newEdges.Add(edge);
-                }
-            }
-            diEdgeList_G = newEdges;
-        }
-
-        public void eliminateCicledEdges(Node node)
-        {
-            List<Edge> newEdges = new List<Edge>();
-
-            foreach (Edge edge in cicleEdgeList_G)
-            {
-                if (edge.Client != node && edge.Server != node)
-                {
-                    newEdges.Add(edge);
-                }
-            }
-            cicleEdgeList_G = newEdges;
-        }
-
-        public void reset()
-        {
-            graph = new List<List<NodeRef>>();//list of lists of NodeRef is a graph
-
-            transposedGraph = new List<List<NodeRef>>();//list of reference nodes 
-
-            this.nodeList_G = new List<Node>();//all Nodes in the graph.
-
-            this.edgeList_G = new List<Edge>();//all undirected Edges.
-
-            this.diEdgeList_G = new List<Edge>();//all directed Edges.
-
-            this.cicleEdgeList_G = new List<Edge>();// all cicled Edges.
-
-            List<int> IDList_G = new List<int>();//list of created IDs.
-        }
-
-        /********************** Basics Operations (End) **************************/
-
-
-        /*************************  Information (Begin)  ***************************/
-        public int Grade()
-        {
-            int res = 0;
-            for (int i = 0; i < graph.Count(); i++)
-            {
-                res += GradeOfNode(graph[i][i].NODO);
-            }
-            return res;
-        }
-
+        /*************************** types ********************************/
+        //determine if the graph is a pseudoGraph
         public Boolean Pseudo()
         {
             Boolean res = false;
@@ -603,69 +176,7 @@ namespace editorDeGrafos
             return res;
         }
 
-        public Node getNodeByPosition(Point cor)
-        {
-            Node resNode = null;           
-            foreach (Node onNode in this.NODE_LIST)
-            {
-                if (cor.X > onNode.Position.X - onNode.Radius //for conditions in order to determine wheter or not , a click hit the specific node
-                   && cor.X < onNode.Position.X + onNode.Radius
-                   && cor.Y < onNode.Position.Y + onNode.Radius
-                   && cor.Y > onNode.Position.Y - onNode.Radius)
-                {
-                    resNode = onNode;
-                }//one node clicked.
-            }//check all the node list.
-            return resNode;
-
-        }
-        public int GradeOfNode(Node node)
-        {
-            return neighborListNode(node).Count();
-        }
-
-
-        public DirectedGrade GradeOfDirectedNode(Node nodo)
-        {
-            DirectedGrade res;
-            int input = 0;
-            int output = 0;
-            foreach (List<NodeRef> row in graph)
-            {
-                foreach (NodeRef nodeR in row)
-                {
-                    if (graph.IndexOf(row) == row.IndexOf(nodeR))
-                    {
-                        if (nodeR.W > -1)
-                        {
-                            input++;
-                            output++;
-                        }
-                    }
-                    else
-                    {
-                        if (graph.IndexOf(row) == nodo.Index)
-                        {
-                            if (nodeR.W > -1)
-                            {
-                                output++;
-                            }
-                        }
-                        if (row.IndexOf(nodeR) == nodo.Index)
-                        {
-                            if (nodeR.W > -1)
-                            {
-                                input++;
-                            }
-                        }
-
-                    }
-                }
-            }
-            res = new DirectedGrade(input, output);
-            return res;
-        }
-
+        //Determine if a graph is directed
         public Boolean Directed()
         {
             if (diEdgeList_G.Count() > 0)
@@ -678,59 +189,7 @@ namespace editorDeGrafos
             }
         }
 
-
-
-        public Boolean allVisitedExept(Edge workinEdge)
-        {
-            foreach (Edge edge in this.edgeList_G)
-            {
-                if (edge != workinEdge && edge.visitada == false)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-      
-        public Boolean allVisitedExept(Node workingNode)
-        {
-            foreach (Edge edge in edgeList_G)
-            {
-                if (edge.server != workingNode)
-                {
-                    if (edge.server.Visited == false)
-                    {
-                        return false;
-                    }
-                }
-                if (edge.client != workingNode)
-                {
-                    if (edge.client.Visited)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        public Boolean allVisitedExept(List<Node> listNodes, Node workingNode)
-        {
-            foreach (Node node in listNodes)
-            {
-                if (node != workingNode)
-                {
-                    if (node.Visited == false)
-                        return false;
-                }
-            }
-            return true;
-        }
-
-
-
-        /*************************** types ********************************/
+        //determine if a graph is complete
         public Boolean Complete()
         {
             Boolean res = true;
@@ -743,9 +202,17 @@ namespace editorDeGrafos
                         res = false;
                     }
                 }
-
             }
             return res;
+        }
+
+        //deternmine if a undirectedgraph is clicled
+        public Boolean Cicled()
+        {
+            if (this.Directed())
+                return this.directedCicled();
+            else
+                return this.UndirectedCicled();
         }
 
         public Boolean UndirectedCicled()
@@ -765,7 +232,6 @@ namespace editorDeGrafos
             }
             return false;
         }
-
         public Boolean dfsU(int vertex, HashSet<int> visited, int parent)
         {
             visited.Add(vertex);
@@ -790,15 +256,6 @@ namespace editorDeGrafos
             }
             return false;
         }
-
-        public Boolean Cicled()
-        {
-            if (this.Directed())
-                return this.directedCicled();
-            else
-                return this.UndirectedCicled();
-        }
-
 
         //Determine if a graph is cicled with BFS algorithm.
         //watch this video: https://www.youtube.com/watch?v=rKQaZuoUR4M 
@@ -825,6 +282,11 @@ namespace editorDeGrafos
                 }
             }
             return res;
+        }
+        private void moveVertex(int v_Index, HashSet<int> sourceSet, HashSet<int> destinationSet)
+        {
+            sourceSet.Remove(v_Index);
+            destinationSet.Add(v_Index);
         }
 
         private Boolean dfs(int currentIndex, HashSet<int> whiteS, HashSet<int> grayS, HashSet<int> blackS)
@@ -856,53 +318,49 @@ namespace editorDeGrafos
             return false;
         }
 
-        private void moveVertex(int v_Index, HashSet<int> sourceSet, HashSet<int> destinationSet)
-        {
-            sourceSet.Remove(v_Index);
-            destinationSet.Add(v_Index);
-        }
+        
 
-        public Boolean Bipartita()
-        {
-            HashSet<int> whiteSet = new HashSet<int>();
-            HashSet<int> blueSet = new HashSet<int>();
-            HashSet<int> redSet = new HashSet<int>();
-            HashSet<int> visited = new HashSet<int>();
+        //public Boolean Bipartita()
+        //{
+        //    HashSet<int> whiteSet = new HashSet<int>();
+        //    HashSet<int> blueSet = new HashSet<int>();
+        //    HashSet<int> redSet = new HashSet<int>();
+        //    HashSet<int> visited = new HashSet<int>();
 
-            for (int i = 0; i < graph.Count(); i++)
-            {
-                whiteSet.Add(i);
-            }
-            moveVertex(0, whiteSet, blueSet);
-            visited.Add(0);
-            return Bipartita2(0, visited, blueSet, redSet, whiteSet);
-        }
+        //    for (int i = 0; i < graph.Count(); i++)
+        //    {
+        //        whiteSet.Add(i);
+        //    }
+        //    moveVertex(0, whiteSet, blueSet);
+        //    visited.Add(0);
+        //    return Bipartita2(0, visited, blueSet, redSet, whiteSet);
+        //}
 
-        public Boolean Bipartita2(int origin, HashSet<int> visited, HashSet<int> originColorSet, HashSet<int> destinationColorSet, HashSet<int> whiteSet)
-        {
-            foreach (NodeRef nodeR in graph[origin])
-            {
-                if (nodeR.W > -1)
-                {
-                    if (!visited.Contains(nodeR.NODO.Index))
-                    {
-                        // mark present vertic as visited 
-                        visited.Add(nodeR.NODO.Index);
+        //public Boolean Bipartita2(int origin, HashSet<int> visited, HashSet<int> originColorSet, HashSet<int> destinationColorSet, HashSet<int> whiteSet)
+        //{
+        //    foreach (NodeRef nodeR in graph[origin])
+        //    {
+        //        if (nodeR.W > -1)
+        //        {
+        //            if (!visited.Contains(nodeR.NODO.Index))
+        //            {
+        //                // mark present vertic as visited 
+        //                visited.Add(nodeR.NODO.Index);
 
-                        // mark its color opposite to its parent 
-                        this.moveVertex(nodeR.NODO.Index, whiteSet, destinationColorSet);
+        //                // mark its color opposite to its parent 
+        //                this.moveVertex(nodeR.NODO.Index, whiteSet, destinationColorSet);
 
-                        // if the subtree rooted at vertex v is not bipartite 
-                        if (Bipartita2(nodeR.NODO.Index, visited, destinationColorSet, originColorSet, whiteSet))
-                            return false;
-                    }
-                    else
-                     if (originColorSet.Contains(nodeR.NODO.Index) && originColorSet.Contains(origin))
-                        return false;
-                }
-            }
-            return true;
-        }
+        //                // if the subtree rooted at vertex v is not bipartite 
+        //                if (Bipartita2(nodeR.NODO.Index, visited, destinationColorSet, originColorSet, whiteSet))
+        //                    return false;
+        //            }
+        //            else
+        //             if (originColorSet.Contains(nodeR.NODO.Index) && originColorSet.Contains(origin))
+        //                return false;
+        //        }
+        //    }
+        //    return true;
+        //}
         public Boolean Bip()
         {
             if (graph.Count() > 0)
@@ -1035,6 +493,1009 @@ namespace editorDeGrafos
             return res;
         }
 
+        #endregion
+
+        #region GraphPrivateMethods
+        private int createID()//crea un id diferente a cualquiera de la lista de nodos
+        {
+            Boolean different;
+            int res;
+            Random random = new Random();
+
+            do
+            {
+                different = true;
+                res = random.Next(1000, 9999);
+                foreach (int num in this.IDList_G)//ID list should be a tree so the time-complexity to compruebe the exixtence of the random number generated could decresse
+                {
+                    if (res == num)
+                    {
+                        different = false;
+                        break;//doesn't make sense continuing serching. Basic heuristic avrd.
+                    }
+                }
+            }
+            while (different == false);
+            return res;
+        }
+
+        private int createIDAlpha()//crea un id diferente a cualquiera de la lista de nodos
+        {
+            Boolean different;
+            int res;
+            Random random = new Random();
+
+            do
+            {
+                different = true;
+                res = random.Next(1000, 9999);
+                foreach (int num in this.IDList_G)//ID list should be a tree so the time-complexity to compruebe the exixtence of the random number generated could decresse
+                {
+                    if (res == num)
+                    {
+                        different = false;
+                        break;//doesn't make sense continuing serching. Basic heuristic avrd.
+                    }
+                }
+            }
+            while (different == false);
+            return res;
+        }  
+
+        #endregion//Private Methods END
+
+        #region GraphPublicMethods
+
+        /********************** Basics Operations(Begin) **************************/
+        //create and add a new node to the graph
+        public void create(Point cor, int generalRadius)
+        {
+            Point newNodePosition = new Point(cor.X, cor.Y);
+            Node newNode;
+            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), this.createID());
+            this.addNode(newNode);
+        }
+
+        public void create(Coordenate cor, int generalRadius, Color color)
+        {
+            Point newNodePosition = new Point(cor.X, cor.Y);
+            Node newNode;
+            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), this.createID(), color);
+            this.addNode(newNode);
+        }
+
+        public void removeNode(Node nodo)//almost the same process as addNode() but vice versa.
+        {
+            int nodeIndexToEiminate = nodo.Index;
+            nodeList_G.Remove(nodo);
+
+            foreach (List<NodeRef> row in graph)
+            {
+                row.RemoveAt(nodeIndexToEiminate);//removing the NodeRef of all the list of nodes.                                               
+            }
+
+            graph.RemoveAt(nodeIndexToEiminate);
+
+            for (int j = 0; j < graph.Count(); j++)
+            {
+                List<NodeRef> noRe = graph[j];
+                for (int i = 0; i < noRe.Count(); i++)
+                {
+                    if (i == j && noRe[i].NODO.Index > nodeIndexToEiminate)
+                    {
+                        noRe[i].NODO.Index--;
+                    }
+                }
+            }
+
+        }//remove a node.
+
+
+
+        public void addNode(Node nodo)
+        {
+            List<NodeRef> newNodeRefList = new List<NodeRef>();//the new list for the new node conections.           
+            nodeList_G.Add(nodo);
+
+            if (graph.Count() == 0)//ther's no elements
+            {
+                TidyPair tidyP = new TidyPair(0, 0); ;
+                NodeRef nodoRef = new NodeRef(-1, nodo, tidyP, true);            //the new Node that is going to be added have no conection, so it have a -1 value.
+                newNodeRefList.Add(nodoRef);
+                graph.Add(newNodeRefList);
+            }
+            else//At least one element.
+            {
+                //int j = 0;
+                for (int i = 0; i < graph.Count; i++)
+                {
+                    if (i == graph.Count)
+                    {
+                        newNodeRefList.Add(new NodeRef(-1, graph[i][i].NODO, new TidyPair(i, graph.Count()), true)); //making the new list for the end of the "array".
+                    }
+                    else
+                    {
+                        newNodeRefList.Add(new NodeRef(-1, graph[i][i].NODO, new TidyPair(i, graph.Count()))); //making the new list for the end of the "array".
+                    }
+
+                }
+
+                graph.Add(newNodeRefList);//adding the list made.
+                                          // terminal = "hay elementos" + graph.Count() + graph[0][0].NODO.ToString();
+                int iF = 0;
+                foreach (List<NodeRef> row in graph)
+                {
+                    row.Add(new NodeRef(-1, nodo, new TidyPair(nodo.Index, iF))); //adding to each row the new Node.
+                    iF++;
+                }
+            }
+        }
+
+        public void addUndirectedEdge(Node client, Node server, int weight)
+        {
+            edgeList_G.Add(new Edge(client, server, weight));
+            if (graph.Count > client.Index && graph.Count > server.Index)
+            {
+                if (graph[client.Index].Count > server.Index && graph[server.Index].Count > client.Index)
+                {
+                    graph[client.Index][server.Index].W = weight;
+                    graph[server.Index][client.Index].W = weight;
+                }
+            }
+        }
+
+        public void addUndirectedEdge(Edge edge)
+        {
+            edgeList_G.Add(edge);
+        }
+        public void addUndirectedEdge(Edge edge, int weight)
+        {
+            edgeList_G.Add(edge);
+            if (graph.Count > edge.client.Index && graph.Count > edge.server.Index)
+            {
+                if (graph[edge.client.Index].Count > edge.server.Index && graph[edge.server.Index].Count > edge.client.Index)
+                {
+                    graph[edge.client.Index][edge.server.Index].W = weight;
+                    graph[edge.server.Index][edge.client.Index].W = weight;
+                }
+            }
+        }
+
+
+
+        public void addDirectedEdge(Node client, Node server, int weight)
+        {
+            graph[client.Index][server.Index].W = weight;
+            this.diEdgeList_G.Add(new Edge(client, server, weight));
+        }
+
+
+
+        public void addCicledEdge(Node node, int weight)
+        {
+            graph[node.Index][node.Index].W = weight;
+            this.cicleEdgeList_G.Add(new Edge(node, weight));
+        }
+
+
+        /*
+         * 
+         * Description: returns a pure bool matrix representing the graph conections
+         * this kind of matrix is known as adjacency Matrix.
+         * 
+         * 
+         * 
+         * */
+        public bool[,] adjacencyMatrix()
+        {
+            //a boolean matrix is created to represent the adjacency matrix
+            //at the begining every space initialize in false.
+            bool[,] res = new bool[this.nodeList_G.Count(), this.nodeList_G.Count()];
+
+            //for each node in the node list of the graph 
+            foreach (Node node in this.nodeList_G)
+            {
+                //for each neighbor in the neirghbr list of the node working
+                foreach (NodeRef neighbor in node.NEIGHBORS)
+                {
+                    res[this.nodeList_G.IndexOf(node), this.nodeList_G.IndexOf(neighbor.NODO)] = true;
+                }
+            }
+            return res;
+        }
+
+        /*
+         * 
+         * Description: returns a boolean matrix represented with 1s and 0s only.
+         * 
+         * 
+         */
+
+        public int[,] adjacencyMatrix(int any)
+        {
+            //a integer matrix is created to represent the adjacency matrix(only 0s and 1s)
+            //at the begining every space initialize in false.
+            int[,] res = new int[this.nodeList_G.Count(), this.nodeList_G.Count()];
+
+            //for each node in the node list of the graph 
+            foreach (Node node in this.nodeList_G)
+            {
+                //for each neighbor in the neirghbr list of the node working
+                foreach (NodeRef neighbor in node.NEIGHBORS)
+                {
+                    res[this.nodeList_G.IndexOf(node), this.nodeList_G.IndexOf(neighbor.NODO)] = 1;
+                }
+            }
+            return res;
+        }
+
+
+        /*
+         * 
+         * Description: return a matrix that representing the graph with the minimum cost edges
+         * 
+         * 
+         */
+        public int[][] incidenceMatrix()
+        {
+            //a boolean matrix is created to represent the adjacency matrix
+            //at the begining every space initialize in false.
+            int[][] res;
+
+            res = Enumerable.Repeat(Enumerable.Repeat(-1, this.nodeList_G.Count()).ToArray(), this.nodeList_G.Count()).ToArray();
+
+            //for each node in the node list of the graph 
+            foreach (Node node in this.nodeList_G)
+            {
+                //for each neighbor in the neirghbor list of the node working
+                foreach (NodeRef neighbor in node.NEIGHBORS)
+                {
+                    int comparison = res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)];
+
+
+                    if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] == -1)
+                    {
+                        res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] = neighbor.W;
+                    }
+                    else
+                    {
+                        //if the value in the matrix is grater than the value in the list
+                        if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] > neighbor.W)
+                        {
+                            res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] = neighbor.W;
+                        }
+                    }
+
+                }
+            }
+            return res;
+        }
+
+
+
+        /*
+ * 
+ * Description: return a matrix that representing the graph with the maximum cost edges
+ * 
+ * 
+ */
+        public int[][] incidenceMatrix(int any)
+        {
+            //a boolean matrix is created to represent the adjacency matrix
+            //at the begining every space initialize in false.
+            int[][] res;
+
+            res = Enumerable.Repeat(Enumerable.Repeat(-1, this.nodeList_G.Count()).ToArray(), this.nodeList_G.Count()).ToArray();
+
+            //for each node in the node list of the graph 
+            foreach (Node node in this.nodeList_G)
+            {
+                //for each neighbor in the neirghbor list of the node working
+                foreach (NodeRef neighbor in node.NEIGHBORS)
+                {
+                    int comparison = res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)];
+
+
+                    if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] == -1)
+                    {
+                        res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] = neighbor.W;
+                    }
+                    else
+                    {
+                        //if the value in the matrix is less than the value in the list
+                        if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] < neighbor.W)
+                        {
+                            res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] = neighbor.W;
+                        }
+                    }
+
+                }
+            }
+            return res;
+
+        }
+
+        public String ToString(bool paramBool)
+        {
+            String resString = "";
+            int i = 0;
+            foreach (List<NodeRef> row in graph)
+            {
+                resString += "@" + i;
+                foreach (NodeRef nodoR in row)
+                {
+                    if (paramBool == false)
+                    {
+                        resString += "\t" + "(" + i + ":" + nodoR.NODO.Index + ")= " + nodoR.W;
+                    }
+                    else
+                    {
+                        if (nodoR.W > -1)
+                            resString += "\t" + 1;
+                        else
+                            resString += "\t" + 0;
+                    }
+                }
+                resString += System.Environment.NewLine;
+                i++;
+            }
+            return resString;
+        }
+
+
+        public void markAllEdgesAsNotVisited(List<Edge> listEdge)
+        {
+            foreach (Edge edge in listEdge)
+            {
+                edge.visitada = false;
+                edge.COLOR = Color.Black;
+            }
+        }
+
+
+        public void eliminateNexetDirectedEdges(Node node)
+        {
+            List<Edge> newEdges = new List<Edge>();
+
+            foreach (Edge edge in diEdgeList_G)
+            {
+                if (edge.Client != node && edge.Server != node)
+                {
+                    newEdges.Add(edge);
+                }
+            }
+            diEdgeList_G = newEdges;
+        }
+
+        public void eliminateCicledEdges(Node node)
+        {
+            List<Edge> newEdges = new List<Edge>();
+
+            foreach (Edge edge in cicleEdgeList_G)
+            {
+                if (edge.Client != node && edge.Server != node)
+                {
+                    newEdges.Add(edge);
+                }
+            }
+            cicleEdgeList_G = newEdges;
+        }
+
+        public void reset()
+        {
+            graph = new List<List<NodeRef>>();//list of lists of NodeRef is a graph
+
+            transposedGraph = new List<List<NodeRef>>();//list of reference nodes 
+
+            this.nodeList_G = new List<Node>();//all Nodes in the graph.
+
+            this.edgeList_G = new List<Edge>();//all undirected Edges.
+
+            this.diEdgeList_G = new List<Edge>();//all directed Edges.
+
+            this.cicleEdgeList_G = new List<Edge>();// all cicled Edges.
+
+            List<int> IDList_G = new List<int>();//list of created IDs.
+        }
+
+
+
+        public List<Node> neighborListNode(Node workingNode)
+        {
+            List<Node> res = new List<Node>();
+            for (int i = 0; i < graph[workingNode.Index].Count(); i++)
+            {
+                if (graph[workingNode.Index][i].W > -1)
+                {
+                    res.Add(graph[workingNode.Index][i].NODO);
+                }
+            }
+            return res;
+        }
+
+        public List<Node> neighborListIndex(int workingNode)
+        {
+            List<Node> res = new List<Node>();
+            for (int i = 0; i < graph[workingNode].Count(); i++)
+            {
+                if (graph[workingNode][i].W > -1)
+                {
+                    res.Add(graph[workingNode][i].NODO);
+                }
+            }
+            return res;
+        }
+
+        public List<Node> neighborListNodeNoVisited(Node workingNode)
+        {
+            List<Node> res = new List<Node>();
+            for (int i = 0; i < graph[workingNode.Index].Count(); i++)
+            {
+                if (graph[workingNode.Index][i].W > -1 && graph[workingNode.Index][i].NODO.Visited == false)
+                {
+                    res.Add(graph[workingNode.Index][i].NODO);
+
+                }
+            }
+            return res;
+        }
+
+        public List<Node> notVisitedList()
+        {
+            List<Node> res = new List<Node>();
+            foreach (Node node in nodeList_G)
+            {
+                if (node.Visited == false)
+                {
+                    res.Add(node);
+                }
+            }
+            return res;
+        }
+
+        public List<Edge> notVisitedListEdge()
+        {
+            List<Edge> res = new List<Edge>();
+            foreach (Edge edge in edgeList_G)
+            {
+                if (edge.visitada == false)
+                {
+                    res.Add(edge);
+                }
+            }
+            return res;
+        }
+
+        public void restoreNotVisited(List<Node> notVisitedYet)
+        {
+            foreach (Node node in nodeList_G)
+            {
+                if (notVisitedYet.Contains(node))
+                {
+                    node.Visited = false;
+                }
+                else
+                {
+                    node.Visited = true;
+                }
+            }
+        }
+
+        public void restoreNotVisitedEdge(List<Edge> notVisitedYetEdge)
+        {
+            foreach (Edge edge in edgeList_G)
+            {
+                if (notVisitedYetEdge.Contains(edge))
+                {
+                    edge.visitada = false;
+                }
+                else
+                {
+                    edge.visitada = true;
+                }
+            }
+        }
+
+        public List<Node> listOfconectedNodes()//nodes that have at least one conection.
+        {
+            List<Node> resList = new List<Node>();
+            for (int i = 0; i < graph.Count(); i++)
+            {
+                if (graph[i][i].W > -1)
+                {
+                    resList.Add(graph[i][i].NODO);
+                }
+            }
+            return resList;
+
+        }
+
+        public Boolean isACutNodeBool(Node node)
+        {
+            node.Visited = true;
+            isConected();
+            if (allVisitedExept(node))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public Boolean redeiPAthUtil(Node workingNode)
+        {
+            foreach (Node node in this.nodeList_G)
+            {
+                if (!this.neighborListNode(workingNode).Contains(node))
+                {
+                    if (this.neighborListNode(workingNode).Count()
+                        + this.neighborListNode(node).Count()
+                        < this.nodeList_G.Count() - 1)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        public Boolean redeiCycleUtil(Node workingNode)
+        {
+            foreach (Node node in this.nodeList_G)
+            {
+                if (!this.neighborListNode(workingNode).Contains(node))
+                {
+                    if (this.neighborListNode(workingNode).Count()
+                        + this.neighborListNode(node).Count()
+                        < this.nodeList_G.Count())
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        public Boolean redeiPAth()
+        {
+            foreach (Node node in this.nodeList_G)
+            {
+                if (!redeiPAthUtil(node))//if any does not do the redei
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public Boolean redeiCycle(Node workingNode)
+        {
+            foreach (Node node in this.nodeList_G)
+            {
+                if (!this.neighborListNode(workingNode).Contains(node))
+                {
+                    if (this.neighborListNode(workingNode).Count()
+                        + this.neighborListNode(node).Count()
+                        < this.nodeList_G.Count())
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public Boolean isConected()
+        {
+            // Mark all the vertices as not visited 
+            markAllLikeNotVisited();
+
+            // Start DFS traversal from a vertex with non-zero degree 
+            DFSUtilAllConected(this.nodeList_G[0]);
+
+            // Check if all non-zero degree vertices are visited 
+            foreach (Node node in this.nodeList_G)
+            {
+                if (node.Visited == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void markIsolateNodesAsVisited()
+        {
+            List<Node> conectedNodes = listOfconectedNodes();
+            foreach (Node node in nodeList_G)//each node 
+            {
+                if (!conectedNodes.Contains(node))//if the node is out of the list of conectedNodes
+                {
+                    node.Visited = true;
+                }
+            }
+        }
+
+        public void allBlack()
+        {
+            foreach (Edge edge in diEdgeList_G)
+            {
+                edge.COLOR = Color.Gray;
+            }
+            foreach (Edge edge in edgeList_G)
+            {
+                edge.COLOR = Color.Black;
+            }
+            foreach (Edge edge in cicleEdgeList_G)
+            {
+                edge.COLOR = Color.Black;
+            }
+            //foreach (Node node in nodeList_G)
+            //{
+            //    node.COLOR = Color.Black;
+            //}
+        }
+
+        public void eliminateNexetEdges(Node node)
+        {
+            List<Edge> newEdges = new List<Edge>();
+
+            foreach (Edge edge in this.edgeList_G)
+            {
+                if (edge.Client != node && edge.Server != node)
+                {
+                    newEdges.Add(edge);
+                }
+            }
+            this.edgeList_G = newEdges;
+        }
+
+        public Edge thisEdge(Node client, Node server)
+        {
+            Edge thisEdge = new Edge(client, server);
+
+            foreach (Edge edge in this.edgeList_G)
+            {
+                if (edge.EqualsU(thisEdge))
+                {
+                    return edge;
+                }
+            }
+            return null;
+        }
+
+        public Edge thisEdgeDirOrIndir(int client, int server)
+        {
+
+            if (thisEdge_Directed(client, server) != null)
+            {
+                return thisEdge_Directed(client, server);
+            }
+            else if (thisEdge_Undirected(client, server) != null)
+            {
+                return thisEdge_Directed(client, server);
+            }
+            return null;
+        }
+
+        public Edge thisEdge_Directed(int client, int server)
+        {
+            foreach (Edge edge in this.diEdgeList_G)
+            {
+                if ((edge.Client.Index == client && edge.Server.Index == server) ^ (edge.Client.Index == server && edge.Server.Index == client))
+                {
+                    return edge;
+                }
+            }
+            return null;
+        }
+
+        public Edge thisEdge_Undirected(int client, int server)
+        {
+
+            foreach (Edge edge in this.edgeList_G)
+            {
+                if ((edge.Client.Index == client && edge.Server.Index == server) || (edge.Client.Index == server && edge.Server.Index == client))
+                {
+                    return edge;
+                }
+            }
+            return null;
+        }
+
+        public List<Edge> thisEdgesWeight_Undirected(int weight)
+        {
+            List<Edge> res = new List<Edge>();
+            for (int j = 0; j < graph.Count(); j++)
+            {
+                for (int i = 0; i < graph.Count(); i++)
+                {
+                    if (graph[j][i].W > -1 && j != i)
+                    {
+                        if (graph[j][i].W == weight)
+                        {
+                            res.Add(this.thisEdge_Undirected(j, i));
+                        }
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        public Boolean directEdgeVisitated_ByIndex(int Client, int Server)
+        {
+            foreach (Edge edge in edgeList_G)
+            {
+                if ((edge.Client.Index == Client && edge.Server.Index == Server) || (edge.Client.Index == Server && edge.Server.Index == Client))
+                {
+                    return edge.visitada;
+                }
+            }
+            return false;
+        }
+
+        public int[] nodeListIndexOfedgeList(List<Edge> edgeList)
+        {
+            List<int> res = new List<int>();
+            foreach (Edge edge in edgeList)
+            {
+                if (!res.Contains(edge.Client.Index))
+                {
+                    res.Add(edge.Client.Index);
+                }
+                if (!res.Contains(edge.Server.Index))
+                {
+                    res.Add(edge.Server.Index);
+                }
+            }
+            return res.ToArray();
+        }
+
+
+
+
+
+        public void markAllLikeVisited()
+        {
+            for (int j = 0; j < graph.Count(); j++)
+                for (int i = 0; i < graph.Count(); i++)
+                {
+                    graph[j][i].NODO.Visited = true;
+                }
+        }
+
+        public Boolean allNodesVisitedBool()
+        {
+            foreach (Node node in nodeList_G)
+            {
+                if (node.Visited == false)
+                    return false;
+            }
+            return true;
+        }
+
+        public void markAllNodesLikeNotVisited()
+        {
+            foreach (Node node in this.nodeList_G)
+            {
+                node.Visited = false;
+            }
+        }
+
+
+
+        public void markAllEdgesLikeNotVisited()
+        {
+            foreach (Edge edge in edgeList_G)
+            {
+                edge.visitada = false;
+            }
+        }
+
+        public void markAllNodeAndEdgesNotVisited()
+        {
+            markAllNodesLikeNotVisited();
+            markAllEdgesLikeNotVisited();
+
+        }
+
+
+
+        public void markAllLikeNotVisited(int code)
+        {
+            markAllLikeNotVisited();
+            foreach (Edge edge in edgeList_G)
+            {
+                edge.visitada = false;
+            }
+        }
+
+        public void markAllLikeNotBridge()
+        {
+            foreach (Edge edge in this.edgeList_G)
+            {
+                edge.Bridge = false;
+            }
+        }
+
+        public Graph clone()
+        {
+            List<List<NodeRef>> graphEno = new List<List<NodeRef>>();
+            List<Node> listOfNodes = new List<Node>();
+            List<Edge> listOfEdges = new List<Edge>();
+
+            foreach (Edge edge in edgeList_G)
+            {
+                listOfEdges.Add(edge);
+            }
+            foreach (Node node in nodeList_G)
+            {
+                listOfNodes.Add(node);
+            }
+            graphEno = this.graph;
+            return (new Graph(graphEno, listOfNodes, listOfEdges));
+        }
+
+        public void markAllLikeNotVisited()
+        {
+            for (int j = 0; j < graph.Count(); j++)
+                for (int i = 0; i < graph.Count(); i++)
+                {
+                    graph[j][i].NODO.Visited = false;
+                    //graph[j][i].NODO.COLOR = Color.Black;
+                }
+        }
+
+        public void markAsVisited_T_F(int index, Boolean mark)
+        {
+            graph[index][index].NODO.Visited = mark;
+        }
+
+        public Node thisnode(int index)
+        {
+            return this.graph[index][index].NODO;
+        }
+
+        public Matrix toMatrix()
+        {
+            Matrix res;
+            int[,] toDoMatrix = new int[graph.Count(), graph.Count()];
+
+            for (int j = 0; j < graph.Count(); j++)
+                for (int i = 0; i < graph.Count(); i++)
+                {
+                    if (graph[j][i].W > -1)
+                        toDoMatrix[j, i] = 1;
+                    else
+                        toDoMatrix[j, i] = 0;
+                }
+            res = new Matrix(toDoMatrix);
+            return res;
+        }
+
+
+        public int Grade()
+        {
+            int res = 0;
+            for (int i = 0; i < graph.Count(); i++)
+            {
+                res += GradeOfNode(graph[i][i].NODO);
+            }
+            return res;
+        }
+
+        public Node getNodeByPosition(Point cor)
+        {
+            Node resNode = null;
+            foreach (Node onNode in this.NODE_LIST)
+            {
+                if (cor.X > onNode.Position.X - onNode.Radius //for conditions in order to determine wheter or not , a click hit the specific node
+                   && cor.X < onNode.Position.X + onNode.Radius
+                   && cor.Y < onNode.Position.Y + onNode.Radius
+                   && cor.Y > onNode.Position.Y - onNode.Radius)
+                {
+                    resNode = onNode;
+                }//one node clicked.
+            }//check all the node list.
+            return resNode;
+
+        }
+        public int GradeOfNode(Node node)
+        {
+            return neighborListNode(node).Count();
+        }
+
+        public DirectedGrade GradeOfDirectedNode(Node nodo)
+        {
+            DirectedGrade res;
+            int input = 0;
+            int output = 0;
+            foreach (List<NodeRef> row in graph)
+            {
+                foreach (NodeRef nodeR in row)
+                {
+                    if (graph.IndexOf(row) == row.IndexOf(nodeR))
+                    {
+                        if (nodeR.W > -1)
+                        {
+                            input++;
+                            output++;
+                        }
+                    }
+                    else
+                    {
+                        if (graph.IndexOf(row) == nodo.Index)
+                        {
+                            if (nodeR.W > -1)
+                            {
+                                output++;
+                            }
+                        }
+                        if (row.IndexOf(nodeR) == nodo.Index)
+                        {
+                            if (nodeR.W > -1)
+                            {
+                                input++;
+                            }
+                        }
+
+                    }
+                }
+            }
+            res = new DirectedGrade(input, output);
+            return res;
+        }
+
+        public Boolean allVisitedExept(Edge workinEdge)
+        {
+            foreach (Edge edge in this.edgeList_G)
+            {
+                if (edge != workinEdge && edge.visitada == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+        public Boolean allVisitedExept(Node workingNode)
+        {
+            foreach (Edge edge in edgeList_G)
+            {
+                if (edge.server != workingNode)
+                {
+                    if (edge.server.Visited == false)
+                    {
+                        return false;
+                    }
+                }
+                if (edge.client != workingNode)
+                {
+                    if (edge.client.Visited)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public Boolean allVisitedExept(List<Node> listNodes, Node workingNode)
+        {
+            foreach (Node node in listNodes)
+            {
+                if (node != workingNode)
+                {
+                    if (node.Visited == false)
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        /********************** Basics Operations (End) **************************/
+        #endregion//public methods END
+
+        #region Algorithms
+
         #region isomorphism
         /******************************************************************************************************************
          * 
@@ -1075,6 +1536,68 @@ namespace editorDeGrafos
                 res.addIndex_O(grade_O, other.GRAPH[i][i].NODO.Index);
             }
             return res;
+        }
+
+
+
+        /******************************************************************************************************************
+        * 
+        * ENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDEND
+        * 
+        *                              ----- END OF ALGORITHM OF ISOMORFISM -----
+        *                                    
+        * ENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDEND
+        * 
+        ********************************************************************************************************************/
+        #endregion
+
+        List<Edge> edgeListforGeneratedCycle;
+        Edge edgeForGeneratedCycle;
+        public Boolean generateCycle(List<Edge> edgeList, Edge prove)
+        {
+            edgeListforGeneratedCycle = edgeList;
+            edgeForGeneratedCycle = prove;
+
+            HashSet<int> visited = new HashSet<int>();
+            for (int vertex = 0; vertex < graph.Count(); vertex++)
+            {
+                if (visited.Contains(vertex))
+                {
+                    continue;
+                }
+                Boolean flag = dfsGenerateCycle(vertex, visited, -1);
+                if (flag)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public Boolean dfsGenerateCycle(int vertex, HashSet<int> visited, int parent)
+        {
+            visited.Add(vertex);
+            foreach (NodeRef nodeR in graph[vertex])
+            {
+                Edge auxEdge = this.thisEdge_Undirected(vertex, nodeR.NODO.Index);
+                if (nodeR.W > -1 && (edgeListforGeneratedCycle.Contains(auxEdge) || auxEdge == edgeForGeneratedCycle))
+                {
+                    if (nodeR.NODO.Index.Equals(parent))
+                    {
+                        continue;
+                    }
+                    if (visited.Contains(nodeR.NODO.Index))
+                    {
+                        return true;
+                    }
+                    Boolean hasCycle = dfsGenerateCycle(nodeR.NODO.Index, visited, vertex);
+                    if (hasCycle)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         #region isomorphism_Brute_Force
@@ -1428,225 +1951,6 @@ namespace editorDeGrafos
         }
         #endregion
 
-        /******************************************************************************************************************
-        * 
-        * ENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDEND
-        * 
-        *                              ----- END OF ALGORITHM OF ISOMORFISM -----
-        *                                    
-        * ENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDENDEND
-        * 
-        ********************************************************************************************************************/
-        #endregion
-
-        public List<Node> neighborListNode(Node workingNode)
-        {
-            List<Node> res = new List<Node>();
-            for (int i = 0; i < graph[workingNode.Index].Count(); i++)
-            {
-                if (graph[workingNode.Index][i].W > -1)
-                {
-                    res.Add(graph[workingNode.Index][i].NODO);
-                }
-            }
-            return res;
-        }
-
-        public List<Node> neighborListIndex(int workingNode)
-        {
-            List<Node> res = new List<Node>();
-            for (int i = 0; i < graph[workingNode].Count(); i++)
-            {
-                if (graph[workingNode][i].W > -1)
-                {
-                    res.Add(graph[workingNode][i].NODO);
-                }
-            }
-            return res;
-        }
-
-        public List<Node> neighborListNodeNoVisited(Node workingNode)
-        {
-            List<Node> res = new List<Node>();
-            for (int i = 0; i < graph[workingNode.Index].Count(); i++)
-            {
-                if (graph[workingNode.Index][i].W > -1 && graph[workingNode.Index][i].NODO.Visited == false)
-                {
-                    res.Add(graph[workingNode.Index][i].NODO);
-
-                }
-            }
-            return res;
-        }
-
-        public List<Node> notVisitedList()
-        {
-            List<Node> res = new List<Node>();
-            foreach (Node node in nodeList_G)
-            {
-                if (node.Visited == false)
-                {
-                    res.Add(node);
-                }
-            }
-            return res;
-        }
-
-        public List<Edge> notVisitedListEdge()
-        {
-            List<Edge> res = new List<Edge>();
-            foreach (Edge edge in edgeList_G)
-            {
-                if (edge.visitada == false)
-                {
-                    res.Add(edge);
-                }
-            }
-            return res;
-        }
-
-
-        public void restoreNotVisited(List<Node> notVisitedYet)
-        {
-            foreach (Node node in nodeList_G)
-            {
-                if (notVisitedYet.Contains(node))
-                {
-                    node.Visited = false;
-                }
-                else
-                {
-                    node.Visited = true;
-                }
-            }
-        }
-
-        public void restoreNotVisitedEdge(List<Edge> notVisitedYetEdge)
-        {
-            foreach (Edge edge in edgeList_G)
-            {
-                if (notVisitedYetEdge.Contains(edge))
-                {
-                    edge.visitada = false;
-                }
-                else
-                {
-                    edge.visitada = true;
-                }
-            }
-        }
-
-        public List<Node> listOfconectedNodes()//nodes that have at least one conection.
-        {
-            List<Node> resList = new List<Node>();
-            for (int i = 0; i < graph.Count(); i++)
-            {
-                if (graph[i][i].W > -1)
-                {
-                    resList.Add(graph[i][i].NODO);
-                }
-            }
-            return resList;
-
-        }
-
-        public Boolean isACutNodeBool(Node node)
-        {
-            node.Visited = true;
-            isConected();
-            if (allVisitedExept(node))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public Boolean redeiPAthUtil(Node workingNode)
-        {
-            foreach (Node node in this.nodeList_G)
-            {
-                if (!this.neighborListNode(workingNode).Contains(node))
-                {
-                    if (this.neighborListNode(workingNode).Count()
-                        + this.neighborListNode(node).Count()
-                        < this.nodeList_G.Count() - 1)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-        public Boolean redeiCycleUtil(Node workingNode)
-        {
-            foreach (Node node in this.nodeList_G)
-            {
-                if (!this.neighborListNode(workingNode).Contains(node))
-                {
-                    if (this.neighborListNode(workingNode).Count()
-                        + this.neighborListNode(node).Count()
-                        < this.nodeList_G.Count())
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-        public Boolean redeiPAth()
-        {
-            foreach (Node node in this.nodeList_G)
-            {
-                if (!redeiPAthUtil(node))//if any does not do the redei
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        public Boolean redeiCycle(Node workingNode)
-        {
-            foreach (Node node in this.nodeList_G)
-            {
-                if (!this.neighborListNode(workingNode).Contains(node))
-                {
-                    if (this.neighborListNode(workingNode).Count()
-                        + this.neighborListNode(node).Count()
-                        < this.nodeList_G.Count())
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-
-
-        public Boolean isConected()
-        {
-            // Mark all the vertices as not visited 
-            markAllLikeNotVisited();
-
-            // Start DFS traversal from a vertex with non-zero degree 
-            DFSUtilAllConected(this.nodeList_G[0]);
-
-            // Check if all non-zero degree vertices are visited 
-            foreach (Node node in this.nodeList_G)
-            {
-                if (node.Visited == false)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-
-
-
-
-
         void DFSUtilAllConected(Node workingNode/*int v, bool visited[]*/)
         {
             // Mark the current node as visited
@@ -1662,346 +1966,7 @@ namespace editorDeGrafos
                 }
             }
         }
-
-        public void markIsolateNodesAsVisited()
-        {
-            List<Node> conectedNodes = listOfconectedNodes();
-            foreach (Node node in nodeList_G)//each node 
-            {
-                if (!conectedNodes.Contains(node))//if the node is out of the list of conectedNodes
-                {
-                    node.Visited = true;
-                }
-            }
-        }
-
-        public void allBlack()
-        {
-            foreach (Edge edge in diEdgeList_G)
-            {
-                edge.COLOR = Color.Gray;
-            }
-            foreach (Edge edge in edgeList_G)
-            {
-                edge.COLOR = Color.Black;
-            }
-            foreach (Edge edge in cicleEdgeList_G)
-            {
-                edge.COLOR = Color.Black;
-            }
-            //foreach (Node node in nodeList_G)
-            //{
-            //    node.COLOR = Color.Black;
-            //}
-        }
-
-        public void eliminateNexetEdges(Node node)
-        {
-            List<Edge> newEdges = new List<Edge>();
-
-            foreach (Edge edge in this.edgeList_G)
-            {
-                if (edge.Client != node && edge.Server != node)
-                {
-                    newEdges.Add(edge);
-                }
-            }
-            this.edgeList_G = newEdges;
-        }
-
-        public Edge thisEdge(Node client, Node server)
-        {
-            Edge thisEdge = new Edge(client, server);
-
-            foreach (Edge edge in this.edgeList_G)
-            {
-                if (edge.EqualsU(thisEdge))
-                {
-                    return edge;
-                }
-            }
-            return null;
-        }
-
-        public Edge thisEdgeDirOrIndir(int client, int server)
-        {
-
-            if (thisEdge_Directed(client,server) != null)
-            {
-                return thisEdge_Directed(client, server);
-            }
-            else if (thisEdge_Undirected(client,server) != null)
-            {
-                return thisEdge_Directed(client, server);
-            }
-            return null;
-        }
-
-        public Edge thisEdge_Directed(int client, int server)
-        {
-            foreach (Edge edge in this.diEdgeList_G)
-            {
-                if ((edge.Client.Index == client && edge.Server.Index == server) ^ (edge.Client.Index == server && edge.Server.Index == client))
-                {
-                    return edge;
-                }
-            }
-            return null;
-        }
-
-        public Edge thisEdge_Undirected(int client, int server)
-        {
-
-            foreach (Edge edge in this.edgeList_G)
-            {
-                if ((edge.Client.Index == client && edge.Server.Index == server) || (edge.Client.Index == server && edge.Server.Index == client))
-                {
-                    return edge;
-                }
-            }
-            return null;
-        }
-
-        public List<Edge> thisEdgesWeight_Undirected(int weight)
-        {
-            List<Edge> res = new List<Edge>();
-            for(int j = 0; j < graph.Count(); j++)
-            {
-                for(int i = 0; i < graph.Count(); i++)
-                {
-                    if (graph[j][i].W > -1 && j!=i)
-                    {
-                        if (graph[j][i].W == weight)
-                        {
-                            res.Add(this.thisEdge_Undirected(j,i));
-                        }
-                    }
-                }
-            }
-
-            return res;
-        }
-
-        public Boolean directEdgeVisitated_ByIndex(int Client, int Server)
-        {
-            foreach(Edge edge in edgeList_G)
-            {
-                if((edge.Client.Index == Client && edge.Server.Index == Server )|| (edge.Client.Index == Server && edge.Server.Index == Client))
-                {
-                        return edge.visitada;
-                }
-            }
-            return false;
-        }
-
-        public int[] nodeListIndexOfedgeList(List<Edge> edgeList)
-        {
-            List<int> res = new List<int>();
-            foreach(Edge edge in edgeList)
-            {
-                if(!res.Contains(edge.Client.Index))
-                {
-                    res.Add(edge.Client.Index);
-                }
-                if(!res.Contains(edge.Server.Index))
-                {
-                    res.Add(edge.Server.Index);
-                }
-            }
-            return res.ToArray();
-        }
-
-
-        List<Edge> edgeListforGeneratedCycle;
-        Edge edgeForGeneratedCycle;
-        public Boolean generateCycle(List<Edge> edgeList, Edge prove)
-        {
-            edgeListforGeneratedCycle = edgeList;
-            edgeForGeneratedCycle = prove;
-
-            HashSet<int> visited = new HashSet<int>();
-            for (int vertex = 0; vertex < graph.Count(); vertex++)
-            {
-                if (visited.Contains(vertex))
-                {
-                    continue;
-                }
-                Boolean flag = dfsGenerateCycle(vertex, visited, -1);
-                if (flag)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public Boolean dfsGenerateCycle(int vertex, HashSet<int> visited, int parent)
-        {
-            visited.Add(vertex);
-            foreach (NodeRef nodeR in graph[vertex])
-            {
-                Edge auxEdge = this.thisEdge_Undirected(vertex, nodeR.NODO.Index);
-                if (nodeR.W > -1 && ( edgeListforGeneratedCycle.Contains(auxEdge) || auxEdge == edgeForGeneratedCycle) )
-                {
-                    if (nodeR.NODO.Index.Equals(parent))
-                    {
-                        continue;
-                    }
-                    if (visited.Contains(nodeR.NODO.Index))
-                    {
-                        return true;
-                    }
-                    Boolean hasCycle = dfsGenerateCycle(nodeR.NODO.Index, visited, vertex);
-                    if (hasCycle)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-
-        public void markAllLikeVisited()
-        {
-            for (int j = 0; j < graph.Count(); j++)
-                for (int i = 0; i < graph.Count(); i++)
-                {
-                    graph[j][i].NODO.Visited = true;
-                }
-        }
-
-        public Boolean allNodesVisitedBool()
-        {
-            foreach (Node node in nodeList_G)
-            {
-                if (node.Visited == false)
-                    return false;
-            }
-            return true;
-        }
-
-        public void markAllNodesLikeNotVisited()
-        {
-            foreach(Node node in this.nodeList_G)
-            {
-                node.Visited = false;
-            }
-        }
-
-        
-
-        public void markAllEdgesLikeNotVisited()
-        {
-            foreach (Edge edge in edgeList_G)
-            {
-                edge.visitada = false;
-            }
-        }
-
-        public void markAllNodeAndEdgesNotVisited()
-        {
-            markAllNodesLikeNotVisited();
-            markAllEdgesLikeNotVisited();
-
-        }
-
-        
-
-        public void markAllLikeNotVisited(int code)
-        {
-            markAllLikeNotVisited();
-            foreach(Edge edge in edgeList_G)
-            {
-                edge.visitada = false;
-            }
-        }
-
-        public void markAllLikeNotBridge()
-        {
-            foreach(Edge edge in this.edgeList_G)
-            {
-                edge.Bridge = false;
-            }
-        }
-
-        public Graph clone()
-        {
-            List<List<NodeRef>> graphEno = new List<List<NodeRef>>();
-            List<Node> listOfNodes = new List<Node>();
-            List<Edge> listOfEdges = new List<Edge>();
-
-        foreach(Edge edge in edgeList_G)
-            {
-                listOfEdges.Add(edge);
-            }
-        foreach(Node node in nodeList_G)
-            {
-                listOfNodes.Add(node);
-            }
-            graphEno = this.graph;
-            return (new Graph(graphEno, listOfNodes, listOfEdges));
-    }
-
-        public void markAllLikeNotVisited()
-        {
-            for (int j = 0; j < graph.Count(); j++)
-                for (int i = 0; i < graph.Count(); i++)
-                {
-                    graph[j][i].NODO.Visited = false;
-                    //graph[j][i].NODO.COLOR = Color.Black;
-                }
-        }
-
-        public void markAsVisited_T_F(int index, Boolean mark)
-        {
-            graph[index][index].NODO.Visited = mark;
-        }
-
-        public Node thisnode(int index)
-        {
-            return this.graph[index][index].NODO;
-        }
-
-        public Matrix toMatrix()
-        {
-            Matrix res;
-            int[,] toDoMatrix = new int[graph.Count(), graph.Count()];
-
-            for (int j = 0; j < graph.Count(); j++)
-                for (int i = 0; i < graph.Count(); i++)
-                {
-                    if (graph[j][i].W > -1)
-                        toDoMatrix[j, i] = 1;
-                    else
-                        toDoMatrix[j, i] = 0;
-                }
-            res = new Matrix(toDoMatrix);
-            return res;
-        }
-
-        #region Algorithms
-            /*
-             *          DFS 
-             *          
-             * 
-             * */
-
-
-
-            /*
-             * 
-             * 
-             * 
-             * */
-
         #endregion
-
-
-
-
-
-
 
     }//AdjacencyList(END).    
 }

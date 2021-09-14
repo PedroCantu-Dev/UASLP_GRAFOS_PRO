@@ -270,7 +270,7 @@
             this.matrizDeIncidenciaToolStripMenuItem.Name = "matrizDeIncidenciaToolStripMenuItem";
             this.matrizDeIncidenciaToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.matrizDeIncidenciaToolStripMenuItem.Text = "Matriz de Incidencia";
-            this.matrizDeIncidenciaToolStripMenuItem.Click += new System.EventHandler(this.maIn_Click);
+            this.matrizDeIncidenciaToolStripMenuItem.Click += new System.EventHandler(this.incidenceMatrix_Click);
             // 
             // pesosToolStripMenuItem
             // 
@@ -284,7 +284,7 @@
             this.bridgesToolStripMenuItem.Name = "bridgesToolStripMenuItem";
             this.bridgesToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.bridgesToolStripMenuItem.Text = "Bridges ";
-            this.bridgesToolStripMenuItem.Click += new System.EventHandler(this.brToolStripMenuItem_Click);
+            ////this.bridgesToolStripMenuItem.Click += new System.EventHandler(this.brToolStripMenuItem_Click);
             // 
             // algoritmosToolStripMenuItem
             // 
@@ -317,21 +317,21 @@
             this.fuerzaBrutaToolStripMenuItem1.Name = "fuerzaBrutaToolStripMenuItem1";
             this.fuerzaBrutaToolStripMenuItem1.Size = new System.Drawing.Size(239, 26);
             this.fuerzaBrutaToolStripMenuItem1.Text = "Fuerza Bruta";
-            this.fuerzaBrutaToolStripMenuItem1.Click += new System.EventHandler(this.fuerzaBrutaToolStripMenuItem_Click);
+            ////this.fuerzaBrutaToolStripMenuItem1.Click += new System.EventHandler(this.fuerzaBrutaToolStripMenuItem_Click);
             // 
             // transpuestaToolStripMenuItem
             // 
             this.transpuestaToolStripMenuItem.Name = "transpuestaToolStripMenuItem";
             this.transpuestaToolStripMenuItem.Size = new System.Drawing.Size(239, 26);
             this.transpuestaToolStripMenuItem.Text = "Transpuesta";
-            this.transpuestaToolStripMenuItem.Click += new System.EventHandler(this.traspuestaToolStripMenuItem_Click);
+            ////this.transpuestaToolStripMenuItem.Click += new System.EventHandler(this.traspuestaToolStripMenuItem_Click);
             // 
             // intercambioManualToolStripMenuItem
             // 
             this.intercambioManualToolStripMenuItem.Name = "intercambioManualToolStripMenuItem";
             this.intercambioManualToolStripMenuItem.Size = new System.Drawing.Size(239, 26);
             this.intercambioManualToolStripMenuItem.Text = "Intercambio ( Manual)";
-            this.intercambioManualToolStripMenuItem.Click += new System.EventHandler(this.intercambioToolStripMenuItem_Click);
+            ////this.intercambioManualToolStripMenuItem.Click += new System.EventHandler(this.intercambioToolStripMenuItem_Click);
             // 
             // caminosToolStripMenuItem1
             // 
@@ -347,49 +347,49 @@
             this.eulerToolStripMenuItem1.Name = "eulerToolStripMenuItem1";
             this.eulerToolStripMenuItem1.Size = new System.Drawing.Size(154, 26);
             this.eulerToolStripMenuItem1.Text = "Euler";
-            this.eulerToolStripMenuItem1.Click += new System.EventHandler(this.eulerToolStripMenuItem_Click);
+            ////this.eulerToolStripMenuItem1.Click += new System.EventHandler(this.eulerToolStripMenuItem_Click);
             // 
             // hamiltonToolStripMenuItem1
             // 
             this.hamiltonToolStripMenuItem1.Name = "hamiltonToolStripMenuItem1";
             this.hamiltonToolStripMenuItem1.Size = new System.Drawing.Size(154, 26);
             this.hamiltonToolStripMenuItem1.Text = "Hamilton";
-            this.hamiltonToolStripMenuItem1.Click += new System.EventHandler(this.hamiltonToolStripMenuItem_Click);
+            ////this.hamiltonToolStripMenuItem1.Click += new System.EventHandler(this.hamiltonToolStripMenuItem_Click);
             // 
             // dijkstraToolStripMenuItem
             // 
             this.dijkstraToolStripMenuItem.Name = "dijkstraToolStripMenuItem";
             this.dijkstraToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.dijkstraToolStripMenuItem.Text = "Dijkstra";
-            this.dijkstraToolStripMenuItem.Click += new System.EventHandler(this.dijkstraToolStripMenuItem_Click);
+            ////this.dijkstraToolStripMenuItem.Click += new System.EventHandler(this.dijkstraToolStripMenuItem_Click);
             // 
             // floydToolStripMenuItem
             // 
             this.floydToolStripMenuItem.Name = "floydToolStripMenuItem";
             this.floydToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.floydToolStripMenuItem.Text = "Floyd";
-            this.floydToolStripMenuItem.Click += new System.EventHandler(this.floydToolStripMenuItem_Click);
+            ////this.floydToolStripMenuItem.Click += new System.EventHandler(this.floydToolStripMenuItem_Click);
             // 
             // warshallToolStripMenuItem
             // 
             this.warshallToolStripMenuItem.Name = "warshallToolStripMenuItem";
             this.warshallToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.warshallToolStripMenuItem.Text = "Warshall";
-            this.warshallToolStripMenuItem.Click += new System.EventHandler(this.warshallToolStripMenuItem_Click);
+            ////this.warshallToolStripMenuItem.Click += new System.EventHandler(this.warshallToolStripMenuItem_Click);
             // 
             // primToolStripMenuItem
             // 
             this.primToolStripMenuItem.Name = "primToolStripMenuItem";
             this.primToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.primToolStripMenuItem.Text = "Prim";
-            this.primToolStripMenuItem.Click += new System.EventHandler(this.primToolStripMenuItem_Click);
+            ////this.primToolStripMenuItem.Click += new System.EventHandler(this.primToolStripMenuItem_Click);
             // 
             // kruskalToolStripMenuItem
             // 
             this.kruskalToolStripMenuItem.Name = "kruskalToolStripMenuItem";
             this.kruskalToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.kruskalToolStripMenuItem.Text = "Kruskal";
-            this.kruskalToolStripMenuItem.Click += new System.EventHandler(this.kruskalToolStripMenuItem_Click);
+            ////this.kruskalToolStripMenuItem.Click += new System.EventHandler(this.kruskalToolStripMenuItem_Click);
             // 
             // dFSToolStripMenuItem
             // 
@@ -399,21 +399,21 @@
             this.dFSToolStripMenuItem.Name = "dFSToolStripMenuItem";
             this.dFSToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
             this.dFSToolStripMenuItem.Text = "DFS ( tree generation)";
-            this.dFSToolStripMenuItem.Click += new System.EventHandler(this.dFSToolStripMenuItem_Click);
+            ////this.dFSToolStripMenuItem.Click += new System.EventHandler(this.dFSToolStripMenuItem_Click);
             // 
             // automaticToolStripMenuItem
             // 
             this.automaticToolStripMenuItem.Name = "automaticToolStripMenuItem";
             this.automaticToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
             this.automaticToolStripMenuItem.Text = "Automatic";
-            this.automaticToolStripMenuItem.Click += new System.EventHandler(this.dFSToolStripMenuItem_Click);
+            ////this.automaticToolStripMenuItem.Click += new System.EventHandler(this.dFSToolStripMenuItem_Click);
             // 
             // manualToolStripMenuItem
             // 
             this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
             this.manualToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
             this.manualToolStripMenuItem.Text = "Manual";
-            this.manualToolStripMenuItem.Click += new System.EventHandler(this.manualToolStripMenuItem_Click);
+            ////this.manualToolStripMenuItem.Click += new System.EventHandler(this.manualToolStripMenuItem_Click);
             // 
             // isomToolStripMenuItem
             // 
@@ -424,28 +424,28 @@
             this.isomToolStripMenuItem.Name = "isomToolStripMenuItem";
             this.isomToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.isomToolStripMenuItem.Text = "Isom";
-            this.isomToolStripMenuItem.Click += new System.EventHandler(this.isoForm_Click);
+            ////this.isomToolStripMenuItem.Click += new System.EventHandler(this.isoForm_Click);
             // 
             // fuerzaBrutaToolStripMenuItem
             // 
             this.fuerzaBrutaToolStripMenuItem.Name = "fuerzaBrutaToolStripMenuItem";
             this.fuerzaBrutaToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
             this.fuerzaBrutaToolStripMenuItem.Text = "Fuerza Bruta";
-            this.fuerzaBrutaToolStripMenuItem.Click += new System.EventHandler(this.fuerzaBrutaToolStripMenuItem_Click);
+            ////this.fuerzaBrutaToolStripMenuItem.Click += new System.EventHandler(this.fuerzaBrutaToolStripMenuItem_Click);
             // 
             // traspuestaToolStripMenuItem
             // 
             this.traspuestaToolStripMenuItem.Name = "traspuestaToolStripMenuItem";
             this.traspuestaToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
             this.traspuestaToolStripMenuItem.Text = "Traspuesta";
-            this.traspuestaToolStripMenuItem.Click += new System.EventHandler(this.traspuestaToolStripMenuItem_Click);
+            ////this.traspuestaToolStripMenuItem.Click += new System.EventHandler(this.traspuestaToolStripMenuItem_Click);
             // 
             // intercambioToolStripMenuItem
             // 
             this.intercambioToolStripMenuItem.Name = "intercambioToolStripMenuItem";
             this.intercambioToolStripMenuItem.Size = new System.Drawing.Size(231, 26);
             this.intercambioToolStripMenuItem.Text = "Intercambio(Manual)";
-            this.intercambioToolStripMenuItem.Click += new System.EventHandler(this.intercambioToolStripMenuItem_Click);
+            ////this.intercambioToolStripMenuItem.Click += new System.EventHandler(this.intercambioToolStripMenuItem_Click);
             // 
             // IsomtextBox
             // 
