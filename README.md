@@ -72,7 +72,7 @@ Es el estado inicial de los nodos.
 * **Left Click:** Selecciona el nodo y aumenta su estado de seleccion (1).
 
 #### State 1 - Green:
-![State 1](https://github.com/Pedejeca135/GRAFOS_PRO/tree/master/assets/selectedState1.PNG)
+![State 1](https://github.com/Pedejeca135/GRAFOS_PRO/blob/master/assets/selectedState1.PNG)
 ##### Selected(Self)
 * **Left Click:** Cambia el nodo seleccionado al siguiente estado (2).
 * **Right Click:** Mueve el nodo
