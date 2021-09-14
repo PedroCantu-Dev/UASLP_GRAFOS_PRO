@@ -32,7 +32,7 @@ $ git clone https://github.com/Pedejeca135/GRAFOS_PRO
 El editor cuenta con varias secciones
 
 ### File options:
-Estas opciones nos dejan guardar grafos hechos en el editor como un archivo de texto, para poder abrirlos cuando sea necesario. 
+Estas opciones nos dejan manejar los grafos hechos en el editor como un archivo de texto, para poder abrirlos y editarlos de nuevo cuando sea necesario.
 
 #### New(Nuevo):
 Genera un nuevo archivo para trabajar, si se aprieta y el grafo en el que se esta trabajando tiene cambios si guardar pregunta si los quieres guardar o no.
@@ -69,31 +69,32 @@ Cualquier nodo puede ser elegi
 #### State 0 - Black:
 Es el estado inicial de los nodos.
 ##### Any
-* **Left Click:** Selecciona el nodo y aumenta su estado de seleccion(1).
+* **Left Click:** Selecciona el nodo y aumenta su estado de seleccion (1).
 
 #### State 1 - Green:
+![State 1](https://github.com/Pedejeca135/GRAFOS_PRO/assets/selectedState1.PNG)
 ##### Selected(Self)
-* **Left Click:** Cambia el nodo seleccionado al siguiente estado(2).
+* **Left Click:** Cambia el nodo seleccionado al siguiente estado (2).
 * **Right Click:** Mueve el nodo
 ##### Other
-* **Left Click:** Cambia el nodo seleccionado a other con el mismo estado(1).
+* **Left Click:** Cambia el nodo seleccionado a other con el mismo estado (1).
 * **Right Click:** -----
 
 #### State 2 - Blue:
 ##### Selected(Self)
-* **Left Click:** Cambia el nodo seleccionado al siguiente estado(3).
+* **Left Click:** Cambia el nodo seleccionado al siguiente estado (3).
 * **Right Click:** crea una oreja en el nodo.
 ##### Other
-* **Left Click:** Crea un enlace **no dirigido** entre el nodo seleccionado(Self) y el nodo clickeado(Other). 
-* **Right Click:** Cambia el nodo seleccionado a other con el mismo estado(2).
+* **Left Click:** Crea un enlace **no dirigido** entre el nodo seleccionado (Self) y el nodo clickeado (Other). 
+* **Right Click:** Cambia el nodo seleccionado a Other con el mismo estado (2).
 
 #### State 3 - Red:
 ##### Self
 * **Left Click:** Cambia el estado de seleccion a 0.
 * **Right Click:** Elimina el nodo seleccionado.
 ##### Other
-* **Left Click:** Crea un enlace **dirigido** entre el nodo seleccionado y el nodo clickeado(other). 
-* **Right Click:** Cambia el nodo seleccionado a other con el mismo estado(3).
+* **Left Click:** Crea un enlace **dirigido** entre el nodo seleccionado (Self) y el nodo clickeado (Other). 
+* **Right Click:** Cambia el nodo seleccionado a other con el mismo estado (3).
 
 
 
@@ -233,7 +234,7 @@ Regresa un Forest(Bosque), un conjunto de Trees(arboles), que es una clase que h
 
 ## Versiones
 
-Cuenta con varias versiones. Para mas informacion revisar los [tags](https://github.com/Pedejeca135/GRAFOS_PRO) en la seccion de Branchs.
+Cuenta con varias versiones. Para mas informacion revisar los [tags](https://github.com/Pedejeca135/GRAFOS_PRO/tags) en la seccion de Branchs.
 
 ## Autoría
 
