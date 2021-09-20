@@ -270,7 +270,7 @@
             this.matrizDeIncidenciaToolStripMenuItem.Name = "matrizDeIncidenciaToolStripMenuItem";
             this.matrizDeIncidenciaToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.matrizDeIncidenciaToolStripMenuItem.Text = "Matriz de Incidencia";
-            this.matrizDeIncidenciaToolStripMenuItem.Click += new System.EventHandler(this.incidenceMatrix_Click);
+          //  this.matrizDeIncidenciaToolStripMenuItem.Click += new System.EventHandler(this.incidenceMatrix_Click);
             // 
             // pesosToolStripMenuItem
             // 
