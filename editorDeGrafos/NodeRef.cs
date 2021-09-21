@@ -12,6 +12,7 @@ namespace editorDeGrafos
         Node nodo;
         TidyPair tidy;
         Boolean activeNode;
+        Boolean visited = false;
 
 
         public NodeRef(int weight, Node nodo, TidyPair tidyPair)
@@ -50,6 +51,17 @@ namespace editorDeGrafos
         public Boolean ACTIVATION
         {
             get { return activeNode; }
+        }
+
+        public Boolean Visited
+        {
+            get { return visited; }
+            set { visited = value; }
+        }
+
+        public void reset()
+        {
+            visited = false;
         }
 
     }//NodeRef.

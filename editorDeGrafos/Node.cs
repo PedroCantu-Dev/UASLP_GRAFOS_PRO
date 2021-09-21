@@ -31,6 +31,8 @@ namespace editorDeGrafos
         //Boolean colored = false;                      //for especial algorithms that use color atribute
         List<NodeRef> neighbors = new List<NodeRef>();//this represent the list of nodes that can be reached from this one
         //each NodeRef have the reference to the next node and the weight of the edge between them
+        //for the transposed matrix
+        List<NodeRef> transposedNeighbors = new List<NodeRef>();
 
         //*GRAPHICs VARIABLES://those wich help with the graphical enviroment of the graph editor
         Point position = new Point(0, 0);//position for drawing the node
@@ -91,6 +93,20 @@ namespace editorDeGrafos
             set { selected = value; }
         }
 
+        /*for graph traversal*/
+        int level = -1;
+        public int Level
+        {
+            get { return level; }
+            set { level = value; }
+        }
+        
+        public bool Visited
+        {
+            get { return visited; }
+            set {visited = value; }
+        }
+
 
         public Color COLOR
         {
@@ -103,8 +119,13 @@ namespace editorDeGrafos
                 this.color = value;
             }
         }
+        
+        public Node clone()
+        {
+            return new Node(this.position , this.radiusLenght, this.index, uniqueID, this.color);
+        }
 
-  
+
         public void Click()
         {
            if(selected == numSelectionStates)
@@ -121,6 +142,7 @@ namespace editorDeGrafos
         {
             selected = 0;
             visited = false;
+            level = -1;
             //colored = false;
         }
 
@@ -151,16 +173,15 @@ namespace editorDeGrafos
             set { this.uniqueID = value; }
         }
 
-        public Boolean Visited
-        {
-            get { return this.visited; }
-            set { this.visited = value; }
-        }
-
         public List<NodeRef> NEIGHBORS
             {
                 get { return this.neighbors; }
             }
+
+        public List<NodeRef> TRANSPOSED_NEIGHBORS
+        {
+            get { return this.neighbors; }
+        }
         /*******************************************************
          *                Geters and seters(End)               *
          *******************************************************/
@@ -196,6 +217,21 @@ namespace editorDeGrafos
         {
             return this.ID + this.position.ToString() + " -index = " + this.Index;
         }
+
+
+        public void addNeightbor(Node newNeighbor, int weight)
+        {
+            NodeRef nNeighbor = new NodeRef(weight, newNeighbor, new TidyPair(this.index, newNeighbor.index));
+            this.neighbors.Add(nNeighbor);
+        }
+
+        public void addTransposedNeighbor(Node transNeighbor, int weight)
+        {
+            NodeRef tNeighbor = new NodeRef(weight, transNeighbor, new TidyPair(this.index, transNeighbor.index));
+            this.transposedNeighbors.Add(tNeighbor);
+        }
+
+
         #endregion
 
     }//Node class.

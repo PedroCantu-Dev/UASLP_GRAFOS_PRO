@@ -21,7 +21,7 @@ namespace editorDeGrafos
         private List<Edge> edgeList_G = new List<Edge>();//all undirected Edges.
         private List<Edge> diEdgeList_G = new List<Edge>();//all directed Edges.
         private List<Edge> cicleEdgeList_G = new List<Edge>();// all cicled Edges.
-        
+
         #endregion
 
         #region GraphStyles
@@ -318,7 +318,7 @@ namespace editorDeGrafos
             return false;
         }
 
-        
+
 
         //public Boolean Bipartita()
         //{
@@ -540,7 +540,7 @@ namespace editorDeGrafos
             }
             while (different == false);
             return res;
-        }  
+        }
 
         #endregion//Private Methods END
 
@@ -553,7 +553,7 @@ namespace editorDeGrafos
             Point newNodePosition = new Point(cor.X, cor.Y);
             Node newNode;
             newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), this.createID());
-            this.addNode(newNode);
+            //this.addNode(newNode);
         }
 
         public void create(Coordenate cor, int generalRadius, Color color)
@@ -561,7 +561,7 @@ namespace editorDeGrafos
             Point newNodePosition = new Point(cor.X, cor.Y);
             Node newNode;
             newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), this.createID(), color);
-            this.addNode(newNode);
+            //this.addNode(newNode);
         }
 
         public void removeNode(Node nodo)//almost the same process as addNode() but vice versa.
@@ -591,7 +591,7 @@ namespace editorDeGrafos
         }//remove a node.
 
 
-
+        /*
         public void addNode(Node nodo)
         {
             List<NodeRef> newNodeRefList = new List<NodeRef>();//the new list for the new node conections.           
@@ -630,6 +630,10 @@ namespace editorDeGrafos
                 }
             }
         }
+        */
+
+
+
 
         public void addUndirectedEdge(Node client, Node server, int weight)
         {
@@ -881,7 +885,7 @@ namespace editorDeGrafos
             cicleEdgeList_G = newEdges;
         }
 
-        public void reset()
+        public void resetNew()
         {
             graph = new List<List<NodeRef>>();//list of lists of NodeRef is a graph
 
@@ -897,6 +901,8 @@ namespace editorDeGrafos
 
             List<int> IDList_G = new List<int>();//list of created IDs.
         }
+
+
 
 
 
@@ -1248,19 +1254,6 @@ namespace editorDeGrafos
             return res.ToArray();
         }
 
-
-
-
-
-        public void markAllLikeVisited()
-        {
-            for (int j = 0; j < graph.Count(); j++)
-                for (int i = 0; i < graph.Count(); i++)
-                {
-                    graph[j][i].NODO.Visited = true;
-                }
-        }
-
         public Boolean allNodesVisitedBool()
         {
             foreach (Node node in nodeList_G)
@@ -1295,8 +1288,6 @@ namespace editorDeGrafos
             markAllEdgesLikeNotVisited();
 
         }
-
-
 
         public void markAllLikeNotVisited(int code)
         {
@@ -1496,6 +1487,56 @@ namespace editorDeGrafos
 
         #region Algorithms
 
+
+        List<Edge> edgeListforGeneratedCycle;
+        Edge edgeForGeneratedCycle;
+        public Boolean generateCycle(List<Edge> edgeList, Edge prove)
+        {
+            edgeListforGeneratedCycle = edgeList;
+            edgeForGeneratedCycle = prove;
+
+            HashSet<int> visited = new HashSet<int>();
+            for (int vertex = 0; vertex < graph.Count(); vertex++)
+            {
+                if (visited.Contains(vertex))
+                {
+                    continue;
+                }
+                Boolean flag = dfsGenerateCycle(vertex, visited, -1);
+                if (flag)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public Boolean dfsGenerateCycle(int vertex, HashSet<int> visited, int parent)
+        {
+            visited.Add(vertex);
+            foreach (NodeRef nodeR in graph[vertex])
+            {
+                Edge auxEdge = this.thisEdge_Undirected(vertex, nodeR.NODO.Index);
+                if (nodeR.W > -1 && (edgeListforGeneratedCycle.Contains(auxEdge) || auxEdge == edgeForGeneratedCycle))
+                {
+                    if (nodeR.NODO.Index.Equals(parent))
+                    {
+                        continue;
+                    }
+                    if (visited.Contains(nodeR.NODO.Index))
+                    {
+                        return true;
+                    }
+                    Boolean hasCycle = dfsGenerateCycle(nodeR.NODO.Index, visited, vertex);
+                    if (hasCycle)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         #region isomorphism
         /******************************************************************************************************************
          * 
@@ -1550,55 +1591,6 @@ namespace editorDeGrafos
         * 
         ********************************************************************************************************************/
         #endregion
-
-        List<Edge> edgeListforGeneratedCycle;
-        Edge edgeForGeneratedCycle;
-        public Boolean generateCycle(List<Edge> edgeList, Edge prove)
-        {
-            edgeListforGeneratedCycle = edgeList;
-            edgeForGeneratedCycle = prove;
-
-            HashSet<int> visited = new HashSet<int>();
-            for (int vertex = 0; vertex < graph.Count(); vertex++)
-            {
-                if (visited.Contains(vertex))
-                {
-                    continue;
-                }
-                Boolean flag = dfsGenerateCycle(vertex, visited, -1);
-                if (flag)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public Boolean dfsGenerateCycle(int vertex, HashSet<int> visited, int parent)
-        {
-            visited.Add(vertex);
-            foreach (NodeRef nodeR in graph[vertex])
-            {
-                Edge auxEdge = this.thisEdge_Undirected(vertex, nodeR.NODO.Index);
-                if (nodeR.W > -1 && (edgeListforGeneratedCycle.Contains(auxEdge) || auxEdge == edgeForGeneratedCycle))
-                {
-                    if (nodeR.NODO.Index.Equals(parent))
-                    {
-                        continue;
-                    }
-                    if (visited.Contains(nodeR.NODO.Index))
-                    {
-                        return true;
-                    }
-                    Boolean hasCycle = dfsGenerateCycle(nodeR.NODO.Index, visited, vertex);
-                    if (hasCycle)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
 
         #region isomorphism_Brute_Force
         /********************************************************************************************
@@ -1967,6 +1959,260 @@ namespace editorDeGrafos
             }
         }
         #endregion
+
+
+        /************************************
+         * 
+         * Its time for new code, so.. take a deep breath and continue pal
+         * 
+         * 
+         * ************************************/
+
+        /********************** Basics Operations(Begin) **************************/
+        //create and add a new node to the graph
+
+        public void create_(Point cor, int generalRadius)
+        {
+            Point newNodePosition = new Point(cor.X, cor.Y);
+            Node newNode;
+            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), this.createID());
+            //this.addNode(newNode);
+            this.nodeList_G.Add(newNode);
+        }
+
+        public void create_(Node other)
+        {
+            this.nodeList_G.Add(other.clone()) ;
+        }
+
+        public void create_(Point cor, int generalRadius, Color color)
+        {
+            Point newNodePosition = new Point(cor.X, cor.Y);
+            Node newNode;
+            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), this.createID(), color);
+            //this.addNode(newNode);
+            this.nodeList_G.Add(newNode);
+        }
+
+        public void removeNode_(Node nodo)//almost the same process as addNode() but vice versa.
+        {
+            int nodeIndexToEiminate = nodo.Index;
+            nodeList_G.Remove(nodo);
+
+            foreach (List<NodeRef> row in graph)
+            {
+                row.RemoveAt(nodeIndexToEiminate);//removing the NodeRef of all the list of nodes.                                               
+            }
+
+            graph.RemoveAt(nodeIndexToEiminate);
+
+            for (int j = 0; j < graph.Count(); j++)
+            {
+                List<NodeRef> noRe = graph[j];
+                for (int i = 0; i < noRe.Count(); i++)
+                {
+                    if (i == j && noRe[i].NODO.Index > nodeIndexToEiminate)
+                    {
+                        noRe[i].NODO.Index--;
+                    }
+                }
+            }
+
+        }//remove a node.
+
+
+        public int Count
+        {
+            get { return this.NODE_LIST.Count(); }
+        }
+
+        public void addNode(Node node)
+        {
+            this.NODE_LIST.Add(node);
+        }
+
+        //an undirected edge counts like a directed edge in both directions and same weight
+        public void addUndirectedEdge_(Node client, Node server, int weight)
+        {
+            if (this.NODE_LIST.Contains(server) && this.NODE_LIST.Contains(client)) {
+                client.addNeightbor(server, weight);
+                server.addTransposedNeighbor(client, weight);
+
+                server.addNeightbor(client, weight);
+                client.addTransposedNeighbor(server, weight);
+
+                edgeList_G.Add(new Edge(client, server, weight));
+            }
+        }
+
+        public void addUndirectedEdge_(Edge edge)
+        {
+            if (this.NODE_LIST.Contains(edge.server) && this.NODE_LIST.Contains(edge.client))
+            {
+                edge.client.addNeightbor(edge.server, edge.Weight);
+                edge.server.addTransposedNeighbor(edge.client, edge.Weight);
+
+                edge.server.addNeightbor(edge.client, edge.Weight);
+                edge.client.addTransposedNeighbor(edge.server, edge.Weight);
+
+                edgeList_G.Add(edge);
+            }
+
+        }
+
+        public void addUndirectedEdge_(Edge edge, int weight)
+        {
+            if (this.NODE_LIST.Contains(edge.server) && this.NODE_LIST.Contains(edge.client))
+            {
+                edge.client.addNeightbor(edge.server, weight);
+                edge.server.addTransposedNeighbor(edge.client, weight);
+
+                edge.server.addNeightbor(edge.client, weight);
+                edge.client.addTransposedNeighbor(edge.server, weight);
+
+                edgeList_G.Add(edge);
+            }
+        }
+
+        public void addDirectedEdge_(Node client, Node server, int weight)
+        {
+            client.addNeightbor(server, weight);
+            server.addTransposedNeighbor(client, weight);
+
+            this.diEdgeList_G.Add(new Edge(client, server, weight));
+        }
+
+        public void addCicledEdge_(Node node, int weight)
+        {
+            node.addNeightbor(node, weight);
+            node.addTransposedNeighbor(node, weight); 
+
+            this.cicleEdgeList_G.Add(new Edge(node, weight));
+        }
+
+
+        //return the root 
+        public Node rootNode()
+        {
+            if(this.Count > 0)
+            {
+                return this.NODE_LIST[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public void reset()
+        {
+            foreach(Node node in this.NODE_LIST)
+            {
+                node.Visited = false;
+                node.Level = 0;
+            }
+        }
+
+        public Forest getForestDFS(Node root)
+        {
+            this.reset();//reset the graph 
+            Forest fRes = new Forest();
+
+            if(root != null) //no Node was selected it guides with nodes indicess
+            {
+                Tree tree = new Tree();//make a new tree for each root 
+                _getForestDFS_(root, tree);
+                fRes.ListOfTrees.Add(tree);
+            }
+
+            foreach (Node node in this.NODE_LIST)//visit each node in the node list 
+            {
+                if (!node.Visited)// if was not visited it means it's a root
+                {
+                    Tree tree = new Tree();//make a new tree for each root 
+                    _getForestDFS_(node, tree);
+                    fRes.ListOfTrees.Add(tree);
+                }
+            }
+
+            return fRes;
+        }
+
+        public void _getForestDFS_(Node parent, Tree tree)
+        {
+            parent.Visited = true;
+            foreach(NodeRef nodeR in parent.NEIGHBORS)//for each neigthbor
+            {
+                if (!nodeR.Visited)//if node wasnt visited yet
+                {
+                    Node newTreeNode = nodeR.NODO.clone();
+                    tree.create_(newTreeNode);//add a cloned node to the actual tree
+                    tree.addDirectedEdge_(parent.clone(), newTreeNode, 0);//add edge of parent with actual node
+                    nodeR.NODO.Level = parent.Level + 1;
+                    _getForestDFS_(nodeR.NODO, tree);
+                }
+            }
+        }
+
+
+        public Forest getForestBFS(Node root)
+        {
+            this.reset();//reset the graph 
+            Forest fRes = new Forest();
+
+            if (root != null) //no Node was selected it guides with nodes indicess
+            {
+                Tree tree = new Tree();//make a new tree for each root 
+                _getForestBFS_(root, tree);
+                fRes.ListOfTrees.Add(tree);
+            }
+
+            foreach (Node node in this.NODE_LIST)//visit each node in the node list 
+            {
+                if (!node.Visited)// if was not visited it means it's a root
+                {
+                    Tree tree = new Tree();//make a new tree for each root 
+                    _getForestBFS_(node, tree);
+                    fRes.ListOfTrees.Add(tree);
+                }
+            }
+
+            return fRes;
+        }
+
+        public List<Node> visitAllDescendence(Node parent)
+        {
+            List<Node> res = new List<Node>();
+            foreach(NodeRef nodeR in parent.NEIGHBORS)
+            {
+                if (!nodeR.NODO.Visited)//if the node wawsnt visited yet
+                {
+                    nodeR.NODO.Level = parent.Level + 1;//assing a level
+                    nodeR.NODO.Visited = true;
+                    res.Add(nodeR.NODO);
+                }
+            }
+            return res;
+        }
+
+        public void _getForestBFS_(Node parent, Tree tree)
+        {
+            parent.Visited = true;
+            var sons = this.visitAllDescendence(parent);//mark all sons like visited 
+            foreach (Node node in sons)//for each neigthbor
+            {
+                tree.addDirectedEdge(parent, node,0);
+                _getForestBFS_(node, tree);
+            }
+        }
+
+
+
+
+
+
+
+
 
     }//AdjacencyList(END).    
 }

@@ -427,7 +427,7 @@ namespace editorDeGrafos
             {
                 if (selectedNode_FV == null || !(selectedNode_FV != null && selectedNode_FV.Status == 1 && e.Button == MouseButtons.Right))
                 {
-                    graph_FV.create(e.Location, generalRadius_FV);
+                    graph_FV.create_(e.Location, generalRadius_FV);
                 }
             }
         }//Node operations END
@@ -578,7 +578,7 @@ namespace editorDeGrafos
             }
             else//operations for the form
             {
-                graph_FV.create(e.Location, generalRadius_FV);
+                graph_FV.create_(e.Location, generalRadius_FV);
             }
         }//Graph operations.
 
@@ -617,7 +617,7 @@ namespace editorDeGrafos
 
                             if (weight >= 0)
                             {
-                                this.graph_FV.addUndirectedEdge(selectedNode_Linking_FV, auxMouseUperNode, weight);
+                                this.graph_FV.addUndirectedEdge_(selectedNode_Linking_FV, auxMouseUperNode, weight);
                                 justSaved_FV = false;
                             }
                         }
@@ -670,7 +670,7 @@ namespace editorDeGrafos
                         }
                         if (weight >= 0)
                         {
-                            graph_FV.addUndirectedEdge(selectedNode_Linking_FV, auxMouseUperNode, weight);
+                            graph_FV.addUndirectedEdge_(selectedNode_Linking_FV, auxMouseUperNode, weight);
                             justSaved_FV = false;
                         }
                     }
@@ -1286,7 +1286,7 @@ namespace editorDeGrafos
                 }
             }
             this.reset();
-            graph_FV.reset();
+            graph_FV.resetNew();
             fileName_FV = "";
             justSaved_FV = true;
             InvalidatePlus();
@@ -1419,6 +1419,7 @@ namespace editorDeGrafos
 
                     Point cor = new Point(x, y);
                     Node node = new Node(cor, radiusON, indexON, idON);
+                    //graph_FV.addNode(node);
                     graph_FV.addNode(node);
                     //nodeList.Add(node);
                     Input = sr.ReadLine().Split(Delimiters, StringSplitOptions.RemoveEmptyEntries);
@@ -3509,6 +3510,17 @@ namespace editorDeGrafos
         private void helpToolStripButton_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/Pedejeca135/GRAFOS_PRO");
+        }
+
+        private void automaticToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Node root = graph_FV.rootNode();
+            if ( root != null)
+            {
+                Forest f = this.graph_FV.getForestDFS(root);
+                Forest f2 = this.graph_FV.getForestBFS(root);
+            }
+            
         }
     }//Form(END).
 }//namespace(END).
