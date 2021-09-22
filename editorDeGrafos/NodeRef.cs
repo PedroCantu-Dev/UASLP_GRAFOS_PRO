@@ -9,26 +9,39 @@ namespace editorDeGrafos
     public class NodeRef
     {
         int weight;
-        Node nodo;
+        Node nodo;// the node that is visited
         TidyPair tidy;
         Boolean activeNode;
         Boolean visited = false;
+        char typeOfConection = 'u';
+        bool pared = true;
 
 
-        public NodeRef(int weight, Node nodo, TidyPair tidyPair)
+        public NodeRef(int weight, Node nodo, TidyPair tidyPair, char typeOfEdge)
         {
             this.tidy = tidyPair;
             this.nodo = nodo;
             this.weight = weight;
-            activeNode = false;
+            activeNode = false;            
+            if (typeOfEdge == 'd')
+            {
+                this.typeOfConection = typeOfEdge;
+                this.pared = false;
+            }
         }
 
-        public NodeRef(int weight, Node nodo, TidyPair tidyPair, Boolean active)
+        public NodeRef(int weight, Node nodo, TidyPair tidyPair, Boolean active, char typeOfEdge)
         {
             this.tidy = tidyPair;
             this.nodo = nodo;
             this.weight = weight;
             activeNode = active;
+            
+            if (typeOfEdge == 'd')
+            {
+                this.typeOfConection = typeOfEdge;
+                this.pared = false;
+            }
         }
 
         public Node NODO
@@ -62,6 +75,23 @@ namespace editorDeGrafos
         public void reset()
         {
             visited = false;
+            pared = false;
+        }
+
+        public char Type
+        {
+            get { return this.typeOfConection; }
+        }
+
+        public bool Pared
+        {
+            get { return pared; }
+            set {
+                if (this.Type == 'd')
+                {
+                    pared = value;
+                }
+            }
         }
 
     }//NodeRef.

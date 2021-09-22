@@ -2182,6 +2182,7 @@ namespace editorDeGrafos
             }
         }
 
+        /*
         public Boolean isABridgeBool(Edge posibleBridge)
         {
             // Mark all the vertices as not visited 
@@ -2206,8 +2207,9 @@ namespace editorDeGrafos
             posibleBridge.Bridge = false;
             return false;//if all vertices was visited evenif the edge was cutted.
         }
+        */
 
-        void DFSUtilAllConectedBridge(Node workingNode, Edge posibleBridge/*int v, bool visited[]*/)
+      /*  void DFSUtilAllConectedBridge(Node workingNode, Edge posibleBridge/*int v, bool visited[])
         {
             // Mark the current node as visited
             workingNode.Visited = true;
@@ -2226,7 +2228,7 @@ namespace editorDeGrafos
                     DFSUtilAllConectedBridge(nodeR.NODO, posibleBridge);
                 }
             }
-        }
+        }*/
 
         public Boolean isABridgeVisitedsBool(Edge posibleBridge, Graph graph)
         {
@@ -2474,7 +2476,7 @@ namespace editorDeGrafos
         {
             foreach (Edge edge in graph_FV.EDGE_LIST)
             {
-                isABridgeBool(edge);
+                graph_FV.isABridgeBool(edge);
             }
         }
 
@@ -2536,6 +2538,8 @@ namespace editorDeGrafos
 
             }
         }
+
+        /*
         public Boolean cycleOfEulerBool()//to determine if the graph has a Eulerian cycle.
         {
             // An undirected graph has Eulerian cycle if following two conditions are true.
@@ -2586,7 +2590,7 @@ namespace editorDeGrafos
 
             foreach (Edge edge in graph_FV.EDGE_LIST)
             {
-                if (isABridgeBool(edge))
+                if (graph_FV.isABridgeBool(edge))
                 {
                     cutEdges.Add(edge);
                 }
@@ -2611,7 +2615,7 @@ namespace editorDeGrafos
 
             /*********************
              *       Caso Base. 
-             * *********************/
+             * *********************
             if (notVisitedYet.Count() == 1 && neightboors.Contains(initialNodePath) && graph_FV.thisEdge(workingNode, initialNodePath).visitada == false)//todos los nodos visitados && el nodo actual tiene de vecino al nodo inicial
             {
                 graph_FV.thisEdge(workingNode, initialNodePath).visitada = true;
@@ -2630,7 +2634,7 @@ namespace editorDeGrafos
 
             /*********************
              *       Caso General. 
-             * *********************/
+             * *********************
             foreach (Node node in neightboors)
             {
                 if (this.graph_FV.thisEdge(workingNode, node).visitada == false && node != initialNodePath)
@@ -2668,14 +2672,14 @@ namespace editorDeGrafos
             //no se encontro nigun ciclo.
             return false;
         }//DFS_Any_HamiltonCycle(END).
-
+        */
 
         #endregion
 
         #region pathEuler
         public void pathOfEuler()//next to the event
         {
-            if (!pathOfEulerBool())
+            if (!graph_FV.pathOfEulerBool(estimadedIniFinNodes))
             {
                 //deploy a OK form to finish.
                 MessageBox.Show("no hay camino de Euler por Bool");
@@ -2685,7 +2689,7 @@ namespace editorDeGrafos
             else//a trabajar
             {
                 if (initialNodePath.Grade % 2 == 0
-                 || finalNodePath.Grade % 2 == 0)
+                 || finalNodePath.Grade % 2 == 0)//if any initial or final nodes of the path are of pair grade
                 {
                     if (estimadedIniFinNodes.Count() > 1)
                     {
@@ -2702,7 +2706,7 @@ namespace editorDeGrafos
                 }
                 else
                 {
-                    pathOfEuler_Algorithm();
+                    graph_FV.pathOfEuler_Algorithm(pathOfNodes,pathToAnimate,cutEdges);
                     String forma3Mensaje = "";
 
                     foreach (Node node in pathOfNodes)
@@ -2718,45 +2722,9 @@ namespace editorDeGrafos
             }
         }
 
-        public Boolean pathOfEulerBool()
-        {
-            bool res = true;
-            aux = new Graph();
-            estimadedIniFinNodes = new List<Node>();
-            int oddDegreeCont = 0;
 
-            foreach (Node node in graph_FV.NODE_LIST)
-            {
-                int degreeByN = node.Grade;
-
-                if (degreeByN > 0)//atleast one neightboor
-                {
-                    if (degreeByN % 2 != 0)// the node have not an even number of neightbors
-                    {
-                        oddDegreeCont++;
-                        estimadedIniFinNodes.Add(node);
-                    }
-                    aux.addNode(node);
-                }
-            }
-
-            if (aux.NODE_LIST.Count() > 0)
-            {
-                if (oddDegreeCont != 2)
-                {
-                    return false;
-                }
-
-                /*if (!allConected())// if not all are connected
-                {
-                    return false;
-                }
-                */
-            }
-            return res;
-        }
-
-        public Boolean pathOfEuler_Algorithm()
+        /*
+        public Boolean pathOfEuler_Algorithm(List<Node> pathOfNodes, List<Edge> pathToAnimate, List<Edge> cutEdges)
         {
 
             pathOfNodes = new List<Node>();
@@ -2764,12 +2732,12 @@ namespace editorDeGrafos
             cutEdges = new List<Edge>();
 
             graph_FV.markAllLikeNotBridge();
-            graph_FV.markAllNodeAndEdgesNotVisited();
+            graph_FV.reset();
 
 
-            foreach (Edge edge in graph_FV.EDGE_LIST)
+            foreach (Edge edge in this.EDGE_LIST)
             {
-                if (isABridgeBool(edge))
+                if (graph_FV.isABridgeBool(edge))
                 {
                     cutEdges.Add(edge);
                 }
@@ -2782,11 +2750,10 @@ namespace editorDeGrafos
             graph_FV.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no visitados.
 
             return DFS_Any_EulerPath(initialNodePath);
-        }
+        }*/
 
 
-
-        //List<Node> nodesPath = new List<Node>();
+        /*
         Boolean DFS_Any_EulerPath(Node workingNode)//recursive function.
         {
             List<Edge> notVisitedYet = graph_FV.notVisitedListEdge();//nodos sin visitar para restauraciones.
@@ -2794,7 +2761,7 @@ namespace editorDeGrafos
 
             /*********************
              *       Caso Base. 
-             * *********************/
+             * *********************
             if (notVisitedYet.Count() == 0)//todos los nodos visitados && el nodo actual tiene de vecino al nodo inicial
             {
                 pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
@@ -2809,7 +2776,7 @@ namespace editorDeGrafos
 
             /*********************
              *       Caso General. 
-             * *********************/
+             * *********************
             foreach (Node node in neightboors)
             {
                 if (this.graph_FV.thisEdge(workingNode, node).visitada == false && node != finalNodePath)
@@ -2847,6 +2814,13 @@ namespace editorDeGrafos
             //no se encontro nigun ciclo.
             return false;
         }//DFS_Any_HamiltonCycle(END).
+        */
+
+
+
+
+        //List<Node> nodesPath = new List<Node>();
+
 
 
 
@@ -2912,7 +2886,7 @@ namespace editorDeGrafos
             //not cut vertices
             foreach (Edge edge in graph_FV.EDGE_LIST)
             {
-                if (isABridgeBool(edge))//if any edge is a bridge it return false to hamilton cycle.
+                if (graph_FV.isABridgeBool(edge))//if any edge is a bridge it return false to hamilton cycle.
                 {
                     return false;
                 }
@@ -2946,7 +2920,7 @@ namespace editorDeGrafos
 
             foreach (Edge edge in graph_FV.EDGE_LIST)
             {
-                if (isABridgeBool(edge))
+                if (graph_FV.isABridgeBool(edge))
                 {
                     cutEdges.Add(edge);
                 }
@@ -3067,7 +3041,7 @@ namespace editorDeGrafos
 
             foreach (Edge edge in graph_FV.EDGE_LIST)
             {
-                if (isABridgeBool(edge))
+                if (graph_FV.isABridgeBool(edge))
                 {
                     cutEdges.Add(edge);
                 }

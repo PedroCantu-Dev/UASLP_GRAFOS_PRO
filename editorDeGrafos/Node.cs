@@ -125,9 +125,82 @@ namespace editorDeGrafos
             Node res =  new Node(this.position , this.radiusLenght, this.index, uniqueID, this.color);
             res.Level = this.Level;
             return res;
-            
         }
 
+        private bool allPared()
+        {
+            if(this.GradeIn == this.GradeOut)
+            {
+                for(int i = 0; i < this.GradeOut -1; i++)
+                {
+                    if(this.NEIGHBORS[i].Pared != true || this.TRANSPOSED_NEIGHBORS[i].Pared != true)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool balanced()
+        {
+            List<NodeRef> outNodeRefs = null;
+            List< NodeRef > inNodeRefs = null;
+
+            if (beforeBalanced(outNodeRefs,inNodeRefs))
+            {
+                foreach(NodeRef nodeROut in outNodeRefs)
+                {
+                    foreach(NodeRef nodeRIn in inNodeRefs)
+                    {
+                        if(nodeROut.W == nodeRIn.W)//both has the same weight
+                        {
+                            nodeROut.Pared = true;
+                            nodeRIn.Pared = true;
+                        }
+                    }
+
+                }
+            }
+            return false;
+        }
+
+        private bool beforeBalanced(List<NodeRef>outNodeRefs, List<NodeRef> inNodeRefs)
+        {
+
+            outNodeRefs = new List<NodeRef>();
+            inNodeRefs = new List<NodeRef>();
+
+            foreach (NodeRef nodeR in this.NEIGHBORS)
+            {
+                if(nodeR.Type == 'u')
+                {
+                    nodeR.Pared = false;
+                    outNodeRefs.Add(nodeR);
+                }
+            }
+
+            foreach (NodeRef nodeR in this.transposedNeighbors)
+            {
+                if (nodeR.Type == 'u')
+                {
+                    nodeR.Pared = false;
+                    inNodeRefs.Add(nodeR);
+                }
+            }
+
+            if(outNodeRefs.Count() != inNodeRefs.Count())
+            {
+                return false;
+            }
+            return true;
+        }
+
+        
 
         public void Click()
         {
@@ -175,6 +248,17 @@ namespace editorDeGrafos
             get { return this.uniqueID; }
             set { this.uniqueID = value; }
         }
+
+        public int GradeOut
+        {
+            get { return this.NEIGHBORS.Count(); }
+        }
+
+        public int GradeIn
+        {
+            get { return this.TRANSPOSED_NEIGHBORS.Count(); }
+        }
+
 
         public List<NodeRef> NEIGHBORS
             {
@@ -243,10 +327,7 @@ namespace editorDeGrafos
             return this.ID + this.position.ToString() + " -index = " + this.Index;
         }
 
-        public int Grade
-        {
-            get { return this.NEIGHBORS.Count(); }
-        }
+     
 
 
         public void addNeightbor(Node newNeighbor, int weight)
