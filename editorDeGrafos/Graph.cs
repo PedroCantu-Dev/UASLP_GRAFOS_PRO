@@ -434,7 +434,7 @@ namespace editorDeGrafos
                         }
                         else
                         {
-                            if (this.GradeOfNode(graph[i][j].NODO) == 0)
+                            if (graph[i][j].NODO.Grade == 0)
                             {
                                 return false;
                             }
@@ -462,10 +462,10 @@ namespace editorDeGrafos
 
             foreach (Node node in nodeList)
             {
-                if (this.GradeOfNode(node) > mostGrade)
+                if (node.Grade > mostGrade)
                 {
                     res = node;
-                    mostGrade = this.GradeOfNode(node);
+                    mostGrade = node.Grade;
                 }
             }
             return res;
@@ -478,14 +478,14 @@ namespace editorDeGrafos
 
             foreach (Node node in nodeList)
             {
-                if (this.GradeOfNode(node) > mostGrade)
+                if (node.Grade > mostGrade)
                 {
                     res = new List<Node>();
                     res.Add(node);
 
-                    mostGrade = this.GradeOfNode(node);
+                    mostGrade = node.Grade;
                 }
-                else if (this.GradeOfNode(node) == mostGrade)
+                else if (node.Grade== mostGrade)
                 {
                     res.Add(node);
                 }
@@ -569,23 +569,13 @@ namespace editorDeGrafos
             int nodeIndexToEiminate = nodo.Index;
             nodeList_G.Remove(nodo);
 
-            foreach (List<NodeRef> row in graph)
-            {
-                row.RemoveAt(nodeIndexToEiminate);//removing the NodeRef of all the list of nodes.                                               
-            }
-
+          
             graph.RemoveAt(nodeIndexToEiminate);
 
-            for (int j = 0; j < graph.Count(); j++)
+
+            for(int j = this.nodeList_G.Count()-1; j == 0; j--)
             {
-                List<NodeRef> noRe = graph[j];
-                for (int i = 0; i < noRe.Count(); i++)
-                {
-                    if (i == j && noRe[i].NODO.Index > nodeIndexToEiminate)
-                    {
-                        noRe[i].NODO.Index--;
-                    }
-                }
+                nodeList_G[j].Index--;
             }
 
         }//remove a node.
@@ -633,8 +623,6 @@ namespace editorDeGrafos
         */
 
 
-
-
         public void addUndirectedEdge(Node client, Node server, int weight)
         {
             edgeList_G.Add(new Edge(client, server, weight));
@@ -664,8 +652,6 @@ namespace editorDeGrafos
                 }
             }
         }
-
-
 
         public void addDirectedEdge(Node client, Node server, int weight)
         {
@@ -906,7 +892,7 @@ namespace editorDeGrafos
 
 
 
-        public List<Node> neighborListNode(Node workingNode)
+        /*public List<Node> neighborListNode(Node workingNode)
         {
             List<Node> res = new List<Node>();
             for (int i = 0; i < graph[workingNode.Index].Count(); i++)
@@ -918,6 +904,7 @@ namespace editorDeGrafos
             }
             return res;
         }
+        */
 
         public List<Node> neighborListIndex(int workingNode)
         {
@@ -1027,7 +1014,7 @@ namespace editorDeGrafos
             return false;
         }
 
-        public Boolean redeiPAthUtil(Node workingNode)
+      /*  public Boolean redeiPAthUtil(Node workingNode)
         {
             foreach (Node node in this.nodeList_G)
             {
@@ -1043,6 +1030,9 @@ namespace editorDeGrafos
             }
             return true;
         }
+      */
+
+        /*
         public Boolean redeiCycleUtil(Node workingNode)
         {
             foreach (Node node in this.nodeList_G)
@@ -1059,6 +1049,9 @@ namespace editorDeGrafos
             }
             return true;
         }
+        */
+
+        /*
         public Boolean redeiPAth()
         {
             foreach (Node node in this.nodeList_G)
@@ -1070,6 +1063,8 @@ namespace editorDeGrafos
             }
             return true;
         }
+        */
+        /*
         public Boolean redeiCycle(Node workingNode)
         {
             foreach (Node node in this.nodeList_G)
@@ -1086,7 +1081,7 @@ namespace editorDeGrafos
             }
             return true;
         }
-
+        */
         public Boolean isConected()
         {
             // Mark all the vertices as not visited 
@@ -1339,9 +1334,40 @@ namespace editorDeGrafos
             graph[index][index].NODO.Visited = mark;
         }
 
-        public Node thisnode(int index)
+        public Node thisode(int index)
         {
-            return this.graph[index][index].NODO;
+            foreach(Node node in this.NODE_LIST)
+            {
+                if(node.Index == index)
+                {
+                    return node;
+                }
+            }
+            return null;
+        }
+
+        public Node thisnode(int ID)
+        {
+            foreach (Node node in this.NODE_LIST)
+            {
+                if (node.ID == ID)
+                {
+                    return node;
+                }
+            }
+            return null;
+        }
+
+        public Node thisnode(Node other)
+        {
+            foreach (Node node in this.NODE_LIST)
+            {
+                if (node.ID == other.ID)
+                {
+                    return node;
+                }
+            }
+            return null;
         }
 
         public Matrix toMatrix()
@@ -1367,7 +1393,7 @@ namespace editorDeGrafos
             int res = 0;
             for (int i = 0; i < graph.Count(); i++)
             {
-                res += GradeOfNode(graph[i][i].NODO);
+                res += graph[i][i].NODO.Grade;
             }
             return res;
         }
@@ -1388,10 +1414,7 @@ namespace editorDeGrafos
             return resNode;
 
         }
-        public int GradeOfNode(Node node)
-        {
-            return neighborListNode(node).Count();
-        }
+        
 
         public DirectedGrade GradeOfDirectedNode(Node nodo)
         {
@@ -1468,6 +1491,9 @@ namespace editorDeGrafos
             }
             return true;
         }
+
+      
+
 
         public Boolean allVisitedExept(List<Node> listNodes, Node workingNode)
         {
@@ -1570,10 +1596,11 @@ namespace editorDeGrafos
 
             for (int i = 0; i < other.GRAPH.Count(); i++)
             {
-                grade_T = this.GradeOfNode(this.GRAPH[i][i].NODO);
+                grade_T = this.GRAPH[i][i].NODO.Grade;
+
                 res.addIndex_T(grade_T, this.GRAPH[i][i].NODO.Index);
 
-                grade_O = other.GradeOfNode(other.GRAPH[i][i].NODO);
+                grade_O = other.GRAPH[i][i].NODO.Grade;
                 res.addIndex_O(grade_O, other.GRAPH[i][i].NODO.Index);
             }
             return res;
@@ -1943,6 +1970,7 @@ namespace editorDeGrafos
         }
         #endregion
 
+
         void DFSUtilAllConected(Node workingNode/*int v, bool visited[]*/)
         {
             // Mark the current node as visited
@@ -1950,7 +1978,7 @@ namespace editorDeGrafos
 
 
             // Recur for all the vertices adjacent to this vertex
-            foreach (Node node in this.neighborListNode(workingNode))
+            foreach (Node node in workingNode.neighborListNode())
             {
                 if (node.Visited == false)
                 {
@@ -1958,6 +1986,7 @@ namespace editorDeGrafos
                 }
             }
         }
+        
         #endregion
 
 
@@ -1984,6 +2013,8 @@ namespace editorDeGrafos
         {
             this.nodeList_G.Add(other.clone()) ;
         }
+
+        
 
         public void create_(Point cor, int generalRadius, Color color)
         {
@@ -2091,7 +2122,7 @@ namespace editorDeGrafos
         }
 
 
-        //return the root 
+        //return a root 
         public Node rootNode()
         {
             if(this.Count > 0)
@@ -2118,22 +2149,37 @@ namespace editorDeGrafos
             this.reset();//reset the graph 
             Forest fRes = new Forest();
 
-            if(root != null) //no Node was selected it guides with nodes indicess
+
+            if(root == null)
             {
-                Tree tree = new Tree();//make a new tree for each root 
-                _getForestDFS_(root, tree);
-                fRes.ListOfTrees.Add(tree);
+                root = this.rootNode().clone();
             }
 
-            foreach (Node node in this.NODE_LIST)//visit each node in the node list 
+            if(root != null) //no Node was selected it guides with nodes indicess
             {
-                if (!node.Visited)// if was not visited it means it's a root
+                Tree tree = new Tree();//make a new tree for each root
+                root.Level = 0;
+                Node newRoot = root.clone();
+                
+                tree.addNode(newRoot);
+                _getForestDFS_(root, tree);
+                fRes.ListOfTrees.Add(tree);
+
+                foreach (Node node in this.NODE_LIST)//visit each node in the node list 
                 {
-                    Tree tree = new Tree();//make a new tree for each root 
-                    _getForestDFS_(node, tree);
-                    fRes.ListOfTrees.Add(tree);
+                    if (!node.Visited)// if was not visited it means it's a root
+                    {
+                        tree = new Tree();//make a new tree for each root 
+                        node.Level = 0;//cre mens root
+                        newRoot = node.clone();
+                        tree.addNode(newRoot);
+                        _getForestDFS_(node, tree);
+                        fRes.ListOfTrees.Add(tree);
+                    }
                 }
             }
+
+            
 
             return fRes;
         }
@@ -2143,12 +2189,12 @@ namespace editorDeGrafos
             parent.Visited = true;
             foreach(NodeRef nodeR in parent.NEIGHBORS)//for each neigthbor
             {
-                if (!nodeR.Visited)//if node wasnt visited yet
+                if (!nodeR.NODO.Visited)//if node wasnt visited yet
                 {
-                    Node newTreeNode = nodeR.NODO.clone();
-                    tree.create_(newTreeNode);//add a cloned node to the actual tree
-                    tree.addDirectedEdge_(parent.clone(), newTreeNode, 0);//add edge of parent with actual node
                     nodeR.NODO.Level = parent.Level + 1;
+                    Node newTreeNode = nodeR.NODO.clone();
+                    tree.addNode(newTreeNode);//add a cloned node to the actual tree
+                    tree.addDirectedEdge_(tree.thisnode(parent), newTreeNode, 0);//add edge of parent with actual node
                     _getForestDFS_(nodeR.NODO, tree);
                 }
             }

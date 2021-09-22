@@ -1649,38 +1649,69 @@ namespace editorDeGrafos
 
             if (operationIndex_FV == 0)
             {
-                for (int i = 0; i < graph_FV.GRAPH.Count; i++)//Nodes.
+                //for (int i = 0; i < graph_FV.GRAPH.Count; i++)//Nodes.
+                //{
+                //    NodeRef nod = graph_FV.GRAPH[i][i];
+                //    rectangle = new Rectangle(nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
+                //    graphics.FillEllipse(brush, rectangle);
+
+                //    pen.Color = this.graph_FV.COLORS(nod.NODO);
+                //    graphics.DrawEllipse(pen, nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
+
+                //    //draw inside the node a index.
+                //    String index_S = "" + nod.NODO.Index;
+                //    int fontSize = generalRadius_FV - 10;
+                //    graphics.DrawString(index_S, new Font(FontFamily.GenericSansSerif, fontSize), new SolidBrush(Color.Black), nod.NODO.Position.X - (fontSize / 2), nod.NODO.Position.Y - (fontSize / 2));
+                //}
+
+                //for (int i = 0; i < graph_FV.GRAPH.Count; i++)//Nodes.
+                //{
+                //    NodeRef nod = graph_FV.GRAPH[i][i];
+                //    rectangle = new Rectangle(nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
+                //    graphics.FillEllipse(brush, rectangle);
+
+                //    pen.Color = this.operationVertexColorArray[operationIndex_FV];
+
+
+                //    graphics.DrawEllipse(pen, nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
+
+                //    //draw inside the node a index.
+                //    String index_S = "" + nod.NODO.Index;
+                //    int fontSize = generalRadius_FV - 10;
+                //    graphics.DrawString(index_S, new Font(FontFamily.GenericSansSerif, fontSize), new SolidBrush(Color.Black), nod.NODO.Position.X - (fontSize / 2), nod.NODO.Position.Y - (fontSize / 2));
+                //}
+
+                foreach (Node nodo in this.graph_FV.NODE_LIST)
                 {
-                    NodeRef nod = graph_FV.GRAPH[i][i];
-                    rectangle = new Rectangle(nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
+                    rectangle = new Rectangle(nodo.Position.X - nodo.Radius, nodo.Position.Y - nodo.Radius, nodo.Radius * 2, nodo.Radius * 2);
                     graphics.FillEllipse(brush, rectangle);
 
-                    pen.Color = this.graph_FV.COLORS(nod.NODO);
-                    graphics.DrawEllipse(pen, nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
+                    pen.Color = this.graph_FV.COLORS(nodo);
+                    graphics.DrawEllipse(pen, nodo.Position.X - nodo.Radius, nodo.Position.Y - nodo.Radius, nodo.Radius * 2, nodo.Radius * 2);
 
                     //draw inside the node a index.
-                    String index_S = "" + nod.NODO.Index;
+                    String index_S = "" + nodo.Index;
                     int fontSize = generalRadius_FV - 10;
-                    graphics.DrawString(index_S, new Font(FontFamily.GenericSansSerif, fontSize), new SolidBrush(Color.Black), nod.NODO.Position.X - (fontSize / 2), nod.NODO.Position.Y - (fontSize / 2));
+                    graphics.DrawString(index_S, new Font(FontFamily.GenericSansSerif, fontSize), new SolidBrush(Color.Black), nodo.Position.X - (fontSize / 2), nodo.Position.Y - (fontSize / 2));
+
                 }
             }
             else
             {
-                for (int i = 0; i < graph_FV.GRAPH.Count; i++)//Nodes.
+                foreach (Node nodo in this.graph_FV.NODE_LIST)
                 {
-                    NodeRef nod = graph_FV.GRAPH[i][i];
-                    rectangle = new Rectangle(nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
+                    rectangle = new Rectangle(nodo.Position.X - nodo.Radius, nodo.Position.Y - nodo.Radius, nodo.Radius * 2, nodo.Radius * 2);
                     graphics.FillEllipse(brush, rectangle);
 
                     pen.Color = this.operationVertexColorArray[operationIndex_FV];
 
-
-                    graphics.DrawEllipse(pen, nod.NODO.Position.X - nod.NODO.Radius, nod.NODO.Position.Y - nod.NODO.Radius, nod.NODO.Radius * 2, nod.NODO.Radius * 2);
+                    graphics.DrawEllipse(pen, nodo.Position.X - nodo.Radius, nodo.Position.Y - nodo.Radius, nodo.Radius * 2, nodo.Radius * 2);
 
                     //draw inside the node a index.
-                    String index_S = "" + nod.NODO.Index;
+                    String index_S = "" + nodo.Index;
                     int fontSize = generalRadius_FV - 10;
-                    graphics.DrawString(index_S, new Font(FontFamily.GenericSansSerif, fontSize), new SolidBrush(Color.Black), nod.NODO.Position.X - (fontSize / 2), nod.NODO.Position.Y - (fontSize / 2));
+                    graphics.DrawString(index_S, new Font(FontFamily.GenericSansSerif, fontSize), new SolidBrush(Color.Black), nodo.Position.X - (fontSize / 2), nodo.Position.Y - (fontSize / 2));
+
                 }
             }
 
@@ -1865,7 +1896,7 @@ namespace editorDeGrafos
                 }
                 else
                 {
-                    terminal.Text += "Grado(Nodo): " + graph_FV.GradeOfNode(selectedNode_FV);
+                    terminal.Text += "Grado(Nodo): " + selectedNode_FV.Grade;
                 }
             }
             else
@@ -2142,11 +2173,11 @@ namespace editorDeGrafos
 
 
             // Recur for all the vertices adjacent to this vertex
-            foreach (Node node in graph_FV.neighborListNode(workingNode))
+            foreach (NodeRef nodeR in workingNode.NEIGHBORS)
             {
-                if (node.Visited == false)
+                if (nodeR.NODO.Visited == false)
                 {
-                    DFSUtilAllConected(node);
+                    DFSUtilAllConected(nodeR.NODO);
                 }
             }
         }
@@ -2183,16 +2214,16 @@ namespace editorDeGrafos
 
 
             // Recur for all the vertices adjacent to this vertex
-            foreach (Node node in graph_FV.neighborListNode(workingNode))
+            foreach (NodeRef nodeR in workingNode.NEIGHBORS)
             {
-                if (workingNode == posibleBridge.Client && node == posibleBridge.Server
-                 || workingNode == posibleBridge.Server && node == posibleBridge.Client)
+                if (workingNode == posibleBridge.Client && nodeR.NODO == posibleBridge.Server
+                 || workingNode == posibleBridge.Server && nodeR.NODO == posibleBridge.Client)
                 {
 
                 }
-                else if (node.Visited == false)
+                else if (nodeR.Visited == false)
                 {
-                    DFSUtilAllConectedBridge(node, posibleBridge);
+                    DFSUtilAllConectedBridge(nodeR.NODO, posibleBridge);
                 }
             }
         }
@@ -2263,16 +2294,16 @@ namespace editorDeGrafos
             workingNode.Visited = true;
 
             // Recur for all the vertices adjacent to this vertex
-            foreach (Node node in graph.neighborListNode(workingNode))
+            foreach (NodeRef nodeR in workingNode.NEIGHBORS)
             {
-                if (workingNode == posibleBridge.Client && node == posibleBridge.Server
-                 || workingNode == posibleBridge.Server && node == posibleBridge.Client)
+                if (workingNode == posibleBridge.Client && nodeR.NODO == posibleBridge.Server
+                 || workingNode == posibleBridge.Server && nodeR.NODO == posibleBridge.Client)
                 {
 
                 }
-                else if (node.Visited == false && graph.thisEdge(workingNode, node).visitada == false)
+                else if (nodeR.NODO.Visited == false && graph.thisEdge(workingNode, nodeR.NODO).visitada == false)
                 {
-                    DFSUtilAllConectedVisitedsBridge(node, posibleBridge, graph);
+                    DFSUtilAllConectedVisitedsBridge(nodeR.NODO, posibleBridge, graph);
                 }
             }
         }
@@ -2397,17 +2428,17 @@ namespace editorDeGrafos
             node.Visited = true;
             node.COLOR = Color.Red;
 
-            foreach (Node nodo in graph_FV.neighborListNode(node))
+            foreach (NodeRef nodoR in node.NEIGHBORS)
             {
                 foreach (Edge edge in workingEdgesList)
                 {
-                    if (!edge.isThis(node, nodo))
+                    if (!edge.isThis(node, nodoR.NODO))
                     {
                         if (edge.visitada == false)
                         {
                             edge.visitada = true;
                             edge.COLOR = Color.Green;
-                            BFSColored(nodo);
+                            BFSColored(nodoR.NODO);
                         }
                     }
                 }
@@ -2517,7 +2548,7 @@ namespace editorDeGrafos
 
             foreach (Node node in graph_FV.NODE_LIST)
             {
-                int degreeByN = graph_FV.neighborListNode(node).Count();
+                int degreeByN = node.Grade;
 
                 if (degreeByN > 0)//atleast one neightboor
                 {
@@ -2576,7 +2607,7 @@ namespace editorDeGrafos
         Boolean DFS_Any_EulerCycle(Node workingNode)//recursive function.
         {
             List<Edge> notVisitedYet = graph_FV.notVisitedListEdge();//nodos sin visitar para restauraciones.
-            List<Node> neightboors = graph_FV.neighborListNode(workingNode);//vecinos del nodo actual.
+            List<Node> neightboors = workingNode.neighborListNode();//vecinos del nodo actual.
 
             /*********************
              *       Caso Base. 
@@ -2653,8 +2684,8 @@ namespace editorDeGrafos
             }
             else//a trabajar
             {
-                if (graph_FV.neighborListNode(initialNodePath).Count() % 2 == 0
-                 || graph_FV.neighborListNode(finalNodePath).Count() % 2 == 0)
+                if (initialNodePath.Grade % 2 == 0
+                 || finalNodePath.Grade % 2 == 0)
                 {
                     if (estimadedIniFinNodes.Count() > 1)
                     {
@@ -2696,7 +2727,7 @@ namespace editorDeGrafos
 
             foreach (Node node in graph_FV.NODE_LIST)
             {
-                int degreeByN = graph_FV.neighborListNode(node).Count();
+                int degreeByN = node.Grade;
 
                 if (degreeByN > 0)//atleast one neightboor
                 {
@@ -2759,7 +2790,7 @@ namespace editorDeGrafos
         Boolean DFS_Any_EulerPath(Node workingNode)//recursive function.
         {
             List<Edge> notVisitedYet = graph_FV.notVisitedListEdge();//nodos sin visitar para restauraciones.
-            List<Node> neightboors = graph_FV.neighborListNode(workingNode);//vecinos del nodo actual.
+            List<Node> neightboors = workingNode.neighborListNode();//vecinos del nodo actual.
 
             /*********************
              *       Caso Base. 
@@ -2893,7 +2924,7 @@ namespace editorDeGrafos
                 {
                     return false;
                 }
-                if (graph_FV.neighborListNode(node).Count() < 2)
+                if (node.Grade < 2)
                 {
                     return false;
                 }
@@ -2926,21 +2957,21 @@ namespace editorDeGrafos
             //return DFSHamiltonCycle(initialNodePath);
 
             graph_FV.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no visitados.
-
-            return DFS_Any_HamiltonCycle(initialNodePath);
+            ///$#$#$#$#$#$#$#$#$#$#
+            return false;// DFS_Any_HamiltonCycle(initialNodePath);
         }
 
         List<Node> nodesPath = new List<Node>();
-        Boolean DFS_Any_HamiltonCycle(Node workingNode)//recursive function.
+    /*    Boolean DFS_Any_HamiltonCycle(Node workingNode)//recursive function.
         {
             workingNode.Visited = true;//marcar el nodo actual como Visited.
             List<Node> notVisitedYet = graph_FV.notVisitedList();//nodos sin visitar para restauraciones.
-            List<Node> neightboors = graph_FV.neighborListNode(workingNode);//vecinos del nodo actual.
+            List<NodeRef> neightboors = workingNode.NEIGHBORS;//vecinos del nodo actual.
 
             /*********************
              *       Caso Base. 
-             * *********************/
-            if (notVisitedYet.Count() < 1 && neightboors.Contains(initialNodePath))//todos los nodos Visiteds && el nodo actual tiene de vecino al nodo inicial
+             * *********************
+            if (notVisitedYet.Count() < 1 && workingNode.isNeigtbor(initialNodePath))//todos los nodos Visiteds && el nodo actual tiene de vecino al nodo inicial
             {
                 Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
                 pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
@@ -2957,7 +2988,7 @@ namespace editorDeGrafos
 
             /*********************
              *       Caso General. 
-             * *********************/
+             * *********************
             foreach (Node node in neightboors)
             {
                 if (node.Visited == false)
@@ -2979,6 +3010,7 @@ namespace editorDeGrafos
             //no se encontro nigun ciclo.
             return false;
         }//DFS_Any_HamiltonCycle(END).
+*/
         #endregion
 
         #region HamiltonPath
@@ -3052,7 +3084,7 @@ namespace editorDeGrafos
         {
             workingNode.Visited = true;//marcar el nodo actual como Visited.
             List<Node> notVisitedYet = graph_FV.notVisitedList();//nodos sin visitar para restauraciones.
-            List<Node> neightboors = graph_FV.neighborListNode(workingNode);//vecinos del nodo actual.
+            List<Node> neightboors = workingNode.neighborListNode();//vecinos del nodo actual.
 
             /*********************
              *       Caso Base. 

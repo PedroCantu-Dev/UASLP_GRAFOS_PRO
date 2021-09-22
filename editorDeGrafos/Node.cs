@@ -17,7 +17,7 @@ namespace editorDeGrafos
         //
 
     
-        int numSelectionStates = 3;
+        static int numSelectionStates = 3;
 
         //this two arrays control the node colors depending on the node state and the selection mode active in the graphic envirtoment
 
@@ -94,7 +94,7 @@ namespace editorDeGrafos
         }
 
         /*for graph traversal*/
-        int level = -1;
+        int level;
         public int Level
         {
             get { return level; }
@@ -122,7 +122,10 @@ namespace editorDeGrafos
         
         public Node clone()
         {
-            return new Node(this.position , this.radiusLenght, this.index, uniqueID, this.color);
+            Node res =  new Node(this.position , this.radiusLenght, this.index, uniqueID, this.color);
+            res.Level = this.Level;
+            return res;
+            
         }
 
 
@@ -211,11 +214,38 @@ namespace editorDeGrafos
             return false;
         }
 
+        public bool isNeigtbor(Node other)
+        {
+            foreach(NodeRef nodeR in NEIGHBORS)
+            {
+                if(other.Equals(nodeR))//if any of its neighbors has it return
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public List<Node> neighborListNode()
+        {
+            List<Node> res = new List<Node>();
+
+            foreach(NodeRef nodeR in this.neighbors)
+            {
+                res.Add(nodeR.NODO);
+            }
+            return res;
+        }
 
 
         public override String ToString()
         {
             return this.ID + this.position.ToString() + " -index = " + this.Index;
+        }
+
+        public int Grade
+        {
+            get { return this.NEIGHBORS.Count(); }
         }
 
 
@@ -224,6 +254,8 @@ namespace editorDeGrafos
             NodeRef nNeighbor = new NodeRef(weight, newNeighbor, new TidyPair(this.index, newNeighbor.index));
             this.neighbors.Add(nNeighbor);
         }
+
+        
 
         public void addTransposedNeighbor(Node transNeighbor, int weight)
         {
