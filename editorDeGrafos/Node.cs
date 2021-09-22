@@ -127,79 +127,20 @@ namespace editorDeGrafos
             return res;
         }
 
-        private bool allPared()
+       //returns true if any neigbor edge is directed
+        public bool anyDirected()
         {
-            if(this.GradeIn == this.GradeOut)
+            foreach(NodeRef nodeR in this.NEIGHBORS)
             {
-                for(int i = 0; i < this.GradeOut -1; i++)
+                if(nodeR.Directed)
                 {
-                    if(this.NEIGHBORS[i].Pared != true || this.TRANSPOSED_NEIGHBORS[i].Pared != true)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool balanced()
-        {
-            List<NodeRef> outNodeRefs = null;
-            List< NodeRef > inNodeRefs = null;
-
-            if (beforeBalanced(outNodeRefs,inNodeRefs))
-            {
-                foreach(NodeRef nodeROut in outNodeRefs)
-                {
-                    foreach(NodeRef nodeRIn in inNodeRefs)
-                    {
-                        if(nodeROut.W == nodeRIn.W)//both has the same weight
-                        {
-                            nodeROut.Pared = true;
-                            nodeRIn.Pared = true;
-                        }
-                    }
-
+                    return true;
                 }
             }
             return false;
         }
 
-        private bool beforeBalanced(List<NodeRef>outNodeRefs, List<NodeRef> inNodeRefs)
-        {
-
-            outNodeRefs = new List<NodeRef>();
-            inNodeRefs = new List<NodeRef>();
-
-            foreach (NodeRef nodeR in this.NEIGHBORS)
-            {
-                if(nodeR.Type == 'u')
-                {
-                    nodeR.Pared = false;
-                    outNodeRefs.Add(nodeR);
-                }
-            }
-
-            foreach (NodeRef nodeR in this.transposedNeighbors)
-            {
-                if (nodeR.Type == 'u')
-                {
-                    nodeR.Pared = false;
-                    inNodeRefs.Add(nodeR);
-                }
-            }
-
-            if(outNodeRefs.Count() != inNodeRefs.Count())
-            {
-                return false;
-            }
-            return true;
-        }
-
+     
         
 
         public void Click()

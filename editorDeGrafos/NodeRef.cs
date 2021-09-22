@@ -83,6 +83,18 @@ namespace editorDeGrafos
             get { return this.typeOfConection; }
         }
 
+        public bool Directed
+        {
+            get {
+                if (this.Type == 'd')
+                {
+                    return true;
+                }
+                return false;
+            }
+
+        }
+
         public bool Pared
         {
             get { return pared; }

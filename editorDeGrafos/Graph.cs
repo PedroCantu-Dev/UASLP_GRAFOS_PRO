@@ -179,7 +179,7 @@ namespace editorDeGrafos
         }
 
         //Determine if a graph is directed
-        public Boolean Directed()
+        public Boolean Directed(int i)
         {
             if (diEdgeList_G.Count() > 0)
             {
@@ -190,6 +190,20 @@ namespace editorDeGrafos
                 return false;
             }
         }
+
+        //Determine if a graph is directed
+        public Boolean Directed()
+        {
+            foreach(Node node in this.NODE_LIST)
+            {
+                if(node.anyDirected())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         //determine if a graph is complete
         public Boolean Complete()
