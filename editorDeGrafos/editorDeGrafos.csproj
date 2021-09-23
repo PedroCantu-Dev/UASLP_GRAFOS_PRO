@@ -103,6 +103,7 @@
     <Compile Include="SpecificGradeSets.cs" />
     <Compile Include="TidyPair.cs" />
     <Compile Include="Tree.cs" />
+    <Compile Include="Util.cs" />
     <EmbeddedResource Include="AskForWeight.resx">
       <DependentUpon>AskForWeight.cs</DependentUpon>
     </EmbeddedResource>

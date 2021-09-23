@@ -1926,18 +1926,6 @@ namespace editorDeGrafos
 
         void offWhenClickingMouseOrKey()
         {
-            /* dijkstraShow = false;
-             floydShow = false;
-             warshallShow = false;
-             primShow = false;
-             kruskalShow = false;
-             if (hamiltonOrEulerJustDone)
-             {
-                 this.graph_FV.allBlack();
-                 hamiltonOrEulerJustDone = false;
-             }
-             */
-            //reset(false);
             Invalidate();
         }
 
@@ -3597,7 +3585,7 @@ namespace editorDeGrafos
          * */
         private void DoAlgo_DFS_Auto_Start(object sender, EventArgs e)
         {
-            DoAlgo_DFS_Auto = true;
+            
         }
 
         /*
@@ -3607,7 +3595,7 @@ namespace editorDeGrafos
          * */
         private void DoAlgo_DFS_Manual_Start(object sender, EventArgs e)
         {
-            DoAlgo_DFS_Manual = true;
+            
         }
 
         /*
@@ -3617,7 +3605,7 @@ namespace editorDeGrafos
          * */
         private void DoAlgo_BFS_Auto_Start(object sender, EventArgs e)
         {
-            DoAlgo_BFS_Auto = true;
+            
         }
 
         /*
@@ -3627,12 +3615,12 @@ namespace editorDeGrafos
         * */
         private void DoAlgo_BFS_Manual_Start(object sender, EventArgs e)
         {
-            DoAlgo_BFS_Manual = true;
+            
         }
 
         private void DoAlgo_Kruskal_Start(object sender, EventArgs e)
         {
-            DoAlgo_Kruskal = true;
+            
         }
 
         #region Kruskal
@@ -3761,5 +3749,14 @@ namespace editorDeGrafos
 
         #endregion
 
+        private void bridgesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void isomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }//Form(END).
 }//namespace(END).

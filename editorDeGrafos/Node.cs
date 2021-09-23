@@ -371,8 +371,7 @@ namespace editorDeGrafos
             else
             {
                 this.NEIGHBORS.Remove(serverR);
-                serverR.NODO.TRANSPOSED_NEIGHBORS.Remove(serverR);
-                
+                serverR.NODO.TRANSPOSED_NEIGHBORS.Remove(serverR);  
             }
         }
 

@@ -55,6 +55,9 @@
             this.dFSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.automaticToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bFSTreeGenerationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.automaticToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.manualToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.kruskalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.primToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.warshallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,9 +79,8 @@
             this.trunquedGradeTextBox = new System.Windows.Forms.TextBox();
             this.matrixTB = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.bFSTreeGenerationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.automaticToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.manualToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.operationActivatedButton = new System.Windows.Forms.Button();
+            this.algoActivatedButton = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -97,7 +99,7 @@
             this.helpToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(141, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(176, 39);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -107,7 +109,7 @@
             this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
             this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripButton.Name = "newToolStripButton";
-            this.newToolStripButton.Size = new System.Drawing.Size(29, 24);
+            this.newToolStripButton.Size = new System.Drawing.Size(29, 36);
             this.newToolStripButton.Text = "&New";
             this.newToolStripButton.Click += new System.EventHandler(this.New_Click);
             // 
@@ -155,24 +157,24 @@
             // 
             this.terminal.AccessibleRole = System.Windows.Forms.AccessibleRole.Text;
             this.terminal.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.terminal.Location = new System.Drawing.Point(1304, 15);
+            this.terminal.Location = new System.Drawing.Point(1286, 1);
             this.terminal.Margin = new System.Windows.Forms.Padding(4);
             this.terminal.Multiline = true;
             this.terminal.Name = "terminal";
             this.terminal.ReadOnly = true;
-            this.terminal.Size = new System.Drawing.Size(200, 149);
+            this.terminal.Size = new System.Drawing.Size(228, 163);
             this.terminal.TabIndex = 1;
             this.terminal.TabStop = false;
             // 
             // statusTB
             // 
             this.statusTB.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.statusTB.Location = new System.Drawing.Point(1007, 15);
+            this.statusTB.Location = new System.Drawing.Point(1007, 1);
             this.statusTB.Margin = new System.Windows.Forms.Padding(4);
             this.statusTB.Multiline = true;
             this.statusTB.Name = "statusTB";
             this.statusTB.ReadOnly = true;
-            this.statusTB.Size = new System.Drawing.Size(288, 149);
+            this.statusTB.Size = new System.Drawing.Size(279, 163);
             this.statusTB.TabIndex = 3;
             this.statusTB.TabStop = false;
             // 
@@ -188,7 +190,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(155, 1);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(470, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(588, 38);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -286,6 +288,7 @@
             this.bridgesToolStripMenuItem.Name = "bridgesToolStripMenuItem";
             this.bridgesToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.bridgesToolStripMenuItem.Text = "Bridges ";
+            this.bridgesToolStripMenuItem.Click += new System.EventHandler(this.bridgesToolStripMenuItem_Click);
             // 
             // algoritmosToolStripMenuItem
             // 
@@ -316,16 +319,39 @@
             // automaticToolStripMenuItem
             // 
             this.automaticToolStripMenuItem.Name = "automaticToolStripMenuItem";
-            this.automaticToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.automaticToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
             this.automaticToolStripMenuItem.Text = "Automatic";
             this.automaticToolStripMenuItem.Click += new System.EventHandler(this.DoAlgo_DFS_Auto_Click);
             // 
             // manualToolStripMenuItem
             // 
             this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
-            this.manualToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.manualToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
             this.manualToolStripMenuItem.Text = "Manual";
             this.manualToolStripMenuItem.Click += new System.EventHandler(this.DoAlgo_DFS_Manual_Click);
+            // 
+            // bFSTreeGenerationToolStripMenuItem
+            // 
+            this.bFSTreeGenerationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.automaticToolStripMenuItem1,
+            this.manualToolStripMenuItem1});
+            this.bFSTreeGenerationToolStripMenuItem.Name = "bFSTreeGenerationToolStripMenuItem";
+            this.bFSTreeGenerationToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+            this.bFSTreeGenerationToolStripMenuItem.Text = "BFS( tree generation)";
+            // 
+            // automaticToolStripMenuItem1
+            // 
+            this.automaticToolStripMenuItem1.Name = "automaticToolStripMenuItem1";
+            this.automaticToolStripMenuItem1.Size = new System.Drawing.Size(161, 26);
+            this.automaticToolStripMenuItem1.Text = "Automatic";
+            this.automaticToolStripMenuItem1.Click += new System.EventHandler(this.DoAlgo_BFS_Auto_Click);
+            // 
+            // manualToolStripMenuItem1
+            // 
+            this.manualToolStripMenuItem1.Name = "manualToolStripMenuItem1";
+            this.manualToolStripMenuItem1.Size = new System.Drawing.Size(161, 26);
+            this.manualToolStripMenuItem1.Text = "Manual";
+            this.manualToolStripMenuItem1.Click += new System.EventHandler(this.DoAlgo_BFS_Manual_Click);
             // 
             // kruskalToolStripMenuItem
             // 
@@ -423,8 +449,9 @@
             this.traspuestaToolStripMenuItem,
             this.intercambioToolStripMenuItem});
             this.isomToolStripMenuItem.Name = "isomToolStripMenuItem";
-            this.isomToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.isomToolStripMenuItem.Size = new System.Drawing.Size(55, 34);
             this.isomToolStripMenuItem.Text = "Isom";
+            this.isomToolStripMenuItem.Click += new System.EventHandler(this.isomToolStripMenuItem_Click);
             // 
             // fuerzaBrutaToolStripMenuItem
             // 
@@ -448,22 +475,22 @@
             // 
             this.IsomtextBox.AccessibleRole = System.Windows.Forms.AccessibleRole.Text;
             this.IsomtextBox.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.IsomtextBox.Location = new System.Drawing.Point(1513, 15);
+            this.IsomtextBox.Location = new System.Drawing.Point(1513, 0);
             this.IsomtextBox.Margin = new System.Windows.Forms.Padding(4);
             this.IsomtextBox.Multiline = true;
             this.IsomtextBox.Name = "IsomtextBox";
             this.IsomtextBox.ReadOnly = true;
-            this.IsomtextBox.Size = new System.Drawing.Size(296, 149);
+            this.IsomtextBox.Size = new System.Drawing.Size(314, 164);
             this.IsomtextBox.TabIndex = 6;
             this.IsomtextBox.TabStop = false;
             // 
             // gradoTruncadoButton
             // 
             this.gradoTruncadoButton.BackColor = System.Drawing.SystemColors.Control;
-            this.gradoTruncadoButton.Location = new System.Drawing.Point(628, 6);
+            this.gradoTruncadoButton.Location = new System.Drawing.Point(568, 1);
             this.gradoTruncadoButton.Margin = new System.Windows.Forms.Padding(4);
             this.gradoTruncadoButton.Name = "gradoTruncadoButton";
-            this.gradoTruncadoButton.Size = new System.Drawing.Size(75, 25);
+            this.gradoTruncadoButton.Size = new System.Drawing.Size(75, 28);
             this.gradoTruncadoButton.TabIndex = 7;
             this.gradoTruncadoButton.Text = "GradoT";
             this.gradoTruncadoButton.UseVisualStyleBackColor = false;
@@ -471,7 +498,7 @@
             // 
             // trunquedGradeTextBox
             // 
-            this.trunquedGradeTextBox.Location = new System.Drawing.Point(537, 6);
+            this.trunquedGradeTextBox.Location = new System.Drawing.Point(479, 5);
             this.trunquedGradeTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.trunquedGradeTextBox.Name = "trunquedGradeTextBox";
             this.trunquedGradeTextBox.Size = new System.Drawing.Size(81, 22);
@@ -480,12 +507,12 @@
             // matrixTB
             // 
             this.matrixTB.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.matrixTB.Location = new System.Drawing.Point(1007, 172);
+            this.matrixTB.Location = new System.Drawing.Point(1007, 163);
             this.matrixTB.Margin = new System.Windows.Forms.Padding(4);
             this.matrixTB.Multiline = true;
             this.matrixTB.Name = "matrixTB";
             this.matrixTB.ReadOnly = true;
-            this.matrixTB.Size = new System.Drawing.Size(803, 872);
+            this.matrixTB.Size = new System.Drawing.Size(820, 881);
             this.matrixTB.TabIndex = 2;
             this.matrixTB.TabStop = false;
             // 
@@ -493,41 +520,42 @@
             // 
             this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(1007, 172);
+            this.dataGridView1.Location = new System.Drawing.Point(1007, 747);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(279, 163);
             this.dataGridView1.TabIndex = 9;
             // 
-            // bFSTreeGenerationToolStripMenuItem
+            // operationActivatedButton
             // 
-            this.bFSTreeGenerationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.automaticToolStripMenuItem1,
-            this.manualToolStripMenuItem1});
-            this.bFSTreeGenerationToolStripMenuItem.Name = "bFSTreeGenerationToolStripMenuItem";
-            this.bFSTreeGenerationToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
-            this.bFSTreeGenerationToolStripMenuItem.Text = "BFS( tree generation)";
+            this.operationActivatedButton.BackColor = System.Drawing.SystemColors.Control;
+            this.operationActivatedButton.Location = new System.Drawing.Point(685, 5);
+            this.operationActivatedButton.Margin = new System.Windows.Forms.Padding(4);
+            this.operationActivatedButton.Name = "operationActivatedButton";
+            this.operationActivatedButton.Size = new System.Drawing.Size(85, 28);
+            this.operationActivatedButton.TabIndex = 10;
+            this.operationActivatedButton.Text = "Operation";
+            this.operationActivatedButton.UseVisualStyleBackColor = false;
             // 
-            // automaticToolStripMenuItem1
+            // algoActivatedButton
             // 
-            this.automaticToolStripMenuItem1.Name = "automaticToolStripMenuItem1";
-            this.automaticToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
-            this.automaticToolStripMenuItem1.Text = "Automatic";
-            this.automaticToolStripMenuItem1.Click += new System.EventHandler(this.DoAlgo_BFS_Auto_Click);
-            // 
-            // manualToolStripMenuItem1
-            // 
-            this.manualToolStripMenuItem1.Name = "manualToolStripMenuItem1";
-            this.manualToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
-            this.manualToolStripMenuItem1.Text = "Manual";
-            this.manualToolStripMenuItem1.Click += new System.EventHandler(this.DoAlgo_BFS_Manual_Click);
+            this.algoActivatedButton.BackColor = System.Drawing.SystemColors.Control;
+            this.algoActivatedButton.Location = new System.Drawing.Point(778, 5);
+            this.algoActivatedButton.Margin = new System.Windows.Forms.Padding(4);
+            this.algoActivatedButton.Name = "algoActivatedButton";
+            this.algoActivatedButton.Size = new System.Drawing.Size(85, 28);
+            this.algoActivatedButton.TabIndex = 11;
+            this.algoActivatedButton.Text = "Algorithm";
+            this.algoActivatedButton.UseVisualStyleBackColor = false;
             // 
             // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1827, 922);
+            this.Controls.Add(this.algoActivatedButton);
+            this.Controls.Add(this.operationActivatedButton);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.trunquedGradeTextBox);
             this.Controls.Add(this.gradoTruncadoButton);
@@ -611,6 +639,8 @@
         private System.Windows.Forms.ToolStripMenuItem bFSTreeGenerationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem automaticToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem manualToolStripMenuItem1;
+        private System.Windows.Forms.Button operationActivatedButton;
+        private System.Windows.Forms.Button algoActivatedButton;
     }
 }
 

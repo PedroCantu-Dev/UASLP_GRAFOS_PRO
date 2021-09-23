@@ -512,10 +512,6 @@ namespace editorDeGrafos
         #endregion
 
         #region GraphPrivateMethods
-
-
-
-
         private int createIDAlpha()//crea un id diferente a cualquiera de la lista de nodos
         {
             Boolean different;
@@ -566,72 +562,16 @@ namespace editorDeGrafos
             int nodeIndexToEiminate = nodo.Index;
             nodeList_G.Remove(nodo);
 
+            //when removing nodes first remove all posible connections with the node removed
 
-            graph.RemoveAt(nodeIndexToEiminate);
-
-
-            for (int j = this.nodeList_G.Count() - 1; j == 0; j--)
+            foreach(Node node in this.NODE_LIST)
             {
-                nodeList_G[j].Index--;
+                node.eliminate_Neighbor(node);
             }
 
+            //remove the node from the list.
+            this.NODE_LIST.Remove(nodo);
         }//remove a node.
-
-
-        /*
-        public void addNode(Node nodo)
-        {
-            List<NodeRef> newNodeRefList = new List<NodeRef>();//the new list for the new node conections.           
-            nodeList_G.Add(nodo);
-
-            if (graph.Count() == 0)//ther's no elements
-            {
-                TidyPair tidyP = new TidyPair(0, 0); ;
-                NodeRef nodoRef = new NodeRef(-1, nodo, tidyP, true);            //the new Node that is going to be added have no conection, so it have a -1 value.
-                newNodeRefList.Add(nodoRef);
-                graph.Add(newNodeRefList);
-            }
-            else//At least one element.
-            {
-                //int j = 0;
-                for (int i = 0; i < graph.Count; i++)
-                {
-                    if (i == graph.Count)
-                    {
-                        newNodeRefList.Add(new NodeRef(-1, graph[i][i].NODO, new TidyPair(i, graph.Count()), true)); //making the new list for the end of the "array".
-                    }
-                    else
-                    {
-                        newNodeRefList.Add(new NodeRef(-1, graph[i][i].NODO, new TidyPair(i, graph.Count()))); //making the new list for the end of the "array".
-                    }
-
-                }
-
-                graph.Add(newNodeRefList);//adding the list made.
-                                          // terminal = "hay elementos" + graph.Count() + graph[0][0].NODO.ToString();
-                int iF = 0;
-                foreach (List<NodeRef> row in graph)
-                {
-                    row.Add(new NodeRef(-1, nodo, new TidyPair(nodo.Index, iF))); //adding to each row the new Node.
-                    iF++;
-                }
-            }
-        }
-        */
-
-
-        //public void addUndirectedEdge(Node client, Node server, int weight)
-        //{
-        //    edgeList_G.Add(new Edge(client, server, weight));
-        //    if (graph.Count > client.Index && graph.Count > server.Index)
-        //    {
-        //        if (graph[client.Index].Count > server.Index && graph[server.Index].Count > client.Index)
-        //        {
-        //            graph[client.Index][server.Index].W = weight;
-        //            graph[server.Index][client.Index].W = weight;
-        //        }
-        //    }
-        //}
 
         public void addUndirectedEdge(Edge edge)
         {
@@ -641,29 +581,17 @@ namespace editorDeGrafos
 
         public void addUndirectedEdge(Edge edge, int weight)
         {
-            edgeList_G.Add(edge);
-            if (graph.Count > edge.client.Index && graph.Count > edge.server.Index)
-            {
-                if (graph[edge.client.Index].Count > edge.server.Index && graph[edge.server.Index].Count > edge.client.Index)
-                {
-                    graph[edge.client.Index][edge.server.Index].W = weight;
-                    graph[edge.server.Index][edge.client.Index].W = weight;
-                }
-            }
+            edge.client.add_U_Neighbor(edge.server,weight);
         }
 
         public void addDirectedEdge(Node client, Node server, int weight)
         {
-            graph[client.Index][server.Index].W = weight;
-            this.diEdgeList_G.Add(new Edge(client, server, weight));
+            client.add_D_Neighbor(server,weight);
         }
 
-
-
-        public void addCicledEdge(Node node, int weight)
+        public void addCicledEdge(Node client_S, int weight)
         {
-            graph[node.Index][node.Index].W = weight;
-            this.cicleEdgeList_G.Add(new Edge(node, weight));
+            client_S.add_D_Neighbor(client_S,weight);
         }
 
 
