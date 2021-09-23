@@ -24,7 +24,7 @@ namespace editorDeGrafos
         {
             foreach(Node node in graph.NODE_LIST)
             {
-                this.addNode(node, node.Grade);
+                this.addNode(node, node.GradeOut);
             }
             
             listOfList.Sort(delegate(NodeListGrade list_1, NodeListGrade list_2)

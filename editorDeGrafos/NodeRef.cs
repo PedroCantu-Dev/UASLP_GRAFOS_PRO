@@ -14,10 +14,9 @@ namespace editorDeGrafos
         Boolean activeNode;
         Boolean visited = false;
         char typeOfConection = 'u';
-        bool pared = true;
+        int Id;
 
-
-        public NodeRef(int weight, Node nodo, TidyPair tidyPair, char typeOfEdge)
+        public NodeRef(int weight, Node nodo, TidyPair tidyPair, char typeOfEdge, List<int> IDlist)
         {
             this.tidy = tidyPair;
             this.nodo = nodo;
@@ -26,11 +25,11 @@ namespace editorDeGrafos
             if (typeOfEdge == 'd')
             {
                 this.typeOfConection = typeOfEdge;
-                this.pared = false;
             }
+            this.Id = Util.createID(IDlist);
         }
 
-        public NodeRef(int weight, Node nodo, TidyPair tidyPair, Boolean active, char typeOfEdge)
+        public NodeRef(int weight, Node nodo, TidyPair tidyPair, Boolean active, char typeOfEdge, List<int> IDlist)
         {
             this.tidy = tidyPair;
             this.nodo = nodo;
@@ -39,9 +38,21 @@ namespace editorDeGrafos
             
             if (typeOfEdge == 'd')
             {
-                this.typeOfConection = typeOfEdge;
-                this.pared = false;
+                this.typeOfConection = typeOfEdge;  
             }
+            this.Id = Util.createID(IDlist);
+        }
+
+        public NodeRef(int weight, Node nodo,char typeOfEdge, List<int> IDlist)
+        {
+            this.nodo = nodo;
+            this.weight = weight;
+
+            if (typeOfEdge == 'd')
+            {
+                this.typeOfConection = typeOfEdge; 
+            }
+            this.Id = Util.createID(IDlist);
         }
 
         public Node NODO
@@ -75,7 +86,6 @@ namespace editorDeGrafos
         public void reset()
         {
             visited = false;
-            pared = false;
         }
 
         public char Type
@@ -95,15 +105,9 @@ namespace editorDeGrafos
 
         }
 
-        public bool Pared
+        public int ID
         {
-            get { return pared; }
-            set {
-                if (this.Type == 'd')
-                {
-                    pared = value;
-                }
-            }
+            get {return this.ID;}
         }
 
     }//NodeRef.

@@ -24,7 +24,7 @@ namespace editorDeGrafos
         //*FUNCTIONAL VARIABLES:
         //String nameID = "";//a node unique name in the graph
         int uniqueID;//a primary key for vertices (integer type)
-        int index;//for control in thwe graph 
+        int index;//for control in the graph 
         //this three are asigned by the Graph with the method create.
 
         Boolean visited = false;                      //for routing
@@ -140,9 +140,6 @@ namespace editorDeGrafos
             return false;
         }
 
-     
-        
-
         public void Click()
         {
            if(selected == numSelectionStates)
@@ -161,6 +158,14 @@ namespace editorDeGrafos
             visited = false;
             level = -1;
             //colored = false;
+        }
+
+        public void ResetNeighbors()
+        {
+           foreach(NodeRef nodeR in this.NEIGHBORS)
+            {
+                nodeR.reset();
+            }
         }
 
         public Boolean SelectedBool
@@ -204,11 +209,42 @@ namespace editorDeGrafos
         public List<NodeRef> NEIGHBORS
             {
                 get { return this.neighbors; }
+                set { this.neighbors = value; }
             }
 
+           
         public List<NodeRef> TRANSPOSED_NEIGHBORS
         {
-            get { return this.neighbors; }
+            get { return this.transposedNeighbors; }
+            set { this.transposedNeighbors = value; }
+        }
+
+        public List<int> NEIGBORS_ID_LIST
+        {
+            get
+            {
+                List<int> res = new List<int>();
+
+                foreach (NodeRef nodeR in this.TRANSPOSED_NEIGHBORS)
+                {
+                    res.Add(nodeR.ID);
+                }
+                return res;
+            }
+        }
+
+
+        public List<int> TRANS_NEIGHBORS_ID_LIST
+        {
+            get {
+                List<int> res = new List<int>();
+
+                foreach(NodeRef nodeR in this.TRANSPOSED_NEIGHBORS)
+                {
+                    res.Add(nodeR.ID);    
+                }
+                return res;            
+            }
         }
         /*******************************************************
          *                Geters and seters(End)               *
@@ -262,29 +298,117 @@ namespace editorDeGrafos
             return res;
         }
 
-
         public override String ToString()
         {
             return this.ID + this.position.ToString() + " -index = " + this.Index;
         }
 
-     
-
-
-        public void addNeightbor(Node newNeighbor, int weight)
+        //add undirected neighbor
+        public void add_U_Neighbor(Node server, int weight)
         {
-            NodeRef nNeighbor = new NodeRef(weight, newNeighbor, new TidyPair(this.index, newNeighbor.index));
-            this.neighbors.Add(nNeighbor);
+            Node client = this;
+
+            NodeRef serverR = new NodeRef(weight, server,'u', this.NEIGBORS_ID_LIST);
+            NodeRef clientR = new NodeRef(weight, client, 'u', server.NEIGBORS_ID_LIST);
+             
+            client.neighbors.Add(serverR);
+            server.TRANSPOSED_NEIGHBORS.Add(serverR);
+
+            server.neighbors.Add(clientR);
+            client.TRANSPOSED_NEIGHBORS.Add(clientR);
         }
 
-        
-
-        public void addTransposedNeighbor(Node transNeighbor, int weight)
+        //add a directed neighbor
+        public void add_D_Neighbor(Node server, int weight)
         {
-            NodeRef tNeighbor = new NodeRef(weight, transNeighbor, new TidyPair(this.index, transNeighbor.index));
-            this.transposedNeighbors.Add(tNeighbor);
+            Node client = this;
+
+            NodeRef serverR = new NodeRef(weight, server, 'd', this.NEIGBORS_ID_LIST);
+
+            client.neighbors.Add(serverR);
+            server.TRANSPOSED_NEIGHBORS.Add(serverR);
         }
 
+        //this will be used in a foreach loop for link elimination in case a node is eliminated 
+        public void eliminate_Neighbor(Node server)
+        {
+            List < NodeRef > newListOfReferencesAux = new List<NodeRef>();
+            //For the new transposed naighbor list
+            foreach(NodeRef nodeR in this.TRANSPOSED_NEIGHBORS)
+            {
+                if(server != nodeR.NODO)
+                {
+                    newListOfReferencesAux.Add(nodeR);
+                }
+            }
+            this.TRANSPOSED_NEIGHBORS = newListOfReferencesAux;
+
+            newListOfReferencesAux = this.NEIGHBORS;
+
+            //for the new neighbor list
+            foreach (NodeRef nodeR in this.NEIGHBORS)
+            {
+                if (server != nodeR.NODO)
+                {
+                    newListOfReferencesAux.Add(nodeR);
+                }
+            }
+            this.NEIGHBORS = newListOfReferencesAux;
+        }
+
+        //eliminate the node Ref pased
+        public void eliminate_NeighborEdge(NodeRef serverR)
+        {
+            if (serverR.Type == 'u')
+            {
+                this.NEIGHBORS.Remove(serverR);
+                serverR.NODO.TRANSPOSED_NEIGHBORS.Remove(serverR);
+
+                this.remove_TransNeighbor_ByID(serverR.ID);
+                serverR.NODO.remove_Neighbor_ByID(serverR.ID);
+
+            }
+            else
+            {
+                this.NEIGHBORS.Remove(serverR);
+                serverR.NODO.TRANSPOSED_NEIGHBORS.Remove(serverR);
+                
+            }
+        }
+
+        public void remove_TransNeighbor_ByID(int NR_ID)
+        {
+            NodeRef eliminate = null;
+            foreach(NodeRef nodeR in this.TRANSPOSED_NEIGHBORS )
+            {
+                if(NR_ID == nodeR.ID)
+                {
+                    eliminate = nodeR;
+                    break;
+                }
+            }
+            if(eliminate != null)
+            {
+                this.TRANSPOSED_NEIGHBORS.Remove(eliminate);
+            }
+        }
+
+        public void remove_Neighbor_ByID(int NR_ID)
+        {
+            NodeRef eliminate = null;
+            foreach (NodeRef nodeR in this.NEIGHBORS)
+            {
+                if (NR_ID == nodeR.ID)
+                {
+                    eliminate = nodeR;
+                    break;
+                }
+            }
+            if (eliminate != null)
+            {
+                this.NEIGHBORS.Remove(eliminate);
+            }
+        }
 
         #endregion
 

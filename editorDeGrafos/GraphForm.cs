@@ -1799,13 +1799,13 @@ namespace editorDeGrafos
                     dG = graph_FV.GradeOfDirectedNode(selectedNode_FV);
                     terminal.Text += "Grado(Nodo): " + dG.Total;
                     terminal.Text += System.Environment.NewLine;
-                    terminal.Text += "  GradoEntrada ( [<-] ): " + dG.Input;
+                    terminal.Text += "  GradoEntrada ( [<-] ): " + selectedNode_FV.GradeIn;
                     terminal.Text += System.Environment.NewLine;
-                    terminal.Text += "  GradoSalida    ( [->] ): " + dG.Output;
+                    terminal.Text += "  GradoSalida    ( [->] ): " + selectedNode_FV.GradeOut;
                 }
                 else
                 {
-                    terminal.Text += "Grado(Nodo): " + selectedNode_FV.Grade;
+                    terminal.Text += "Grado(Nodo): " + selectedNode_FV.GradeOut;
                 }
             }
             else
@@ -2410,7 +2410,7 @@ namespace editorDeGrafos
 
         public void cycleOfEuler()//next to the event.
         {
-            if (!graph_FV.cycleOfEulerBool())
+            if (!graph_FV.cycleOfEulerBool(workingNodes))
             {
                 //deploy a OK form to finish.
                 MessageBox.Show("no hay circuito de Euler");
@@ -2597,8 +2597,8 @@ namespace editorDeGrafos
             }
             else//a trabajar
             {
-                if (initialNodePath.Grade % 2 == 0
-                 || finalNodePath.Grade % 2 == 0)//if any initial or final nodes of the path are of pair grade
+                if (initialNodePath.GradeOut % 2 == 0
+                 || finalNodePath.GradeOut % 2 == 0)//if any initial or final nodes of the path are of pair grade
                 {
                     if (estimadedIniFinNodes.Count() > 1)
                     {
@@ -2615,7 +2615,7 @@ namespace editorDeGrafos
                 }
                 else
                 {
-                    graph_FV.pathOfEuler_Algorithm(pathOfNodes, pathToAnimate, cutEdges);
+                    graph_FV.pathOfEuler_Algorithm(pathOfNodes, pathToAnimate, cutEdges,initialNodePath);
                     String forma3Mensaje = "";
 
                     foreach (Node node in pathOfNodes)
@@ -2807,7 +2807,7 @@ namespace editorDeGrafos
                 {
                     return false;
                 }
-                if (node.Grade < 2)
+                if (node.GradeOut < 2)
                 {
                     return false;
                 }

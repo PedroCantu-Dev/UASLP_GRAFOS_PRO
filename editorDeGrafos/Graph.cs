@@ -194,9 +194,9 @@ namespace editorDeGrafos
         //Determine if a graph is directed
         public Boolean Directed()
         {
-            foreach(Node node in this.NODE_LIST)
+            foreach (Node node in this.NODE_LIST)
             {
-                if(node.anyDirected())
+                if (node.anyDirected())
                 {
                     return true;
                 }
@@ -450,7 +450,7 @@ namespace editorDeGrafos
                         }
                         else
                         {
-                            if (graph[i][j].NODO.Grade == 0)
+                            if (graph[i][j].NODO.GradeOut == 0)
                             {
                                 return false;
                             }
@@ -478,10 +478,10 @@ namespace editorDeGrafos
 
             foreach (Node node in nodeList)
             {
-                if (node.Grade > mostGrade)
+                if (node.GradeOut > mostGrade)
                 {
                     res = node;
-                    mostGrade = node.Grade;
+                    mostGrade = node.GradeOut;
                 }
             }
             return res;
@@ -494,14 +494,14 @@ namespace editorDeGrafos
 
             foreach (Node node in nodeList)
             {
-                if (node.Grade > mostGrade)
+                if (node.GradeOut > mostGrade)
                 {
                     res = new List<Node>();
                     res.Add(node);
 
-                    mostGrade = node.Grade;
+                    mostGrade = node.GradeOut;
                 }
-                else if (node.Grade== mostGrade)
+                else if (node.GradeOut == mostGrade)
                 {
                     res.Add(node);
                 }
@@ -512,28 +512,9 @@ namespace editorDeGrafos
         #endregion
 
         #region GraphPrivateMethods
-        private int createID()//crea un id diferente a cualquiera de la lista de nodos
-        {
-            Boolean different;
-            int res;
-            Random random = new Random();
 
-            do
-            {
-                different = true;
-                res = random.Next(1000, 9999);
-                foreach (int num in this.IDList_G)//ID list should be a tree so the time-complexity to compruebe the exixtence of the random number generated could decresse
-                {
-                    if (res == num)
-                    {
-                        different = false;
-                        break;//doesn't make sense continuing serching. Basic heuristic avrd.
-                    }
-                }
-            }
-            while (different == false);
-            return res;
-        }
+
+
 
         private int createIDAlpha()//crea un id diferente a cualquiera de la lista de nodos
         {
@@ -568,7 +549,7 @@ namespace editorDeGrafos
         {
             Point newNodePosition = new Point(cor.X, cor.Y);
             Node newNode;
-            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), this.createID());
+            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), Util.createID(this.ID_LIST));
             //this.addNode(newNode);
         }
 
@@ -576,7 +557,7 @@ namespace editorDeGrafos
         {
             Point newNodePosition = new Point(cor.X, cor.Y);
             Node newNode;
-            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), this.createID(), color);
+            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), Util.createID(this.ID_LIST), color);
             //this.addNode(newNode);
         }
 
@@ -585,11 +566,11 @@ namespace editorDeGrafos
             int nodeIndexToEiminate = nodo.Index;
             nodeList_G.Remove(nodo);
 
-          
+
             graph.RemoveAt(nodeIndexToEiminate);
 
 
-            for(int j = this.nodeList_G.Count()-1; j == 0; j--)
+            for (int j = this.nodeList_G.Count() - 1; j == 0; j--)
             {
                 nodeList_G[j].Index--;
             }
@@ -639,23 +620,25 @@ namespace editorDeGrafos
         */
 
 
-        public void addUndirectedEdge(Node client, Node server, int weight)
-        {
-            edgeList_G.Add(new Edge(client, server, weight));
-            if (graph.Count > client.Index && graph.Count > server.Index)
-            {
-                if (graph[client.Index].Count > server.Index && graph[server.Index].Count > client.Index)
-                {
-                    graph[client.Index][server.Index].W = weight;
-                    graph[server.Index][client.Index].W = weight;
-                }
-            }
-        }
+        //public void addUndirectedEdge(Node client, Node server, int weight)
+        //{
+        //    edgeList_G.Add(new Edge(client, server, weight));
+        //    if (graph.Count > client.Index && graph.Count > server.Index)
+        //    {
+        //        if (graph[client.Index].Count > server.Index && graph[server.Index].Count > client.Index)
+        //        {
+        //            graph[client.Index][server.Index].W = weight;
+        //            graph[server.Index][client.Index].W = weight;
+        //        }
+        //    }
+        //}
 
         public void addUndirectedEdge(Edge edge)
         {
             edgeList_G.Add(edge);
+            edge.client.add_U_Neighbor(edge.server, edge.Weight);
         }
+
         public void addUndirectedEdge(Edge edge, int weight)
         {
             edgeList_G.Add(edge);
@@ -1030,23 +1013,23 @@ namespace editorDeGrafos
             return false;
         }
 
-      /*  public Boolean redeiPAthUtil(Node workingNode)
-        {
-            foreach (Node node in this.nodeList_G)
-            {
-                if (!this.neighborListNode(workingNode).Contains(node))
-                {
-                    if (this.neighborListNode(workingNode).Count()
-                        + this.neighborListNode(node).Count()
-                        < this.nodeList_G.Count() - 1)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-      */
+        /*  public Boolean redeiPAthUtil(Node workingNode)
+          {
+              foreach (Node node in this.nodeList_G)
+              {
+                  if (!this.neighborListNode(workingNode).Contains(node))
+                  {
+                      if (this.neighborListNode(workingNode).Count()
+                          + this.neighborListNode(node).Count()
+                          < this.nodeList_G.Count() - 1)
+                      {
+                          return false;
+                      }
+                  }
+              }
+              return true;
+          }
+        */
 
         /*
         public Boolean redeiCycleUtil(Node workingNode)
@@ -1352,9 +1335,9 @@ namespace editorDeGrafos
 
         public Node thisode(int index)
         {
-            foreach(Node node in this.NODE_LIST)
+            foreach (Node node in this.NODE_LIST)
             {
-                if(node.Index == index)
+                if (node.Index == index)
                 {
                     return node;
                 }
@@ -1409,7 +1392,7 @@ namespace editorDeGrafos
             int res = 0;
             for (int i = 0; i < graph.Count(); i++)
             {
-                res += graph[i][i].NODO.Grade;
+                res += graph[i][i].NODO.GradeOut;
             }
             return res;
         }
@@ -1430,7 +1413,7 @@ namespace editorDeGrafos
             return resNode;
 
         }
-        
+
 
         public DirectedGrade GradeOfDirectedNode(Node nodo)
         {
@@ -1508,7 +1491,7 @@ namespace editorDeGrafos
             return true;
         }
 
-      
+
 
 
         public Boolean allVisitedExept(List<Node> listNodes, Node workingNode)
@@ -1612,11 +1595,11 @@ namespace editorDeGrafos
 
             for (int i = 0; i < other.GRAPH.Count(); i++)
             {
-                grade_T = this.GRAPH[i][i].NODO.Grade;
+                grade_T = this.GRAPH[i][i].NODO.GradeOut;
 
                 res.addIndex_T(grade_T, this.GRAPH[i][i].NODO.Index);
 
-                grade_O = other.GRAPH[i][i].NODO.Grade;
+                grade_O = other.GRAPH[i][i].NODO.GradeOut;
                 res.addIndex_O(grade_O, other.GRAPH[i][i].NODO.Index);
             }
             return res;
@@ -2002,7 +1985,7 @@ namespace editorDeGrafos
                 }
             }
         }
-        
+
         #endregion
 
 
@@ -2020,23 +2003,23 @@ namespace editorDeGrafos
         {
             Point newNodePosition = new Point(cor.X, cor.Y);
             Node newNode;
-            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), this.createID());
+            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), Util.createID(ID_LIST));
             //this.addNode(newNode);
             this.nodeList_G.Add(newNode);
         }
 
         public void create_(Node other)
         {
-            this.nodeList_G.Add(other.clone()) ;
+            this.nodeList_G.Add(other.clone());
         }
 
-        
+
 
         public void create_(Point cor, int generalRadius, Color color)
         {
             Point newNodePosition = new Point(cor.X, cor.Y);
             Node newNode;
-            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), this.createID(), color);
+            newNode = new Node(newNodePosition, generalRadius, this.nodeList_G.Count(), Util.createID(this.ID_LIST), color);
             //this.addNode(newNode);
             this.nodeList_G.Add(newNode);
         }
@@ -2082,13 +2065,7 @@ namespace editorDeGrafos
         public void addUndirectedEdge_(Node client, Node server, int weight)
         {
             if (this.NODE_LIST.Contains(server) && this.NODE_LIST.Contains(client)) {
-                client.addNeightbor(server, weight);
-                server.addTransposedNeighbor(client, weight);
-
-                server.addNeightbor(client, weight);
-                client.addTransposedNeighbor(server, weight);
-
-                edgeList_G.Add(new Edge(client, server, weight));
+                client.add_U_Neighbor(server, weight);
             }
         }
 
@@ -2096,52 +2073,28 @@ namespace editorDeGrafos
         {
             if (this.NODE_LIST.Contains(edge.server) && this.NODE_LIST.Contains(edge.client))
             {
-                edge.client.addNeightbor(edge.server, edge.Weight);
-                edge.server.addTransposedNeighbor(edge.client, edge.Weight);
-
-                edge.server.addNeightbor(edge.client, edge.Weight);
-                edge.client.addTransposedNeighbor(edge.server, edge.Weight);
-
-                edgeList_G.Add(edge);
+                edge.client.add_U_Neighbor(edge.server, edge.Weight);
             }
 
         }
 
         public void addUndirectedEdge_(Edge edge, int weight)
         {
-            if (this.NODE_LIST.Contains(edge.server) && this.NODE_LIST.Contains(edge.client))
-            {
-                edge.client.addNeightbor(edge.server, weight);
-                edge.server.addTransposedNeighbor(edge.client, weight);
-
-                edge.server.addNeightbor(edge.client, weight);
-                edge.client.addTransposedNeighbor(edge.server, weight);
-
-                edgeList_G.Add(edge);
-            }
         }
 
         public void addDirectedEdge_(Node client, Node server, int weight)
         {
-            client.addNeightbor(server, weight);
-            server.addTransposedNeighbor(client, weight);
-
-            this.diEdgeList_G.Add(new Edge(client, server, weight));
         }
 
         public void addCicledEdge_(Node node, int weight)
         {
-            node.addNeightbor(node, weight);
-            node.addTransposedNeighbor(node, weight); 
-
-            this.cicleEdgeList_G.Add(new Edge(node, weight));
         }
 
 
         //return a root 
         public Node rootNode()
         {
-            if(this.Count > 0)
+            if (this.Count > 0)
             {
                 return this.NODE_LIST[0];
             }
@@ -2153,12 +2106,12 @@ namespace editorDeGrafos
 
         public void reset()
         {
-            foreach(Node node in this.NODE_LIST)
+            foreach (Node node in this.NODE_LIST)
             {
                 node.Visited = false;
                 node.Level = 0;
             }
-            foreach(Edge edge in this.allEdges)
+            foreach (Edge edge in this.allEdges)
             {
                 edge.visitada = false;
             }
@@ -2169,17 +2122,17 @@ namespace editorDeGrafos
             this.reset();//reset the graph 
             Forest fRes = new Forest();
 
-            if(root == null)
+            if (root == null)
             {
                 root = this.rootNode().clone();
             }
 
-            if(root != null) //no Node was selected it guides with nodes indicess
+            if (root != null) //no Node was selected it guides with nodes indicess
             {
                 Tree tree = new Tree();//make a new tree for each root
                 root.Level = 0;
                 Node newRoot = root.clone();
-                
+
                 tree.addNode(newRoot);
                 _getForestDFS_(root, tree);
                 fRes.ListOfTrees.Add(tree);
@@ -2203,7 +2156,7 @@ namespace editorDeGrafos
         public void _getForestDFS_(Node parent, Tree tree)
         {
             parent.Visited = true;
-            foreach(NodeRef nodeR in parent.NEIGHBORS)//for each neigthbor
+            foreach (NodeRef nodeR in parent.NEIGHBORS)//for each neigthbor
             {
                 if (!nodeR.NODO.Visited)//if node wasnt visited yet
                 {
@@ -2256,7 +2209,7 @@ namespace editorDeGrafos
         public List<Node> visitAllDescendence(Node parent)
         {
             List<Node> res = new List<Node>();
-            foreach(NodeRef nodeR in parent.NEIGHBORS)
+            foreach (NodeRef nodeR in parent.NEIGHBORS)
             {
                 if (!nodeR.NODO.Visited)//if the node wawsnt visited yet
                 {
@@ -2275,10 +2228,10 @@ namespace editorDeGrafos
 
             foreach (Node node in sons)//for each neigthbor
             {
-              Node newTreeNode = node.clone();
-              tree.addNode(newTreeNode);//add a cloned node to the actual tree
-              tree.addDirectedEdge_(tree.thisnode(parent), newTreeNode, 0);//add edge of parent with actual node
-              _getForestBFS_(node, tree);
+                Node newTreeNode = node.clone();
+                tree.addNode(newTreeNode);//add a cloned node to the actual tree
+                tree.addDirectedEdge_(tree.thisnode(parent), newTreeNode, 0);//add edge of parent with actual node
+                _getForestBFS_(node, tree);
             }
         }
 
@@ -2314,7 +2267,7 @@ namespace editorDeGrafos
             //    }
             //}
 
-            if(!allNodesVisited())
+            if (!allNodesVisited())
             {
                 posibleBridge.Bridge = true;
                 return true;
@@ -2333,7 +2286,7 @@ namespace editorDeGrafos
             // Recur for all the vertices adjacent to this vertex
             foreach (NodeRef nodeR in workingNode.NEIGHBORS)
             {
-               if(!this.isThisUndireEdge(posibleBridge,workingNode,nodeR.NODO) && nodeR.Visited == false)
+                if (!this.isThisUndireEdge(posibleBridge, workingNode, nodeR.NODO) && nodeR.Visited == false)
                 {
                     DFSUtilAllConectedBridge(nodeR.NODO, posibleBridge);
                 }
@@ -2348,7 +2301,7 @@ namespace editorDeGrafos
             {
                 if (node.Visited == false)
                 {
-                    return false; 
+                    return false;
                 }
             }
 
@@ -2375,7 +2328,7 @@ namespace editorDeGrafos
 
             foreach (Node node in this.NODE_LIST)
             {
-                int degreeByN = node.Grade;
+                int degreeByN = node.GradeOut;
 
                 if (degreeByN > 0)//atleast one neightboor
                 {
@@ -2383,7 +2336,7 @@ namespace editorDeGrafos
                     {
                         oddDegreeCont++;
                         estimadedIniFinNodes.Add(node);
-                        if(estimadedIniFinNodes.Count() > 2)//there is no path or cyce of euler
+                        if (estimadedIniFinNodes.Count() > 2)//there is no path or cyce of euler
                         {
 
                         }
@@ -2409,7 +2362,7 @@ namespace editorDeGrafos
         }
 
 
-        public Boolean pathOfEuler_Algorithm(List<Node> pathOfNodes, List<Edge> pathToAnimate, List<Edge> cutEdges)
+        public Boolean pathOfEuler_Algorithm(List<Node> pathOfNodes, List<Edge> pathToAnimate, List<Edge> cutEdges, Node initialNodePath)
         {
 
             pathOfNodes = new List<Node>();
@@ -2434,11 +2387,12 @@ namespace editorDeGrafos
 
             this.reset();//marcar todos los nodos y aristas como no visitados.
 
-            return DFS_Any_EulerPath(initialNodePath);
+            Node finalNodePath = null;
+            return DFS_Any_EulerPath(initialNodePath, finalNodePath);
         }
 
 
-        Boolean DFS_Any_EulerPath(Node workingNode)//recursive function.
+        Boolean DFS_Any_EulerPath(Node workingNode, Node finalNodePath)//recursive function.
         {
             List<Edge> notVisitedYet = notVisitedListEdge();//nodos sin visitar para restauraciones.
             List<Node> neightboors = workingNode.neighborListNode();//vecinos del nodo actual.
@@ -2448,7 +2402,7 @@ namespace editorDeGrafos
              * *********************/
             if (notVisitedYet.Count() == 0)//todos los nodos visitados && el nodo actual tiene de vecino al nodo inicial
             {
-                pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
+                //pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
                 return true;
             }
 
@@ -2463,16 +2417,16 @@ namespace editorDeGrafos
              * *********************/
             foreach (Node node in neightboors)
             {
-                if (this.thisEdge(workingNode, node).visitada == false && node != finalNodePath)
+                if (this.thisEdge(workingNode, node).visitada == false)// && node != finalNodePath)
                 {
                     this.thisEdge(workingNode, node).visitada = true;
 
-                    if (DFS_Any_EulerPath(node))//si el nodo vecino retorna un ciclo
+                    if (DFS_Any_EulerPath(node, finalNodePath))//si el nodo vecino retorna un ciclo
                     {
                         // nodesPath.Add(workingNode);
                         Edge edge = this.thisEdge(workingNode, node);
-                        pathOfNodes.Add(workingNode);
-                        pathToAnimate.Add(edge);
+                        //pathOfNodes.Add(workingNode);
+                        //pathToAnimate.Add(edge);
                         return true;
                     }
                     else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
@@ -2484,7 +2438,7 @@ namespace editorDeGrafos
             {
                 this.thisEdge(workingNode, finalNodePath).visitada = true;
 
-                if (DFS_Any_EulerPath(finalNodePath))//si el nodo vecino retorna un ciclo
+                if (DFS_Any_EulerPath(finalNodePath, finalNodePath))//si el nodo vecino retorna un ciclo
                 {
                     // nodesPath.Add(workingNode);
                     Edge edge = this.thisEdge(workingNode, finalNodePath);
@@ -2501,9 +2455,47 @@ namespace editorDeGrafos
 
         #endregion
 
+        public Boolean allConnected(List<Node> nodeList)
+        {
+            // Mark all the vertices as not visited 
+            this.reset();
+
+            // Start DFS traversal from a vertex with non-zero degree 
+            DFSUtilAllConected(nodeList[0]);
+
+            // Check if all non-zero degree vertices are visited 
+            foreach (Node node in nodeList)
+            {
+                if (node.Visited == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public Boolean allConnected(Graph graph)
+        {
+            // Mark all the vertices as not visited 
+            graph.reset();
+
+            // Start DFS traversal from a vertex with non-zero degree 
+            DFSUtilAllConected(graph.NODE_LIST[0]);
+
+            // Check if all non-zero degree vertices are visited 
+            foreach (Node node in graph.NODE_LIST)
+            {
+                if (node.Visited == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         #region EulerCycle
 
-        public Boolean cycleOfEulerBool()//to determine if the graph has a Eulerian cycle.
+        public Boolean cycleOfEulerBool(List<Node> workingNodes)//to determine if the graph has a Eulerian cycle.
         {
             // An undirected graph has Eulerian cycle if following two conditions are true.
             //….a) All vertices with non-zero degree are connected.We don’t care about 
@@ -2513,9 +2505,9 @@ namespace editorDeGrafos
             // aux = new AdjacencyList();
             workingNodes = new List<Node>();
 
-            foreach (Node node in graph_FV.NODE_LIST)
+            foreach (Node node in this.NODE_LIST)
             {
-                int degreeByN = node.Grade;
+                int degreeByN = node.GradeOut;
 
                 if (degreeByN > 0)//atleast one neightboor
                 {
@@ -2531,7 +2523,7 @@ namespace editorDeGrafos
             //if (aux.LIST_NODES.Count() > 0)
             if (workingNodes.Count > 0)
             {
-                if (!allConected(workingNodes))// if not all are connected
+                if (!allConnected(workingNodes))// if not all are connected
                 {
                     return false;
                 }
@@ -2539,21 +2531,20 @@ namespace editorDeGrafos
             return res;
         }
 
-
+        List<Edge> cutEdges;
         public Boolean cycleOfEuler_Algorithm()
         {
-
             pathOfNodes = new List<Node>();
             pathToAnimate = new List<Edge>();
             cutEdges = new List<Edge>();
 
-            graph_FV.markAllLikeNotBridge();
-            graph_FV.markAllNodeAndEdgesNotVisited();
+            this.markAllLikeNotBridge();
+            this.markAllNodeAndEdgesNotVisited();
 
 
-            foreach (Edge edge in graph_FV.EDGE_LIST)
+            foreach (Edge edge in this.EDGE_LIST)
             {
-                if (graph_FV.isABridgeBool(edge))
+                if (this.isABridgeBool(edge))
                 {
                     cutEdges.Add(edge);
                 }
@@ -2563,26 +2554,29 @@ namespace editorDeGrafos
             // Start DFS traversal from a vertex with non-zero degree 
             //return DFSHamiltonCycle(initialNodePath);
 
-            graph_FV.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no Visiteds.
+            this.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no Visiteds.
 
             return DFS_Any_EulerCycle(initialNodePath);
         }
 
+        Node initialNodePath;
+        List<Edge> pathToAnimate;
+        List<Node> pathOfNodes;
 
 
         //List<Node> nodesPath = new List<Node>();
         Boolean DFS_Any_EulerCycle(Node workingNode)//recursive function.
         {
-            List<Edge> notVisitedYet = graph_FV.notVisitedListEdge();//nodos sin visitar para restauraciones.
+            List<Edge> notVisitedYet = this.notVisitedListEdge();//nodos sin visitar para restauraciones.
             List<Node> neightboors = workingNode.neighborListNode();//vecinos del nodo actual.
 
             /*********************
              *       Caso Base. 
              * *********************/
-            if (notVisitedYet.Count() == 1 && neightboors.Contains(initialNodePath) && graph_FV.thisEdge(workingNode, initialNodePath).visitada == false)//todos los nodos visitados && el nodo actual tiene de vecino al nodo inicial
+            if (notVisitedYet.Count() == 1 && neightboors.Contains(initialNodePath) && this.thisEdge(workingNode, initialNodePath).visitada == false)//todos los nodos visitados && el nodo actual tiene de vecino al nodo inicial
             {
-                graph_FV.thisEdge(workingNode, initialNodePath).visitada = true;
-                Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
+                this.thisEdge(workingNode, initialNodePath).visitada = true;
+                Edge edge = this.thisEdge(workingNode, initialNodePath);
                 pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
                 pathOfNodes.Add(initialNodePath);//se agrega por primera vez el nodoInicial(mismo que nodoFinal) al camino de nodos;
                 pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
@@ -2592,7 +2586,7 @@ namespace editorDeGrafos
             //acomodar los vecinos de menor a mayor en cuestion de grado.
             neightboors.Sort(delegate (Node x, Node y)
             {
-                return graph_FV.neighborListNodeNoVisited(x).Count().CompareTo(graph_FV.neighborListNodeNoVisited(y).Count());
+                return this.neighborListNodeNoVisited(x).Count().CompareTo(this.neighborListNodeNoVisited(y).Count());
             });
 
             /*********************
@@ -2600,37 +2594,37 @@ namespace editorDeGrafos
              * *********************/
             foreach (Node node in neightboors)
             {
-                if (this.graph_FV.thisEdge(workingNode, node).visitada == false && node != initialNodePath)
+                if (this.thisEdge(workingNode, node).visitada == false && node != initialNodePath)
                 {
-                    this.graph_FV.thisEdge(workingNode, node).visitada = true;
+                    this.thisEdge(workingNode, node).visitada = true;
 
                     if (DFS_Any_EulerCycle(node))//si el nodo vecino retorna un ciclo
                     {
                         // nodesPath.Add(workingNode);
-                        Edge edge = graph_FV.thisEdge(workingNode, node);
+                        Edge edge = this.thisEdge(workingNode, node);
                         pathOfNodes.Add(workingNode);
                         pathToAnimate.Add(edge);
                         return true;
                     }
                     else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                        graph_FV.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
+                        this.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
                 }
 
             }
-            if (neightboors.Contains(initialNodePath) && graph_FV.thisEdge(workingNode, initialNodePath).visitada == false)
+            if (neightboors.Contains(initialNodePath) && this.thisEdge(workingNode, initialNodePath).visitada == false)
             {
-                this.graph_FV.thisEdge(workingNode, initialNodePath).visitada = true;
+                this.thisEdge(workingNode, initialNodePath).visitada = true;
 
                 if (DFS_Any_EulerCycle(initialNodePath))//si el nodo vecino retorna un ciclo
                 {
                     // nodesPath.Add(workingNode);
-                    Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
-                    pathOfNodes.Add(workingNode);
+                    Edge edge = this.thisEdge(workingNode, initialNodePath);
+                  pathOfNodes.Add(workingNode);
                     pathToAnimate.Add(edge);
                     return true;
                 }
                 else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                    graph_FV.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
+                    this.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
             }
             //no se encontro nigun ciclo.
             return false;
