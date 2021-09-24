@@ -8,7 +8,7 @@ Un editor de grafos en c# (windows forms). El editor de grafos permite crear gra
 
 ## Requisitos para correr el proyecto:
 
-El proyecto esta hecho en Windows Forms por lo que se necesitara tener [Visual Studio](https://visualstudio.microsoft.com/es/free-developer-offers) , el cual está disponible para windows y IOS.
+El proyecto esta hecho en Windows Forms por lo que se necesitara tener [Visual Studio](https://visualstudio.microsoft.com/es/free-developer-offers) en la version 2019 o posterior, el cual está disponible para windows y IOS.
 
 * Windows [Visual Studio Download](https://visualstudio.microsoft.com/es/free-developer-offers)
 
@@ -32,6 +32,8 @@ habre la solucion y podemos ver sus archivos y editarlos, asi mismo debugear el 
 <img src="https://user-images.githubusercontent.com/44269967/134696847-ec0b5813-30be-43ce-8dd5-bdf024457237.gif" width="700" />
 
 
+
+
 ### Clonar el proyecto con Git:
 A mi parecer clonar el proyecto desde terminal de comandos siempre acaba siendo mas sencillo y practico. Necesitas tener [git](https://git-scm.com/) instalado en tu ordenador lo mas facil es usar "git bash" pero cualquier terminal de comandos puede hacer la tarea siempre y cuando las variables de etorno correctamente configuradas.
 
@@ -44,7 +46,8 @@ Primero sitearse sobre una carpeta en la que pueda estar el proyecto y despues s
 ```
 $ git clone https://github.com/Pedejeca135/GRAFOS_PRO
 ```
-<img src="https://user-images.githubusercontent.com/44269967/134713951-d6ee9a5d-5b03-43c5-ab0e-2f1ac256f02d.png" width="700" />
+<img src="https://user-images.githubusercontent.com/44269967/134730375-68c92628-4ee1-4761-86ab-b38e67afccb6.png" width="700" />
+
 
 ## Editor Sections (Secciones del editor):
 El editor cuenta con varias secciones
