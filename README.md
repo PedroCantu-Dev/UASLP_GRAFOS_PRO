@@ -84,48 +84,55 @@ Estas son opciones de la vista del editor. Como por ejemplo si los pesos de las 
 
 
 ## Operaciones sobre el grafo y los nodos.
-Las operaciones se refieren a todos los metodos basicos para trabajar con los nodos, estos van desde la creacion y eliminacion de nodos, generacion de aristas, etc.
+Las operaciones se refieren a todos los metodos basicos para trabajar con los nodos, estos van desde la mas basica que es la creacion y eliminacion de nodos,y ademas la generacion de aristas, etc.
 
 ### Operations (operaciones):
 Son las operaciones que se pueden realizar sobre el grafo mediante el uso del mouse,facilitan la creacion y manipulacion de grafos, solo funcionan si es que estan activadas.
-Las operaciones son mutuamente excluyentes y cuando son activadas se deselecciona cualquier nodo.
+Las operaciones son mutuamente excluyentes y cuando son activadas se deselecciona cualquier nodo. Pra la creacion de un nodo basta con dar click en la seccion para el grado del editor, esta accion creara un nodo con un identificador unico, el indice se maneja para la lista de nodos dentro del grafo por lo que puede varier dependiendo de si un nodo es eliminado, pues esto altera el indice de los nodos con indice mayor.
 
 ###############A continuacion se muestra una tabla que especifica las distintas operaciones que se pueden realizar cuando estan activadas.
 
 #### Move (M):
 Se pueden mover cada uno de los nodos individualmente con los botones izquierdo y derecho.
 
-<img src="https://user-images.githubusercontent.com/44269967/134717821-14e9f9da-071c-4a3e-9884-10ace13076f4.gif" width="700" />
+<img src="https://user-images.githubusercontent.com/44269967/134717821-14e9f9da-071c-4a3e-9884-10ace13076f4.gif" width="600" />
 
 #### Move All (A):
 Se puede mover todo el grafo a la vez con el boton izquierdo y derecho.
 
-<img src="https://user-images.githubusercontent.com/44269967/134717838-6e99b2d8-39ee-4e6f-af8b-74ec4802efb1.gif" width="700" />
+<img src="https://user-images.githubusercontent.com/44269967/134717838-6e99b2d8-39ee-4e6f-af8b-74ec4802efb1.gif" width="600" />
 
 #### Remove (R):
 Se pueden eliminar cada nodo individualmente
 
-<img src="https://user-images.githubusercontent.com/44269967/134717854-76710021-9f91-49fe-8ff7-dd29fef6f942.gif" width="700" />
+<img src="https://user-images.githubusercontent.com/44269967/134717854-76710021-9f91-49fe-8ff7-dd29fef6f942.gif" width="600" />
 
 #### MoRe (F):
 Viene de Move-Remove. Los nodos se mueven con boton izquierdo del mouse y se eliminan con el boton derecho individualmente.
 
-<img src="https://user-images.githubusercontent.com/44269967/134717869-6fef26f9-248e-4477-a7e6-1518de89d90b.gif" width="700" />
+<img src="https://user-images.githubusercontent.com/44269967/134717869-6fef26f9-248e-4477-a7e6-1518de89d90b.gif" width="600" />
 
 #### Linking (L):
 Se pueden hacer enlaces **no dirigidos** con el boton izquerdo y **dirigidos** con el boton derecho.
 
+<img src="https://user-images.githubusercontent.com/44269967/134731747-c675b38b-f28c-4451-8dd8-19f49f518234.gif" width="600" />
+
 ##### Linking Undirected(U):
 Se pueden hacer enlaces **no dirigidos** con cualquier boton.
+
+<img src="https://user-images.githubusercontent.com/44269967/134732269-1a77d735-30c0-4e94-9d97-2873d122fa55.gif" width="600" />
 
 ##### Linking Directed (D):
 Se pueden hacer enlaces **dirigidos** con cualquier boton
 
+<img src="https://user-images.githubusercontent.com/44269967/134732916-72e63500-f5c3-472a-976a-4ce4d0cda76a.gif" width="600" />
 
 ### Truncated weight(Peso truncado):
 ![image](https://user-images.githubusercontent.com/44269967/134716314-0ec3f583-c59a-4e46-af81-c82f60c7e588.png)
 
 Esta opcion permite designar un peso especifico para las aristas que se crearan. Se debe de marcar un numero en la caja de texto y apretar el boton, el cual permanecera en verde mientras este activo. Si es así, el editor pondra este valor de peso en cualquier arista que se cree sin preguntar, de lo contrario se abrira una nueva Forma que le pedira un valor para el peso de la arista.
+
+![image](https://user-images.githubusercontent.com/44269967/134733603-8d352258-fceb-4c66-9549-cfbcb8063dee.png)
 
 ### Selected Node States (Estados de seleccion de nodo):
 Cualquier nodo puede ser selccionado, estos cuentan con tres estados de sleccion aciva, a continuacion se detallan las operaciones queestos estados pemiten hacer sobre el nodo.
