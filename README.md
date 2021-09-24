@@ -2,7 +2,7 @@
 
 Un editor de grafos en c# (windows forms). El editor de grafos permite crear grafos visualmente y generar archivos que los representan. Utiliza una estructura de listas para representar las aristas.
 
-![editor Presentacion](https://user-images.githubusercontent.com/44269967/134715454-d9c4f09b-e8c8-431c-91b7-a8501e0760dd.PNG)
+<img src="https://user-images.githubusercontent.com/44269967/134715454-d9c4f09b-e8c8-431c-91b7-a8501e0760dd.PNG" width="900" />
 
 
 
@@ -21,15 +21,15 @@ El proyecto esta hecho en Windows Forms por lo que se necesitara tener [Visual S
 En esta pagina del proyecto dentro de github puedes facilmente descargar el proyecto en un archivo zip, al descomprimirlo e ingresar a la carpeta encontraremos un archivo 
 *.sln (editorGrafos.sln) 
 
-
-![download zip](https://user-images.githubusercontent.com/44269967/134695997-35c5c780-ae53-4980-ba27-b89c59d8e45d.gif)
+<img src="https://user-images.githubusercontent.com/44269967/134695997-35c5c780-ae53-4980-ba27-b89c59d8e45d.gif" width="900" />
 
 
 
 el archivo *.sln (editorGrafos.sln), es el archivo de la solucion, para ingresar a ella se tiene que hacer doble click en este archivo, ya con el visual studio instalado, esto nos 
 habre la solucion y podemos ver sus archivos y editarlos, asi mismo debugear el proyecto.
 
-![editor sln](https://user-images.githubusercontent.com/44269967/134696847-ec0b5813-30be-43ce-8dd5-bdf024457237.gif)
+
+<img src="https://user-images.githubusercontent.com/44269967/134696847-ec0b5813-30be-43ce-8dd5-bdf024457237.gif" width="700" />
 
 
 ### Clonar el proyecto con Git:
@@ -44,8 +44,7 @@ Primero sitearse sobre una carpeta en la que pueda estar el proyecto y despues s
 ```
 $ git clone https://github.com/Pedejeca135/GRAFOS_PRO
 ```
-![image](https://user-images.githubusercontent.com/44269967/134713951-d6ee9a5d-5b03-43c5-ab0e-2f1ac256f02d.png)
-
+<img src="https://user-images.githubusercontent.com/44269967/134713951-d6ee9a5d-5b03-43c5-ab0e-2f1ac256f02d.png" width="700" />
 
 ## Editor Sections (Secciones del editor):
 El editor cuenta con varias secciones
@@ -80,88 +79,35 @@ Guarda el archivo en uso en un archivo de texto.
 ### View (vista):
 Estas son opciones de la vista del editor. Como por ejemplo si los pesos de las aristas son visibles, la vista de la matriz que representa el grafo, etc.
 
-### Boxes:
-Estos son cajas de texto que especifican el estado y caracteristicas del grafo y de los nodos en "tiempo real".
-
-#### Graph Information Box:
-Esta caja especifica informacion del grafo en cuestion, 
-
-#### Node Selected Information Box:
-
-#### Matrix Representation Box:
 
 ## Operaciones sobre el grafo y los nodos.
 Las operaciones se refieren a todos los metodos basicos para trabajar con los nodos, estos van desde la creacion y eliminacion de nodos, generacion de aristas, etc.
 
-### Selected Node States (Estados de seleccion de nodo):
-Cualquier nodo puede ser selccionado, estos cuentan con tres estados de sleccion aciva, a continuacion se detallan las operaciones queestos estados pemiten hacer sobre el nodo.
-
-
-![NodeSelectionStates2](https://user-images.githubusercontent.com/44269967/134720120-bb7bbd76-2689-4f6e-96ca-a9237fb09ec5.gif)
-
-
-#### State 0 - Black:
-![image](https://user-images.githubusercontent.com/44269967/134719052-48c1e802-649d-4ba3-91ac-d9e54522a2b6.png)
-
-Es el estado inicial de los nodos.
-Solo un nodo puede ser selecionadoa la vez, cando haya alguno su informacion aparecera en lacaja de infomacion de nodo seleccionado.
-![image](https://user-images.githubusercontent.com/44269967/134719538-1cb9154a-d956-47d3-aef2-58879e5396ec.png)
-
-##### Any
-* **Left Click:** Selecciona el nodo y aumenta su estado de seleccion (1).
-
-#### State 1 - Green:
-![image](https://user-images.githubusercontent.com/44269967/134719112-6ba48c15-693e-4a8e-8990-9a15a6a83f82.png)
-##### Selected(Self)
-* **Left Click:** Cambia el nodo seleccionado al siguiente estado (2).
-* **Right Click:** Mueve el nodo
-##### Other
-* **Left Click:** Cambia el nodo seleccionado a other con el mismo estado (1).
-* **Right Click:** -----
-
-#### State 2 - Blue:
-![image](https://user-images.githubusercontent.com/44269967/134719161-f1a0c319-0dfd-42fd-b768-dd3d1927e5cb.png)
-
-##### Selected(Self)
-* **Left Click:** Cambia el nodo seleccionado al siguiente estado (3).
-* **Right Click:** crea una oreja en el nodo.
-##### Other
-* **Left Click:** Crea un enlace **no dirigido** entre el nodo seleccionado (Self) y el nodo clickeado (Other). 
-* **Right Click:** Cambia el nodo seleccionado a Other con el mismo estado (2).
-
-#### State 3 - Red:
-![image](https://user-images.githubusercontent.com/44269967/134719190-37f9569b-33c1-4065-ae4f-09048467552c.png)
-
-##### Self
-* **Left Click:** Cambia el estado de seleccion a 0.
-* **Right Click:** Elimina el nodo seleccionado.
-##### Other
-* **Left Click:** Crea un enlace **dirigido** entre el nodo seleccionado (Self) y el nodo clickeado (Other). 
-* **Right Click:** Cambia el nodo seleccionado a other con el mismo estado (3).
-
-
-
 ### Operations (operaciones):
-Son las operaciones que se pueden realizar sobre el grafo mediante el uso del mouse,si es que estan activadas.
+Son las operaciones que se pueden realizar sobre el grafo mediante el uso del mouse,facilitan la creacion y manipulacion de grafos, solo funcionan si es que estan activadas.
 Las operaciones son mutuamente excluyentes y cuando son activadas se deselecciona cualquier nodo.
 
-A continuacion se muestra una tabla que especifica las distintas operaciones que se pueden realizar cuando estan activadas.
+###############A continuacion se muestra una tabla que especifica las distintas operaciones que se pueden realizar cuando estan activadas.
 
 #### Move (M):
 Se pueden mover cada uno de los nodos individualmente con los botones izquierdo y derecho.
-![Move_M_Operation](https://user-images.githubusercontent.com/44269967/134717821-14e9f9da-071c-4a3e-9884-10ace13076f4.gif)
+
+<img src="https://user-images.githubusercontent.com/44269967/134717821-14e9f9da-071c-4a3e-9884-10ace13076f4.gif" width="700" />
 
 #### Move All (A):
 Se puede mover todo el grafo a la vez con el boton izquierdo y derecho.
-![MoveAll_A_Operation](https://user-images.githubusercontent.com/44269967/134717838-6e99b2d8-39ee-4e6f-af8b-74ec4802efb1.gif)
+
+<img src="https://user-images.githubusercontent.com/44269967/134717838-6e99b2d8-39ee-4e6f-af8b-74ec4802efb1.gif" width="700" />
 
 #### Remove (R):
 Se pueden eliminar cada nodo individualmente
-![Remove_R_Operation](https://user-images.githubusercontent.com/44269967/134717854-76710021-9f91-49fe-8ff7-dd29fef6f942.gif)
+
+<img src="https://user-images.githubusercontent.com/44269967/134717854-76710021-9f91-49fe-8ff7-dd29fef6f942.gif" width="700" />
 
 #### MoRe (F):
 Viene de Move-Remove. Los nodos se mueven con boton izquierdo del mouse y se eliminan con el boton derecho individualmente.
-![MoRe_F_Operation](https://user-images.githubusercontent.com/44269967/134717869-6fef26f9-248e-4477-a7e6-1518de89d90b.gif)
+
+<img src="https://user-images.githubusercontent.com/44269967/134717869-6fef26f9-248e-4477-a7e6-1518de89d90b.gif" width="700" />
 
 #### Linking (L):
 Se pueden hacer enlaces **no dirigidos** con el boton izquerdo y **dirigidos** con el boton derecho.
@@ -177,6 +123,85 @@ Se pueden hacer enlaces **dirigidos** con cualquier boton
 ![image](https://user-images.githubusercontent.com/44269967/134716314-0ec3f583-c59a-4e46-af81-c82f60c7e588.png)
 
 Esta opcion permite designar un peso especifico para las aristas que se crearan. Se debe de marcar un numero en la caja de texto y apretar el boton, el cual permanecera en verde mientras este activo. Si es así, el editor pondra este valor de peso en cualquier arista que se cree sin preguntar, de lo contrario se abrira una nueva Forma que le pedira un valor para el peso de la arista.
+
+### Selected Node States (Estados de seleccion de nodo):
+Cualquier nodo puede ser selccionado, estos cuentan con tres estados de sleccion aciva, a continuacion se detallan las operaciones queestos estados pemiten hacer sobre el nodo.
+
+<img src="https://user-images.githubusercontent.com/44269967/134720120-bb7bbd76-2689-4f6e-96ca-a9237fb09ec5.gif" width="800" />
+
+
+#### State 0 - Black:
+
+![image](https://user-images.githubusercontent.com/44269967/134719052-48c1e802-649d-4ba3-91ac-d9e54522a2b6.png)
+
+Es el estado inicial de los nodos.
+Solo un nodo puede ser selecionadoa la vez, cando haya alguno su informacion aparecera en la caja de infomacion de nodo seleccionado.
+
+![image](https://user-images.githubusercontent.com/44269967/134719538-1cb9154a-d956-47d3-aef2-58879e5396ec.png)
+
+##### Any Node
+* **Left Click:** Selecciona el nodo y aumenta su estado de seleccion (1).
+
+#### State 1 - Green:
+
+![image](https://user-images.githubusercontent.com/44269967/134719112-6ba48c15-693e-4a8e-8990-9a15a6a83f82.png)
+##### Selected(Self)
+* **Left Click:** Cambia el nodo seleccionado al siguiente estado (2).
+* **Right Click:** Mueve el nodo
+##### Other
+* **Left Click:** Cambia el nodo seleccionado a other con el mismo estado (1).
+* **Right Click:** -----
+
+#### State 2 - Blue:
+
+![image](https://user-images.githubusercontent.com/44269967/134719161-f1a0c319-0dfd-42fd-b768-dd3d1927e5cb.png)
+
+##### Selected(Self)
+* **Left Click:** Cambia el nodo seleccionado al siguiente estado (3).
+* **Right Click:** crea una oreja en el nodo.
+##### Other
+* **Left Click:** Crea un enlace **no dirigido** entre el nodo seleccionado (Self) y el nodo clickeado (Other). 
+* **Right Click:** Cambia el nodo seleccionado a Other con el mismo estado (2).
+
+#### State 3 - Red:
+
+![image](https://user-images.githubusercontent.com/44269967/134719190-37f9569b-33c1-4065-ae4f-09048467552c.png)
+
+##### Self
+* **Left Click:** Cambia el estado de seleccion a 0.
+* **Right Click:** Elimina el nodo seleccionado.
+##### Other
+* **Left Click:** Crea un enlace **dirigido** entre el nodo seleccionado (Self) y el nodo clickeado (Other). 
+* **Right Click:** Cambia el nodo seleccionado a other con el mismo estado (3).
+
+#### Ejemplo de como recrear grafos mediante seleccion de nodos:
+es importante mencionar que al crear aristas estas se denominan con un tipo, ya sea dirigidas y no dirigidas, si un grafo contiene almenos una arista dirigida se considera grafo dirigido no importando que sus otras aristas se hayan creado como dirigidas.
+
+Para recrear el siguiente grafo dirigido operando con los nodos:
+
+![image002](https://user-images.githubusercontent.com/44269967/134723849-11010d08-a86c-4b67-95bd-14344924f702.gif)
+
+Esta seria una de las posibilidades para el dirigido:
+
+![ejemplo1](https://user-images.githubusercontent.com/44269967/134725766-a9283f9e-93b9-4c71-9c6a-9785cfd000d0.gif)
+
+Para el no dirigido:
+
+![ejemplo2](https://user-images.githubusercontent.com/44269967/134726748-2a1dedae-4d0a-4bf5-93fc-9c9b60fd6c04.gif)
+
+
+
+### Boxes:
+Estos son cajas de texto que especifican el estado y caracteristicas del grafo y de los nodos en "tiempo real".
+
+#### Graph Information Box:
+Esta caja especifica informacion del grafo en cuestion, 
+
+#### Node Selected Information Box:
+
+#### Matrix Representation Box:
+
+
 
 ### Algoritmos:
 
