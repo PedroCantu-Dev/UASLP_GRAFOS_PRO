@@ -167,6 +167,7 @@ namespace editorDeGrafos
         }
 
 
+
         /********** for linking operations ************************/
         Edge linkingEdge = null;
 
@@ -179,7 +180,7 @@ namespace editorDeGrafos
         Boolean trunquedGrade = false;
 
 
-       
+
         //Dos--------------------------------
         /****************** for Isomorphism *************************/
         Boolean isoForm;
@@ -285,7 +286,7 @@ namespace editorDeGrafos
             {
                 if (selectedNode_FV != null)
                 {
-                    
+                    Reset_All();
                 }
                 this.operationIndex_FV = 0;
             }
@@ -1043,7 +1044,7 @@ namespace editorDeGrafos
             operationIndex_FV = 0;
         }
 
-       
+
 
         /********************* common key-operations (END) ****************************/
         #endregion
@@ -1088,7 +1089,7 @@ namespace editorDeGrafos
             InvalidatePlus();
         }
 
-     
+
 
 
         private void dFSToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1897,7 +1898,7 @@ namespace editorDeGrafos
             linkingEdge = null;
             left_Linkind = false;
             right_Linking = false;
-          
+
             /****************** for Isomorphism *************************/
             isoForm = false;
             /****************** for paths and cicles ********************/
@@ -2259,6 +2260,9 @@ namespace editorDeGrafos
             Invalidate();
         }
 
+        private static Timer algorithms_Handling_Timer;
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
             //pruebas pb = new pruebas();
@@ -2267,6 +2271,82 @@ namespace editorDeGrafos
             timerColor.Interval = 800;
             timerColor.Tick += new EventHandler(GraphTimerColor/*GraphTimerColor*/);
             tmpCount = 0;
+
+            algorithms_Handling_Timer = new Timer();
+            algorithms_Handling_Timer.Interval = 500;
+            algorithms_Handling_Timer.Tick += new EventHandler(callAlgorithms);
+            algorithms_Handling_Timer.Start();
+
+
+        }
+    
+         
+        private bool callAlgorithms(object sender, EventArgs e)
+        {
+            if (DoAlgo_DFS_Auto)
+            {
+                DoAlgo_DFS_Auto_Start(sender, e);
+                return true;
+            }
+            else if(DoAlgo_DFS_Manual)
+            {
+                DoAlgo_DFS_Manual_Start(sender, e);
+                return true;
+            }
+            else if(DoAlgo_BFS_Auto)
+            {
+                DoAlgo_BFS_Auto_Start(sender, e);
+                return true;
+            }
+            else if(DoAlgo_BFS_Manual)
+            {
+                DoAlgo_BFS_Manual_Start(sender, e);
+                return true;
+            }
+            else if(DoAlgo_Kruskal)
+            {
+                timerColor.Start();
+            }
+            else if(DoAlgo_Prim)
+            {
+                timerColor.Start();
+            }
+            else if(DoAlgo_Warshall)
+            {
+                timerColor.Start();
+            }
+            else if(DoAlgo_Floyd)
+            {
+                timerColor.Start();
+            }
+            else if(DoAlgo_Dijkstra)
+            {
+                timerColor.Start();
+            }
+            else if(DoAlgo_Hamilton)
+            {
+                timerColor.Start();
+            }
+            else if(DoAlgo_Euler)
+            {
+                timerColor.Start();
+            }
+            else if (DoAlgo_Iso_FuerzaBruta)
+            {
+                timerColor.Start();
+            }
+            else if(DoAlgo_Iso_Transpuesta)
+            {
+                timerColor.Start();
+            }
+            else if (DoAlgo_Iso_Intercambio)
+            {
+                timerColor.Start();
+            }
+            else
+            {
+                return false;
+            }
         }
 
         #endregion
@@ -3035,31 +3115,119 @@ namespace editorDeGrafos
         private void DoAlgo_DFS_Auto_Click(object sender, EventArgs e)
         {
             DoAlgo_DFS_Auto = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
         }
 
         //DFS MANUAL:
         private void DoAlgo_DFS_Manual_Click(object sender, EventArgs e)
         {
             DoAlgo_DFS_Manual = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
         }
 
         //BFS AUTO:
         private void DoAlgo_BFS_Auto_Click(object sender, EventArgs e)
         {
             DoAlgo_BFS_Auto = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
         }
 
         //BFS MANUAL:
         private void DoAlgo_BFS_Manual_Click(object sender, EventArgs e)
         {
             DoAlgo_BFS_Manual = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
         }
 
         //KRUSKAL:
         private void DoAlgo_Kruskal_Click(object sender, EventArgs e)
         {
             DoAlgo_Kruskal = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
         }
+       
+        //PRIM:
+        private void DoAlgo_Prim_Click(object sender, EventArgs e)
+        {
+            DoAlgo_Prim = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
+        }
+
+        //WARSHALL:
+        private void DoAlgo_Warshall_Click(object sender, EventArgs e)
+        {
+            DoAlgo_Warshall = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
+        }
+
+        //FLOYD:
+        private void DoAlgo_Floyd_Click(object sender, EventArgs e)
+        {
+            DoAlgo_Floyd = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
+        }
+
+        //DIJKSTRA:      
+        private void DoAlgo_Dijkstra_Click(object sender, EventArgs e)
+        {
+            DoAlgo_Dijkstra = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
+        }
+
+       //HAMILTON:
+        private void DoAlgo_Hamilton_Click(object sender, EventArgs e)
+        {
+            DoAlgo_Hamilton = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
+        }
+
+       //EULER:
+        private void DoAlgo_Euler_Click(object sender, EventArgs e)
+        {
+            DoAlgo_Euler = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
+        }
+
+        //ISOM BF
+        private void DoAlgo_Iso_FuerzaBruta_Click(object sender, EventArgs e)
+        {
+            DoAlgo_Iso_FuerzaBruta = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
+        }
+
+        //ISOM TRANSPOSED MATRIX
+        private void DoAlgo_Iso_Transpuesta_Click(object sender, EventArgs e)
+        {
+            DoAlgo_Iso_Transpuesta = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
+        } 
+
+        //ISOM graph theory manual
+        private void DoAlgo_Iso_Intercambio_Click(object sender, EventArgs e)
+        {
+            DoAlgo_Iso_Intercambio = true;
+            Reset_All();
+            algorithms_Handling_Timer.Start();
+        }
+
+        #endregion
+
+
+
+
         //KRUSKAL:
         private void kruskalToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3097,12 +3265,6 @@ namespace editorDeGrafos
             }
         }
 
-
-        private void DoAlgo_Prim_Click(object sender, EventArgs e)
-        {
-            DoAlgo_Prim = true;
-        }
-
         //WARSHALL
         private void warshallToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3110,11 +3272,6 @@ namespace editorDeGrafos
             reset();
             //warshall_Do
             warshallAlgorithm();
-        }
-
-        private void DoAlgo_Warshall_Click(object sender, EventArgs e)
-        {
-            DoAlgo_Warshall = true;
         }
 
 
@@ -3137,10 +3294,6 @@ namespace editorDeGrafos
             }
         }
 
-        private void DoAlgo_Floyd_Click(object sender, EventArgs e)
-        {
-            DoAlgo_Floyd = true;
-        }
 
         //DIJKSTRA:
         private void dijkstraToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3149,24 +3302,14 @@ namespace editorDeGrafos
             reset();
             //dijkstra_Do = true;
         }
-
-        private void DoAlgo_Dijkstra_Click(object sender, EventArgs e)
-        {
-            DoAlgo_Dijkstra = true;
-        }
-
         //HAMILTON
         private void hamiltonToolStripMenuItem_Click(object sender, EventArgs e)//make happend
         {
             deselect();
             reset();
-           // path_Hamilton_Do = true;
+            // path_Hamilton_Do = true;
         }
 
-        private void DoAlgo_Hamilton_Click(object sender, EventArgs e)
-        {
-            DoAlgo_Hamilton = true;
-        }
 
         //EULER:
         private void eulerToolStripMenuItem_Click(object sender, EventArgs e)//make happend 
@@ -3175,29 +3318,6 @@ namespace editorDeGrafos
             reset();
             //path_Euler_Do = true;
         }
-        private void DoAlgo_Euler_Click(object sender, EventArgs e)
-        {
-            DoAlgo_Euler = true;
-        }
-        private void DoAlgo_Iso_FuerzaBruta_Click(object sender, EventArgs e)
-        {
-            DoAlgo_Iso_FuerzaBruta = true;
-        }
-
-        private void DoAlgo_Iso_Transpuesta_Click(object sender, EventArgs e)
-        {
-            DoAlgo_Iso_Transpuesta = true;
-        } 
-
-        private void DoAlgo_Iso_Intercambio_Click(object sender, EventArgs e)
-        {
-            DoAlgo_Iso_Intercambio = true;
-        }
-
-        #endregion
-
-
-
 
 
         #region Algorithms ForCalling
