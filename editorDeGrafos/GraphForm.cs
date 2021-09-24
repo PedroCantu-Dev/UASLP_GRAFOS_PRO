@@ -60,12 +60,6 @@ namespace editorDeGrafos
             Color.AliceBlue//Link_D_Do
         };
 
-
-
-        Dictionary<String, Action> algorithms = new Dictionary<string, Action>();
-
-
-
         //this will go.........
         private Boolean Move_M_Do
         {
@@ -97,6 +91,20 @@ namespace editorDeGrafos
             }
         }
 
+        private Boolean Remove_E_Do
+        {
+            get
+            {
+                if (operationIndex_FV == 3)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
 
         private Boolean MoRe_F_Do
         {
@@ -147,7 +155,7 @@ namespace editorDeGrafos
         {
             get
             {
-                if (operationIndex_FV == 4)
+                if (operationIndex_FV == 7)
                 {
                     return true;
                 }
@@ -171,20 +179,7 @@ namespace editorDeGrafos
         Boolean trunquedGrade = false;
 
 
-        /******************************** for ALGORITMOS EVENTS  **********************************************/
-        //Dos..............................
-        Boolean DFS_Auto_Do = false;
-        Boolean DFS_Manual_Do = false;
-        Boolean kruskal_Do = false;       //Undirected graphs only
-        Boolean prim_Do = false;          //Undirected grpaphs only
-        Boolean Isomorphism_FB_Do = false;//any kind of graph
-        Boolean Isomorphism_TS_Do = false;//any kind of graph
-        Boolean Isomorphism_IN_Do = false;//any kind of graph
-        Boolean path_Euler_Do = false;    //both 
-        Boolean path_Hamilton_Do = false;
-        Boolean dijkstra_Do = false;
-        Boolean floyd_Do = false;
-        Boolean warshall_Do = false;
+       
         //Dos--------------------------------
         /****************** for Isomorphism *************************/
         Boolean isoForm;
@@ -193,14 +188,11 @@ namespace editorDeGrafos
         Node initialNodePath = null;
         Node finalNodePath = null;
         Boolean nodePathsReady = false;
+
         Timer timerColor = new System.Windows.Forms.Timer();
-        //int timerColorOption = 0;
+
         int tmpCount = 0;
 
-        /****************** for Floyd    *****************************/
-        /****************** for Warshall *****************************/
-        /****************** for Prim     *****************************/
-        /****************** for Kruskal  *****************************/
 
         #endregion
         #region GraphFormFunctionality
@@ -242,14 +234,50 @@ namespace editorDeGrafos
             statusTB.Text = "Nombre :" + fileName_FV;
             terminal.Text = "Node selected : ";
         }
-
         #endregion
 
-
-
-
         #region MouseEvents
+
+
         /************* Mouse Events*****************/
+
+
+        private void Reset_All()
+        {
+            Reset_Operations();
+            Reset_Selected();
+            Reset_Algo();
+        }
+
+        private void Reset_Operations()
+        {
+
+        }
+
+        private void Reset_Selected()
+        {
+
+        }
+
+        private void Reset_Algo()
+        {
+
+        }
+
+        /**************** deselect Operations ***************/
+        public void deselect()
+        {
+            offWhenClickingMouseOrKey();
+            if (selectedNode_FV != null)
+            {
+                //selectedNode_FV.Status = 0;//change to the original state.
+                selectedNode_FV.Reset();
+                AllowDrop = false;//
+                selectedNode_FV = null;
+            }
+            Invalidate();
+        }
+
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
 
@@ -257,10 +285,9 @@ namespace editorDeGrafos
             {
                 if (selectedNode_FV != null)
                 {
-                    this.resetSelectedNode_FV();
+                    
                 }
                 this.operationIndex_FV = 0;
-
             }
             else
             {
@@ -604,7 +631,6 @@ namespace editorDeGrafos
                     {
                         if (left_Linkind)//undirected
                         {
-
                             //here i have to ask the weight of the link.
                             if (trunquedGrade)
                             {
@@ -614,7 +640,6 @@ namespace editorDeGrafos
                             {
                                 weight = AFWeight("Bidireccional");
                             }
-
                             if (weight >= 0)
                             {
                                 this.graph_FV.addUndirectedEdge_(selectedNode_Linking_FV, auxMouseUperNode, weight);
@@ -1018,35 +1043,7 @@ namespace editorDeGrafos
             operationIndex_FV = 0;
         }
 
-        /**************** deselect Operations ***************/
-
-
-        public void deselect()
-        {
-            offWhenClickingMouseOrKey();
-            if (selectedNode_FV != null)
-            {
-                //selectedNode_FV.Status = 0;//change to the original state.
-                selectedNode_FV.Reset();
-                AllowDrop = false;//
-                selectedNode_FV = null;
-            }
-            Invalidate();
-        }
-
-
-
-        private void allOperationOff()
-        {
-            //Move_M_Do = false;
-            //Move_A_Do = false;
-            //Remove_R_Do = false;
-            //MoRe_F_Do = false;
-            //Link_Do = false;
-            //Link_D_Do = false;
-            //Link_U_Do = false;
-            mousePressed_FV = false;
-        }
+       
 
         /********************* common key-operations (END) ****************************/
         #endregion
@@ -1859,18 +1856,18 @@ namespace editorDeGrafos
             right_Linking = false;
 
 
-            /******************************** for ALGORITMOS EVENTS  **********************************************/
-            //Dos...............................
-            Isomorphism_FB_Do = false;
-            Isomorphism_TS_Do = false;
-            Isomorphism_IN_Do = false;
-            path_Euler_Do = false;
-            path_Hamilton_Do = false;
-            dijkstra_Do = false;
-            floyd_Do = false;
-            warshall_Do = false;
-            prim_Do = false;
-            kruskal_Do = false;
+            ///******************************** for ALGORITMOS EVENTS  **********************************************/
+            ////Dos...............................
+            //Isomorphism_FB_Do = false;
+            //Isomorphism_TS_Do = false;
+            //Isomorphism_IN_Do = false;
+            //path_Euler_Do = false;
+            //path_Hamilton_Do = false;
+            //dijkstra_Do = false;
+            //floyd_Do = false;
+            //warshall_Do = false;
+            //prim_Do = false;
+            //kruskal_Do = false;
             //Dos--------------------------------
             /****************** for Isomorphism *************************/
             isoForm = false;
@@ -1900,21 +1897,7 @@ namespace editorDeGrafos
             linkingEdge = null;
             left_Linkind = false;
             right_Linking = false;
-
-
-            /******************************** for ALGORITMOS EVENTS  **********************************************/
-            //Dos...............................
-            Isomorphism_FB_Do = false;
-            Isomorphism_TS_Do = false;
-            Isomorphism_IN_Do = false;
-            path_Euler_Do = false;
-            path_Hamilton_Do = false;
-            dijkstra_Do = false;
-            floyd_Do = false;
-            warshall_Do = false;
-            prim_Do = false;
-            kruskal_Do = false;
-            //Dos--------------------------------
+          
             /****************** for Isomorphism *************************/
             isoForm = false;
             /****************** for paths and cicles ********************/
@@ -1969,7 +1952,6 @@ namespace editorDeGrafos
         {
             if (graph_FV.NODE_LIST.Count() <= 1)
                 justSaved_FV = true;
-
             if (selectedNode_FV != null)
             {
                 graph_FV.eliminateNexetEdges(selectedNode_FV);
@@ -2022,27 +2004,6 @@ namespace editorDeGrafos
          * Bool to comproove .
          * 
          * **********************************/
-
-        public Boolean allConected(List<Node> nodeList)
-        {
-            // Mark all the vertices as not visited 
-            graph_FV.markAllLikeNotVisited();
-
-            // Start DFS traversal from a vertex with non-zero degree 
-            DFSUtilAllConected(nodeList[0]);
-
-            // Check if all non-zero degree vertices are visited 
-            foreach (Node node in nodeList)
-            {
-                if (node.Visited == false)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         public Boolean allConected(Graph graph)
         {
             // Mark all the vertices as not visited 
@@ -2078,54 +2039,6 @@ namespace editorDeGrafos
                 }
             }
         }
-
-        /*
-        public Boolean isABridgeBool(Edge posibleBridge)
-        {
-            // Mark all the vertices as not visited 
-            graph_FV.markAllLikeNotVisited();
-
-            // Start DFS traversal from a vertex with non-zero degree 
-            //DFSUtilAllConectedBridge(aux.LIST_NODES[0], posibleBridge);
-            DFSUtilAllConectedBridge(graph_FV.NODE_LIST[0], posibleBridge);
-
-            // Check if all non-zero degree vertices are visited 
-            //foreach (Node node in aux.LIST_NODES)
-            foreach (Node node in graph_FV.NODE_LIST)
-            {
-                if (node.Visited == false)
-                {
-                    //posibleBridge.COLOR = Color.Gold;
-                    posibleBridge.Bridge = true;
-                    return true;
-                }
-            }
-
-            posibleBridge.Bridge = false;
-            return false;//if all vertices was visited evenif the edge was cutted.
-        }
-        */
-
-        /*  void DFSUtilAllConectedBridge(Node workingNode, Edge posibleBridge/*int v, bool visited[])
-          {
-              // Mark the current node as visited
-              workingNode.Visited = true;
-
-
-              // Recur for all the vertices adjacent to this vertex
-              foreach (NodeRef nodeR in workingNode.NEIGHBORS)
-              {
-                  if (workingNode == posibleBridge.Client && nodeR.NODO == posibleBridge.Server
-                   || workingNode == posibleBridge.Server && nodeR.NODO == posibleBridge.Client)
-                  {
-
-                  }
-                  else if (nodeR.Visited == false)
-                  {
-                      DFSUtilAllConectedBridge(nodeR.NODO, posibleBridge);
-                  }
-              }
-          }*/
 
         public Boolean isABridgeVisitedsBool(Edge posibleBridge, Graph graph)
         {
@@ -2436,141 +2349,6 @@ namespace editorDeGrafos
             }
         }
 
-        /*
-        public Boolean cycleOfEulerBool()//to determine if the graph has a Eulerian cycle.
-        {
-            // An undirected graph has Eulerian cycle if following two conditions are true.
-            //….a) All vertices with non-zero degree are connected.We don’t care about 
-            //vertices with zero degree because they don’t belong to Eulerian Cycle or Path(we only consider all edges).
-            //….b) All vertices have even degree.
-            Boolean res = true;
-            // aux = new AdjacencyList();
-            workingNodes = new List<Node>();
-
-            foreach (Node node in graph_FV.NODE_LIST)
-            {
-                int degreeByN = node.Grade;
-
-                if (degreeByN > 0)//atleast one neightboor
-                {
-                    if (degreeByN % 2 != 0)// one node have not an even number of neirhtbors
-                    {
-                        return false;
-                    }
-                    //aux.addNode(node);
-                    workingNodes.Add(node);
-                }
-            }
-
-            //if (aux.LIST_NODES.Count() > 0)
-            if (workingNodes.Count > 0)
-            {
-                if (!allConected(workingNodes))// if not all are connected
-                {
-                    return false;
-                }
-            }
-            return res;
-        }
-
-
-        public Boolean cycleOfEuler_Algorithm()
-        {
-
-            pathOfNodes = new List<Node>();
-            pathToAnimate = new List<Edge>();
-            cutEdges = new List<Edge>();
-
-            graph_FV.markAllLikeNotBridge();
-            graph_FV.markAllNodeAndEdgesNotVisited();
-
-
-            foreach (Edge edge in graph_FV.EDGE_LIST)
-            {
-                if (graph_FV.isABridgeBool(edge))
-                {
-                    cutEdges.Add(edge);
-                }
-            }
-
-            // Mark all the vertices as not visited 
-            // Start DFS traversal from a vertex with non-zero degree 
-            //return DFSHamiltonCycle(initialNodePath);
-
-            graph_FV.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no Visiteds.
-
-            return DFS_Any_EulerCycle(initialNodePath);
-        }
-
-
-
-        //List<Node> nodesPath = new List<Node>();
-        Boolean DFS_Any_EulerCycle(Node workingNode)//recursive function.
-        {
-            List<Edge> notVisitedYet = graph_FV.notVisitedListEdge();//nodos sin visitar para restauraciones.
-            List<Node> neightboors = workingNode.neighborListNode();//vecinos del nodo actual.
-
-            /*********************
-             *       Caso Base. 
-             * *********************
-            if (notVisitedYet.Count() == 1 && neightboors.Contains(initialNodePath) && graph_FV.thisEdge(workingNode, initialNodePath).visitada == false)//todos los nodos visitados && el nodo actual tiene de vecino al nodo inicial
-            {
-                graph_FV.thisEdge(workingNode, initialNodePath).visitada = true;
-                Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
-                pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
-                pathOfNodes.Add(initialNodePath);//se agrega por primera vez el nodoInicial(mismo que nodoFinal) al camino de nodos;
-                pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
-                return true;
-            }
-
-            //acomodar los vecinos de menor a mayor en cuestion de grado.
-            neightboors.Sort(delegate (Node x, Node y)
-            {
-                return graph_FV.neighborListNodeNoVisited(x).Count().CompareTo(graph_FV.neighborListNodeNoVisited(y).Count());
-            });
-
-            /*********************
-             *       Caso General. 
-             * *********************
-            foreach (Node node in neightboors)
-            {
-                if (this.graph_FV.thisEdge(workingNode, node).visitada == false && node != initialNodePath)
-                {
-                    this.graph_FV.thisEdge(workingNode, node).visitada = true;
-
-                    if (DFS_Any_EulerCycle(node))//si el nodo vecino retorna un ciclo
-                    {
-                        // nodesPath.Add(workingNode);
-                        Edge edge = graph_FV.thisEdge(workingNode, node);
-                        pathOfNodes.Add(workingNode);
-                        pathToAnimate.Add(edge);
-                        return true;
-                    }
-                    else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                        graph_FV.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
-                }
-
-            }
-            if (neightboors.Contains(initialNodePath) && graph_FV.thisEdge(workingNode, initialNodePath).visitada == false)
-            {
-                this.graph_FV.thisEdge(workingNode, initialNodePath).visitada = true;
-
-                if (DFS_Any_EulerCycle(initialNodePath))//si el nodo vecino retorna un ciclo
-                {
-                    // nodesPath.Add(workingNode);
-                    Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
-                    pathOfNodes.Add(workingNode);
-                    pathToAnimate.Add(edge);
-                    return true;
-                }
-                else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                    graph_FV.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
-            }
-            //no se encontro nigun ciclo.
-            return false;
-        }//DFS_Any_HamiltonCycle(END).
-        */
-
         #endregion
 
         #region pathEuler
@@ -2618,116 +2396,7 @@ namespace editorDeGrafos
                 }
             }
         }
-
-
-        /*
-        public Boolean pathOfEuler_Algorithm(List<Node> pathOfNodes, List<Edge> pathToAnimate, List<Edge> cutEdges)
-        {
-
-            pathOfNodes = new List<Node>();
-            pathToAnimate = new List<Edge>();
-            cutEdges = new List<Edge>();
-
-            graph_FV.markAllLikeNotBridge();
-            graph_FV.reset();
-
-
-            foreach (Edge edge in this.EDGE_LIST)
-            {
-                if (graph_FV.isABridgeBool(edge))
-                {
-                    cutEdges.Add(edge);
-                }
-            }
-
-            // Mark all the vertices as not visited 
-            // Start DFS traversal from a vertex with non-zero degree 
-            //return DFSHamiltonCycle(initialNodePath);
-
-            graph_FV.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no visitados.
-
-            return DFS_Any_EulerPath(initialNodePath);
-        }*/
-
-
-        /*
-        Boolean DFS_Any_EulerPath(Node workingNode)//recursive function.
-        {
-            List<Edge> notVisitedYet = graph_FV.notVisitedListEdge();//nodos sin visitar para restauraciones.
-            List<Node> neightboors = workingNode.neighborListNode();//vecinos del nodo actual.
-
-            /*********************
-             *       Caso Base. 
-             * *********************
-            if (notVisitedYet.Count() == 0)//todos los nodos visitados && el nodo actual tiene de vecino al nodo inicial
-            {
-                pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
-                return true;
-            }
-
-            //acomodar los vecinos de menor a mayor en cuestion de grado.
-            neightboors.Sort(delegate (Node x, Node y)
-            {
-                return graph_FV.neighborListNodeNoVisited(x).Count().CompareTo(graph_FV.neighborListNodeNoVisited(y).Count());
-            });
-
-            /*********************
-             *       Caso General. 
-             * *********************
-            foreach (Node node in neightboors)
-            {
-                if (this.graph_FV.thisEdge(workingNode, node).visitada == false && node != finalNodePath)
-                {
-                    this.graph_FV.thisEdge(workingNode, node).visitada = true;
-
-                    if (DFS_Any_EulerPath(node))//si el nodo vecino retorna un ciclo
-                    {
-                        // nodesPath.Add(workingNode);
-                        Edge edge = graph_FV.thisEdge(workingNode, node);
-                        pathOfNodes.Add(workingNode);
-                        pathToAnimate.Add(edge);
-                        return true;
-                    }
-                    else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                        graph_FV.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
-                }
-
-            }
-            if (neightboors.Contains(finalNodePath) && this.graph_FV.thisEdge(workingNode, finalNodePath).visitada == false)
-            {
-                this.graph_FV.thisEdge(workingNode, finalNodePath).visitada = true;
-
-                if (DFS_Any_EulerPath(finalNodePath))//si el nodo vecino retorna un ciclo
-                {
-                    // nodesPath.Add(workingNode);
-                    Edge edge = graph_FV.thisEdge(workingNode, finalNodePath);
-                    pathOfNodes.Add(workingNode);
-                    pathToAnimate.Add(edge);
-                    return true;
-                }
-                else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                    graph_FV.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
-            }
-            //no se encontro nigun ciclo.
-            return false;
-        }//DFS_Any_HamiltonCycle(END).
-        */
-
-
-
-
-        //List<Node> nodesPath = new List<Node>();
-
-
-
-
         #endregion
-
-
-
-
-
-
 
         #endregion
 
@@ -2833,55 +2502,7 @@ namespace editorDeGrafos
         }
 
         List<Node> nodesPath = new List<Node>();
-        /*    Boolean DFS_Any_HamiltonCycle(Node workingNode)//recursive function.
-            {
-                workingNode.Visited = true;//marcar el nodo actual como Visited.
-                List<Node> notVisitedYet = graph_FV.notVisitedList();//nodos sin visitar para restauraciones.
-                List<NodeRef> neightboors = workingNode.NEIGHBORS;//vecinos del nodo actual.
-
-                /*********************
-                 *       Caso Base. 
-                 * *********************
-                if (notVisitedYet.Count() < 1 && workingNode.isNeigtbor(initialNodePath))//todos los nodos Visiteds && el nodo actual tiene de vecino al nodo inicial
-                {
-                    Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
-                    pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
-                    pathOfNodes.Add(initialNodePath);//se agrega por primera vez el nodoInicial(mismo que nodoFinal) al camino de nodos;
-                    pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
-                    return true;
-                }
-
-                //acomodar los vecinos de menor a mayor en cuestion de grado.
-                neightboors.Sort(delegate (Node x, Node y)
-                {
-                    return graph_FV.neighborListNodeNoVisited(x).Count().CompareTo(graph_FV.neighborListNodeNoVisited(y).Count());
-                });
-
-                /*********************
-                 *       Caso General. 
-                 * *********************
-                foreach (Node node in neightboors)
-                {
-                    if (node.Visited == false)
-                    {
-                        if (DFS_Any_HamiltonCycle(node))//si el nodo vecino retorna un ciclo
-                        {
-
-                            // nodesPath.Add(workingNode);
-                            Edge edge = graph_FV.thisEdge(workingNode, node);
-                            pathOfNodes.Add(workingNode);
-                            pathToAnimate.Add(edge);
-                            return true;
-                        }
-                        else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                            graph_FV.restoreNotVisited(notVisitedYet);//restaturacion.
-                    }
-
-                }
-                //no se encontro nigun ciclo.
-                return false;
-            }//DFS_Any_HamiltonCycle(END).
-    */
+      
         #endregion
 
         #region HamiltonPath
@@ -3350,21 +2971,23 @@ namespace editorDeGrafos
 
         //all about algorithms to do
         #region DoAlgo FlagsAndEvents
+         
 
+        /******************************** for ALGORITMOS EVENTS  **********************************************/
         bool DoAlgo_DFS_Auto = false;
         bool DoAlgo_DFS_Manual = false;
         bool DoAlgo_BFS_Auto = false;
         bool DoAlgo_BFS_Manual = false;
-        bool DoAlgo_Kruskal = false;
-        bool DoAlgo_Prim = false;
+        bool DoAlgo_Kruskal = false;//Undirected graphs only
+        bool DoAlgo_Prim = false;//Undirected grpaphs only
         bool DoAlgo_Warshall = false;
         bool DoAlgo_Floyd = false;
         bool DoAlgo_Dijkstra = false;
-        bool DoAlgo_Hamilton = false;
-        bool DoAlgo_Euler = false;
-        bool DoAlgo_Iso_FuerzaBruta = false;
-        bool DoAlgo_Iso_Transpuesta = false;
-        bool DoAlgo_Iso_Intercambio = false;
+        bool DoAlgo_Hamilton = false;//any kind of graph
+        bool DoAlgo_Euler = false;//any kind of graph
+        bool DoAlgo_Iso_FuerzaBruta = false;//any kind of graph
+        bool DoAlgo_Iso_Transpuesta = false;//any kind of graph
+        bool DoAlgo_Iso_Intercambio = false;//any kind of graph
 
         private void DoAlgo_Reset()
         {
@@ -3524,7 +3147,7 @@ namespace editorDeGrafos
         {
             deselect();
             reset();
-            dijkstra_Do = true;
+            //dijkstra_Do = true;
         }
 
         private void DoAlgo_Dijkstra_Click(object sender, EventArgs e)
@@ -3537,7 +3160,7 @@ namespace editorDeGrafos
         {
             deselect();
             reset();
-            path_Hamilton_Do = true;
+           // path_Hamilton_Do = true;
         }
 
         private void DoAlgo_Hamilton_Click(object sender, EventArgs e)
@@ -3550,7 +3173,7 @@ namespace editorDeGrafos
         {
             deselect();
             reset();
-            path_Euler_Do = true;
+            //path_Euler_Do = true;
         }
         private void DoAlgo_Euler_Click(object sender, EventArgs e)
         {
