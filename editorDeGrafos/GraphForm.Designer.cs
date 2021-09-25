@@ -151,7 +151,7 @@
             this.helpToolStripButton.Name = "helpToolStripButton";
             this.helpToolStripButton.Size = new System.Drawing.Size(29, 24);
             this.helpToolStripButton.Text = "He&lp";
-            this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
+            //this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
             // 
             // terminal
             // 
@@ -205,7 +205,7 @@
             this.operacionesToolStripMenuItem.Name = "operacionesToolStripMenuItem";
             this.operacionesToolStripMenuItem.Size = new System.Drawing.Size(106, 24);
             this.operacionesToolStripMenuItem.Text = "Operaciones";
-            this.operacionesToolStripMenuItem.Click += new System.EventHandler(this.operacionesToolStripMenuItem_Click);
+            //this.operacionesToolStripMenuItem.Click += new System.EventHandler(this.operacionesToolStripMenuItem_Click);
             // 
             // moveMToolStripMenuItem
             // 
@@ -268,7 +268,7 @@
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.viewToolStripMenuItem.Text = "Vista";
-            this.viewToolStripMenuItem.Click += new System.EventHandler(this.viewToolStripMenuItem_Click);
+            //this.viewToolStripMenuItem.Click += new System.EventHandler(this.viewToolStripMenuItem_Click);
             // 
             // matrizDeIncidenciaToolStripMenuItem
             // 
@@ -288,7 +288,7 @@
             this.bridgesToolStripMenuItem.Name = "bridgesToolStripMenuItem";
             this.bridgesToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.bridgesToolStripMenuItem.Text = "Bridges ";
-            this.bridgesToolStripMenuItem.Click += new System.EventHandler(this.bridgesToolStripMenuItem_Click);
+            //this.bridgesToolStripMenuItem.Click += new System.EventHandler(this.bridgesToolStripMenuItem_Click);
             // 
             // algoritmosToolStripMenuItem
             // 
@@ -305,7 +305,7 @@
             this.algoritmosToolStripMenuItem.Name = "algoritmosToolStripMenuItem";
             this.algoritmosToolStripMenuItem.Size = new System.Drawing.Size(97, 24);
             this.algoritmosToolStripMenuItem.Text = "Algoritmos";
-            this.algoritmosToolStripMenuItem.Click += new System.EventHandler(this.algoritmosToolStripMenuItem_Click);
+            //this.algoritmosToolStripMenuItem.Click += new System.EventHandler(this.algoritmosToolStripMenuItem_Click);
             // 
             // dFSToolStripMenuItem
             // 
@@ -451,7 +451,7 @@
             this.isomToolStripMenuItem.Name = "isomToolStripMenuItem";
             this.isomToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.isomToolStripMenuItem.Text = "Isom";
-            this.isomToolStripMenuItem.Click += new System.EventHandler(this.isomToolStripMenuItem_Click);
+            //this.isomToolStripMenuItem.Click += new System.EventHandler(this.isomToolStripMenuItem_Click);
             // 
             // fuerzaBrutaToolStripMenuItem
             // 

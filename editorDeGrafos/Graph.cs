@@ -564,7 +564,7 @@ namespace editorDeGrafos
 
             //when removing nodes first remove all posible connections with the node removed
 
-            foreach(Node node in this.NODE_LIST)
+            foreach (Node node in this.NODE_LIST)
             {
                 node.eliminate_Neighbor(node);
             }
@@ -581,17 +581,17 @@ namespace editorDeGrafos
 
         public void addUndirectedEdge(Edge edge, int weight)
         {
-            edge.client.add_U_Neighbor(edge.server,weight);
+            edge.client.add_U_Neighbor(edge.server, weight);
         }
 
         public void addDirectedEdge(Node client, Node server, int weight)
         {
-            client.add_D_Neighbor(server,weight);
+            client.add_D_Neighbor(server, weight);
         }
 
         public void addCicledEdge(Node client_S, int weight)
         {
-            client_S.add_D_Neighbor(client_S,weight);
+            client_S.add_D_Neighbor(client_S, weight);
         }
 
 
@@ -1916,14 +1916,14 @@ namespace editorDeGrafos
 
         #endregion
 
-
         /************************************
-         * 
-         * Its time for new code, so.. take a deep breath and continue pal
-         * 
-         * 
-         * ************************************/
+    * 
+    * Its time for new code, so.. take a deep breath and continue pal
+    * 
+    * 
+    * ************************************/
 
+        #region GraphBasiOperations
         /********************** Basics Operations(Begin) **************************/
         //create and add a new node to the graph
 
@@ -1978,12 +1978,6 @@ namespace editorDeGrafos
 
         }//remove a node.
 
-
-        public int Count
-        {
-            get { return this.NODE_LIST.Count(); }
-        }
-
         public void addNode(Node node)
         {
             this.NODE_LIST.Add(node);
@@ -1992,7 +1986,8 @@ namespace editorDeGrafos
         //an undirected edge counts like a directed edge in both directions and same weight
         public void addUndirectedEdge_(Node client, Node server, int weight)
         {
-            if (this.NODE_LIST.Contains(server) && this.NODE_LIST.Contains(client)) {
+            if (this.NODE_LIST.Contains(server) && this.NODE_LIST.Contains(client))
+            {
                 client.add_U_Neighbor(server, weight);
             }
         }
@@ -2017,7 +2012,12 @@ namespace editorDeGrafos
         public void addCicledEdge_(Node node, int weight)
         {
         }
+        #endregion
 
+        public int Count
+        {
+            get { return this.NODE_LIST.Count(); }
+        }
 
         //return a root 
         public Node rootNode()
@@ -2045,6 +2045,112 @@ namespace editorDeGrafos
             }
         }
 
+        public Boolean isABridgeBool(Edge posibleBridge)
+        {
+            // Mark all the vertices as not visited 
+            this.reset();
+
+            // Start DFS traversal from a vertex with non-zero degree 
+            //DFSUtilAllConectedBridge(aux.LIST_NODES[0], posibleBridge);
+            DFSUtilAllConectedBridge(this.rootNode(), posibleBridge);
+
+            if (!allNodesVisited())
+            {
+                posibleBridge.Bridge = true;
+                return true;
+            }
+
+            posibleBridge.Bridge = false;
+            return false;//if all vertices was visited evenif the edge was cutted.
+        }
+
+        #region Auxiliares
+        public Boolean isThisUndireEdge(Edge posibleEdge, Node client, Node server)
+        {
+
+            if (client == posibleEdge.Client && server == posibleEdge.Server
+                || client == posibleEdge.Server && server == posibleEdge.Client)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool allNodesVisited()
+        {
+            // Check if all non-zero degree vertices are visited 
+            //foreach (Node node in aux.LIST_NODES)
+            foreach (Node node in this.NODE_LIST)
+            {
+                if (node.Visited == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        public Boolean allConnected(List<Node> nodeList)
+        {
+            // Mark all the vertices as not visited 
+            this.reset();
+
+            // Start DFS traversal from a vertex with non-zero degree 
+            DFSUtilAllConected(nodeList[0]);
+
+            // Check if all non-zero degree vertices are visited 
+            foreach (Node node in nodeList)
+            {
+                if (node.Visited == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public Boolean allConnected(Graph graph)
+        {
+            // Mark all the vertices as not visited 
+            graph.reset();
+
+            // Start DFS traversal from a vertex with non-zero degree 
+            DFSUtilAllConected(graph.NODE_LIST[0]);
+
+            // Check if all non-zero degree vertices are visited 
+            foreach (Node node in graph.NODE_LIST)
+            {
+                if (node.Visited == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        #endregion
+
+        #region Algorithms
+
+        //for tree generation via DFS
+        //#Types#
+        //DIRECTED
+        //UNDIRECTED
+        #region DFS - 1
+        public void DFSUtilAllConectedBridge(Node workingNode, Edge posibleBridge/*int v, bool visited[]*/)
+        {
+            // Mark the current node as visited
+            workingNode.Visited = true;
+
+
+            // Recur for all the vertices adjacent to this vertex
+            foreach (NodeRef nodeR in workingNode.NEIGHBORS)
+            {
+                if (!this.isThisUndireEdge(posibleBridge, workingNode, nodeR.NODO) && nodeR.Visited == false)
+                {
+                    DFSUtilAllConectedBridge(nodeR.NODO, posibleBridge);
+                }
+            }
+        }
         public Forest getForestDFS(Node root)
         {
             this.reset();//reset the graph 
@@ -2097,7 +2203,13 @@ namespace editorDeGrafos
             }
         }
 
+        #endregion -1
 
+        //for tree generation via BFS
+        //#Types#
+        //DIRECTED
+        //UNDIRECTED
+        #region BFS - 2
         public Forest getForestBFS(Node root)
         {
             this.reset();//reset the graph 
@@ -2163,404 +2275,86 @@ namespace editorDeGrafos
             }
         }
 
-        public Boolean isThisUndireEdge(Edge posibleEdge, Node client, Node server)
-        {
+        #endregion
 
-            if (client == posibleEdge.Client && server == posibleEdge.Server
-                || client == posibleEdge.Server && server == posibleEdge.Client)
-            {
-                return true;
-            }
-            return false;
-        }
+        //return a minimum spanning tree 
+        //#Types#
+        //---------
+        //UNDIRECTED
+        #region KRUSKAL - 5
+        #endregion
 
-        public Boolean isABridgeBool(Edge posibleBridge)
-        {
-            // Mark all the vertices as not visited 
-            this.reset();
+        //return a minimum spanning tree 
+        //#Types#
+        //---------
+        //UNDIRECTED
+        #region PRIM - 6
+        #endregion
 
-            // Start DFS traversal from a vertex with non-zero degree 
-            //DFSUtilAllConectedBridge(aux.LIST_NODES[0], posibleBridge);
-            DFSUtilAllConectedBridge(this.rootNode(), posibleBridge);
+        //Posible paths
+        //it returns a boolean matrix that indicates if fireach node can reach any otherother
+        //#Types#
+        //DIRECTED
+        //--------
+        #region WARSHALL - 7
+        #endregion
 
-            // Check if all non-zero degree vertices are visited 
-            //foreach (Node node in aux.LIST_NODES)
-            //foreach (Node node in this.NODE_LIST)
-            //{
-            //    if (node.Visited == false)
-            //    {
-            //        //posibleBridge.COLOR = Color.Gold;
-            //        posibleBridge.Bridge = true;
-            //        return true;
-            //    }
-            //}
+        //All pairs shortest path
+        //finds the shortest path between all pair of nodes
+        //#Types#
+        //DIRECTED
+        //--------
+        #region FLOYD - 8
+        #endregion
 
-            if (!allNodesVisited())
-            {
-                posibleBridge.Bridge = true;
-                return true;
-            }
+        //Single-source shortest 
+        //minimum spanning tree
+        //given a source vertex it finds shortest path from source to all other vertices.
+        //#Types#
+        //DIRECTED
+        //UNDIRECTED
+        #region DIJKSTRA - 9
+        #endregion
 
-            posibleBridge.Bridge = false;
-            return false;//if all vertices was visited evenif the edge was cutted.
-        }
+        //Hamilton circuit or path
+        //returns a secuence of nodes that represent
+        //a hamiltonian circuit or path if it exist
+        //#Types#
+        //DIRECTED
+        //UNDIRECTED
+        #region HAMILTON -10
+        #endregion
 
-        public void DFSUtilAllConectedBridge(Node workingNode, Edge posibleBridge/*int v, bool visited[]*/)
-        {
-            // Mark the current node as visited
-            workingNode.Visited = true;
-
-
-            // Recur for all the vertices adjacent to this vertex
-            foreach (NodeRef nodeR in workingNode.NEIGHBORS)
-            {
-                if (!this.isThisUndireEdge(posibleBridge, workingNode, nodeR.NODO) && nodeR.Visited == false)
-                {
-                    DFSUtilAllConectedBridge(nodeR.NODO, posibleBridge);
-                }
-            }
-        }
-
-        public bool allNodesVisited()
-        {
-            // Check if all non-zero degree vertices are visited 
-            //foreach (Node node in aux.LIST_NODES)
-            foreach (Node node in this.NODE_LIST)
-            {
-                if (node.Visited == false)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-
-
-        /*
-         * 
-         * 
-         * Euler
-         * In order to determine if there is a path of Euler bool 
-         * 
-         * */
-
-        #region EulerPath
-        public Boolean pathOfEulerBool(List<Node> estimadedIniFinNodes)
-        {
-            bool res = true;
-            Graph aux = new Graph();
-            estimadedIniFinNodes = new List<Node>();
-            int oddDegreeCont = 0;
-
-            foreach (Node node in this.NODE_LIST)
-            {
-                int degreeByN = node.GradeOut;
-
-                if (degreeByN > 0)//atleast one neightboor
-                {
-                    if (degreeByN % 2 != 0)// the node have not an even number of neightbors
-                    {
-                        oddDegreeCont++;
-                        estimadedIniFinNodes.Add(node);
-                        if (estimadedIniFinNodes.Count() > 2)//there is no path or cyce of euler
-                        {
-
-                        }
-                    }
-                    aux.addNode(node);
-                }
-            }
-
-            if (aux.NODE_LIST.Count() > 0)
-            {
-                if (oddDegreeCont != 2)//if there is more than two odd grade nodes.
-                {
-                    return false;
-                }
-
-                /*if (!allConected())// if not all are connected
-                {
-                    return false;
-                }
-                */
-            }
-            return res;
-        }
-
-
-        public Boolean pathOfEuler_Algorithm(List<Node> pathOfNodes, List<Edge> pathToAnimate, List<Edge> cutEdges, Node initialNodePath)
-        {
-
-            pathOfNodes = new List<Node>();
-            pathToAnimate = new List<Edge>();
-            cutEdges = new List<Edge>();
-
-            this.markAllLikeNotBridge();
-            this.reset();
-
-
-            foreach (Edge edge in this.EDGE_LIST)
-            {
-                if (isABridgeBool(edge))
-                {
-                    cutEdges.Add(edge);
-                }
-            }
-
-            // Mark all the vertices as not visited 
-            // Start DFS traversal from a vertex with non-zero degree 
-            //return DFSHamiltonCycle(initialNodePath);
-
-            this.reset();//marcar todos los nodos y aristas como no visitados.
-
-            Node finalNodePath = null;
-            return DFS_Any_EulerPath(initialNodePath, finalNodePath);
-        }
-
-
-        Boolean DFS_Any_EulerPath(Node workingNode, Node finalNodePath)//recursive function.
-        {
-            List<Edge> notVisitedYet = notVisitedListEdge();//nodos sin visitar para restauraciones.
-            List<Node> neightboors = workingNode.neighborListNode();//vecinos del nodo actual.
-
-            /*********************
-             *       Caso Base. 
-             * *********************/
-            if (notVisitedYet.Count() == 0)//todos los nodos visitados && el nodo actual tiene de vecino al nodo inicial
-            {
-                //pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
-                return true;
-            }
-
-            //acomodar los vecinos de menor a mayor en cuestion de grado.
-            neightboors.Sort(delegate (Node x, Node y)
-            {
-                return this.neighborListNodeNoVisited(x).Count().CompareTo(this.neighborListNodeNoVisited(y).Count());
-            });
-
-            /*********************
-             *       Caso General. 
-             * *********************/
-            foreach (Node node in neightboors)
-            {
-                if (this.thisEdge(workingNode, node).visitada == false)// && node != finalNodePath)
-                {
-                    this.thisEdge(workingNode, node).visitada = true;
-
-                    if (DFS_Any_EulerPath(node, finalNodePath))//si el nodo vecino retorna un ciclo
-                    {
-                        // nodesPath.Add(workingNode);
-                        Edge edge = this.thisEdge(workingNode, node);
-                        //pathOfNodes.Add(workingNode);
-                        //pathToAnimate.Add(edge);
-                        return true;
-                    }
-                    else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                        this.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
-                }
-
-            }
-            if (neightboors.Contains(finalNodePath) && this.thisEdge(workingNode, finalNodePath).visitada == false)
-            {
-                this.thisEdge(workingNode, finalNodePath).visitada = true;
-
-                if (DFS_Any_EulerPath(finalNodePath, finalNodePath))//si el nodo vecino retorna un ciclo
-                {
-                    // nodesPath.Add(workingNode);
-                    Edge edge = this.thisEdge(workingNode, finalNodePath);
-                    pathOfNodes.Add(workingNode);
-                    pathToAnimate.Add(edge);
-                    return true;
-                }
-                else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                    this.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
-            }
-            //no se encontro nigun ciclo.
-            return false;
-        }//DFS_Any_HamiltonCycle(END).
+        //Euler circuit or path
+        //returns a secuence of nodes that represent
+        //a Euler circuit or path if it exist
+        //#Types#
+        //DIRECTED
+        //UNDIRECTED
+        #region EULER -11
 
         #endregion
 
-        public Boolean allConnected(List<Node> nodeList)
-        {
-            // Mark all the vertices as not visited 
-            this.reset();
+        #region ISOMRPHISM- 12
+        #endregion
 
-            // Start DFS traversal from a vertex with non-zero degree 
-            DFSUtilAllConected(nodeList[0]);
+        #region ISOMORPHISM - 13
+        #endregion
 
-            // Check if all non-zero degree vertices are visited 
-            foreach (Node node in nodeList)
-            {
-                if (node.Visited == false)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public Boolean allConnected(Graph graph)
-        {
-            // Mark all the vertices as not visited 
-            graph.reset();
-
-            // Start DFS traversal from a vertex with non-zero degree 
-            DFSUtilAllConected(graph.NODE_LIST[0]);
-
-            // Check if all non-zero degree vertices are visited 
-            foreach (Node node in graph.NODE_LIST)
-            {
-                if (node.Visited == false)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        #region EulerCycle
-
-        public Boolean cycleOfEulerBool(List<Node> workingNodes)//to determine if the graph has a Eulerian cycle.
-        {
-            // An undirected graph has Eulerian cycle if following two conditions are true.
-            //….a) All vertices with non-zero degree are connected.We don’t care about 
-            //vertices with zero degree because they don’t belong to Eulerian Cycle or Path(we only consider all edges).
-            //….b) All vertices have even degree.
-            Boolean res = true;
-            // aux = new AdjacencyList();
-            workingNodes = new List<Node>();
-
-            foreach (Node node in this.NODE_LIST)
-            {
-                int degreeByN = node.GradeOut;
-
-                if (degreeByN > 0)//atleast one neightboor
-                {
-                    if (degreeByN % 2 != 0)// one node have not an even number of neirhtbors
-                    {
-                        return false;
-                    }
-                    //aux.addNode(node);
-                    workingNodes.Add(node);
-                }
-            }
-
-            //if (aux.LIST_NODES.Count() > 0)
-            if (workingNodes.Count > 0)
-            {
-                if (!allConnected(workingNodes))// if not all are connected
-                {
-                    return false;
-                }
-            }
-            return res;
-        }
-
-        List<Edge> cutEdges;
-        public Boolean cycleOfEuler_Algorithm()
-        {
-            pathOfNodes = new List<Node>();
-            pathToAnimate = new List<Edge>();
-            cutEdges = new List<Edge>();
-
-            this.markAllLikeNotBridge();
-            this.markAllNodeAndEdgesNotVisited();
-
-
-            foreach (Edge edge in this.EDGE_LIST)
-            {
-                if (this.isABridgeBool(edge))
-                {
-                    cutEdges.Add(edge);
-                }
-            }
-
-            // Mark all the vertices as not visited 
-            // Start DFS traversal from a vertex with non-zero degree 
-            //return DFSHamiltonCycle(initialNodePath);
-
-            this.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no Visiteds.
-
-            return DFS_Any_EulerCycle(initialNodePath);
-        }
-
-        Node initialNodePath;
-        List<Edge> pathToAnimate;
-        List<Node> pathOfNodes;
-
-
-        //List<Node> nodesPath = new List<Node>();
-        Boolean DFS_Any_EulerCycle(Node workingNode)//recursive function.
-        {
-            List<Edge> notVisitedYet = this.notVisitedListEdge();//nodos sin visitar para restauraciones.
-            List<Node> neightboors = workingNode.neighborListNode();//vecinos del nodo actual.
-
-            /*********************
-             *       Caso Base. 
-             * *********************/
-            if (notVisitedYet.Count() == 1 && neightboors.Contains(initialNodePath) && this.thisEdge(workingNode, initialNodePath).visitada == false)//todos los nodos visitados && el nodo actual tiene de vecino al nodo inicial
-            {
-                this.thisEdge(workingNode, initialNodePath).visitada = true;
-                Edge edge = this.thisEdge(workingNode, initialNodePath);
-                pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
-                pathOfNodes.Add(initialNodePath);//se agrega por primera vez el nodoInicial(mismo que nodoFinal) al camino de nodos;
-                pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
-                return true;
-            }
-
-            //acomodar los vecinos de menor a mayor en cuestion de grado.
-            neightboors.Sort(delegate (Node x, Node y)
-            {
-                return this.neighborListNodeNoVisited(x).Count().CompareTo(this.neighborListNodeNoVisited(y).Count());
-            });
-
-            /*********************
-             *       Caso General. 
-             * *********************/
-            foreach (Node node in neightboors)
-            {
-                if (this.thisEdge(workingNode, node).visitada == false && node != initialNodePath)
-                {
-                    this.thisEdge(workingNode, node).visitada = true;
-
-                    if (DFS_Any_EulerCycle(node))//si el nodo vecino retorna un ciclo
-                    {
-                        // nodesPath.Add(workingNode);
-                        Edge edge = this.thisEdge(workingNode, node);
-                        pathOfNodes.Add(workingNode);
-                        pathToAnimate.Add(edge);
-                        return true;
-                    }
-                    else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                        this.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
-                }
-
-            }
-            if (neightboors.Contains(initialNodePath) && this.thisEdge(workingNode, initialNodePath).visitada == false)
-            {
-                this.thisEdge(workingNode, initialNodePath).visitada = true;
-
-                if (DFS_Any_EulerCycle(initialNodePath))//si el nodo vecino retorna un ciclo
-                {
-                    // nodesPath.Add(workingNode);
-                    Edge edge = this.thisEdge(workingNode, initialNodePath);
-                  pathOfNodes.Add(workingNode);
-                    pathToAnimate.Add(edge);
-                    return true;
-                }
-                else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                    this.restoreNotVisitedEdge(notVisitedYet);//restaturacion.
-            }
-            //no se encontro nigun ciclo.
-            return false;
-        }//DFS_Any_HamiltonCycle(END).
-
+        ISOMORPHISM - 14
+            #endregion
 
         #endregion
 
+        const int DoAlgo_Dijkstra = 9;
+        const int DoAlgo_Hamilton = 10;//any kind of graph
+        const int DoAlgo_Euler = 11;//any kind of graph
+        const int DoAlgo_Iso_FuerzaBruta = 12;//any kind of graph
+        const int DoAlgo_Iso_Transpuesta = 13;//any kind of graph
+        const int DoAlgo_Iso_Intercambio = 14;//any kind of graph
+
+
+        #endregion
 
 
 
