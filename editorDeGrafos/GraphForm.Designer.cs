@@ -99,7 +99,7 @@
             this.helpToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(176, 39);
+            this.toolStrip1.Size = new System.Drawing.Size(141, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -109,7 +109,7 @@
             this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
             this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripButton.Name = "newToolStripButton";
-            this.newToolStripButton.Size = new System.Drawing.Size(29, 36);
+            this.newToolStripButton.Size = new System.Drawing.Size(29, 24);
             this.newToolStripButton.Text = "&New";
             this.newToolStripButton.Click += new System.EventHandler(this.New_Click);
             // 
@@ -190,7 +190,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(155, 1);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(588, 38);
+            this.menuStrip1.Size = new System.Drawing.Size(320, 28);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -449,7 +449,7 @@
             this.traspuestaToolStripMenuItem,
             this.intercambioToolStripMenuItem});
             this.isomToolStripMenuItem.Name = "isomToolStripMenuItem";
-            this.isomToolStripMenuItem.Size = new System.Drawing.Size(55, 34);
+            this.isomToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.isomToolStripMenuItem.Text = "Isom";
             this.isomToolStripMenuItem.Click += new System.EventHandler(this.isomToolStripMenuItem_Click);
             // 

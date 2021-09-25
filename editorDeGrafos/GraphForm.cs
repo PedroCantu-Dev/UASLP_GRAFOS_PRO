@@ -48,6 +48,7 @@ namespace editorDeGrafos
 
         int operationIndex_FV = 0;
 
+
         Color[] operationVertexColorArray = new Color[]
         {
             Color.Black,
@@ -59,6 +60,7 @@ namespace editorDeGrafos
             Color.Orange,//Link_U_Do
             Color.AliceBlue//Link_D_Do
         };
+
 
         //this will go.........
         private Boolean Move_M_Do
@@ -166,8 +168,6 @@ namespace editorDeGrafos
             }
         }
 
-
-
         /********** for linking operations ************************/
         Edge linkingEdge = null;
 
@@ -179,11 +179,9 @@ namespace editorDeGrafos
         /**************** Trunqued grades ************************/
         Boolean trunquedGrade = false;
 
-
-
-        //Dos--------------------------------
         /****************** for Isomorphism *************************/
         Boolean isoForm;
+
         /****************** for paths and cicles ********************/
         List<Edge> pathToAnimate;
         Node initialNodePath = null;
@@ -193,9 +191,8 @@ namespace editorDeGrafos
         Timer timerColor = new System.Windows.Forms.Timer();
 
         int tmpCount = 0;
-
-
         #endregion
+
         #region GraphFormFunctionality
         #region GraphFormConstructors
 
@@ -227,6 +224,7 @@ namespace editorDeGrafos
             intercambioToolStripMenuItem.Visible = true;
             IsomtextBox.Visible = true;
         }
+
         private void commonCostructor()// for all common variables.
         {
             generalRadius_FV = 30;
@@ -241,8 +239,6 @@ namespace editorDeGrafos
 
 
         /************* Mouse Events*****************/
-
-
         private void Reset_All()
         {
             Reset_Operations();
@@ -257,18 +253,6 @@ namespace editorDeGrafos
 
         private void Reset_Selected()
         {
-
-        }
-
-        private void Reset_Algo()
-        {
-
-        }
-
-        /**************** deselect Operations ***************/
-        public void deselect()
-        {
-            offWhenClickingMouseOrKey();
             if (selectedNode_FV != null)
             {
                 //selectedNode_FV.Status = 0;//change to the original state.
@@ -276,8 +260,60 @@ namespace editorDeGrafos
                 AllowDrop = false;//
                 selectedNode_FV = null;
             }
-            Invalidate();
         }
+
+        private void Reset_Algo()
+        {
+            DoAlgo_Option = 0;
+        }
+
+        private void reset()
+        {
+
+            //deselect();
+
+            selectedNode_Moving_FV = null;//for moving.
+            selectedNode_Linking_FV = null;
+            mousePressed_FV = false;
+            justSaved_FV = true;// -> storage saveStateAuxiliar.    
+
+            /********** for linking operations ************************/
+            D_linkingAnimation = false;
+            U_LinkingAnimation = false;
+            linkingEdge = null;
+            left_Linkind = false;
+            right_Linking = false;
+
+
+            initialNodePath = null;
+            finalNodePath = null;
+            nodePathsReady = false;
+        }
+
+
+
+        private void reset(Boolean deselectBool)
+        {
+
+            selectedNode_Moving_FV = null;//for moving.
+            selectedNode_Linking_FV = null;
+            mousePressed_FV = false;
+            justSaved_FV = true;
+
+            D_linkingAnimation = false;
+            U_LinkingAnimation = false;
+            linkingEdge = null;
+            left_Linkind = false;
+            right_Linking = false;
+
+            initialNodePath = null;
+            finalNodePath = null;
+            nodePathsReady = false;
+        }
+
+
+        /**************** deselect Operations ***************/
+
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -292,7 +328,7 @@ namespace editorDeGrafos
             }
             else
             {
-                offWhenClickingMouseOrKey();
+                //offWhenClickingMouseOrKey();
                 Node oneNode = null;
                 if (operationIndex_FV > 0)//graph operation activated
                 {
@@ -879,10 +915,10 @@ namespace editorDeGrafos
         /************************ clicking operation keys *****************/
         private void Form1_KeyDown(object sender, KeyEventArgs e)// keys down.
         {
-            offWhenClickingMouseOrKey();
+            //offWhenClickingMouseOrKey();
             if ((e.KeyCode == Keys.Escape || e.KeyCode == Keys.S) && selectedNode_FV != null)
             {
-                deselect();
+                //deselect();
 
             }
             if (e.KeyCode == Keys.M)//Move (M).
@@ -935,7 +971,7 @@ namespace editorDeGrafos
 
         private void keyM_OR_MoveClick()//
         {
-            deselect();
+            //deselect();
             if (operationIndex_FV == 1)
             {
                 operationIndex_FV = 0;
@@ -950,7 +986,7 @@ namespace editorDeGrafos
 
         private void keyA_OR_MoveAllClick()
         {
-            deselect();
+            //deselect();
             if (operationIndex_FV == 2)
             {
                 operationIndex_FV = 0;
@@ -965,7 +1001,7 @@ namespace editorDeGrafos
 
         private void keyR_OR_RemoveClick()
         {
-            deselect();
+            //deselect();
             if (operationIndex_FV == 3)
             {
                 operationIndex_FV = 0;
@@ -980,7 +1016,7 @@ namespace editorDeGrafos
 
         private void keyF_OR_MoReClick()
         {
-            deselect();
+            //deselect();
             if (operationIndex_FV == 4)
             {
                 operationIndex_FV = 0;
@@ -995,7 +1031,7 @@ namespace editorDeGrafos
 
         private void keyL_OR_LinkingClick()
         {
-            deselect();
+            //deselect();
             if (operationIndex_FV == 5)
             {
                 operationIndex_FV = 0;
@@ -1010,7 +1046,7 @@ namespace editorDeGrafos
 
         private void keyU_OR_U_LinkingClick()
         {
-            deselect();
+            //deselect();
             if (operationIndex_FV == 6)
             {
                 operationIndex_FV = 0;
@@ -1025,7 +1061,7 @@ namespace editorDeGrafos
 
         private void keyD_OR_D_LinkingClick()
         {
-            deselect();
+            //deselect();
             if (operationIndex_FV == 7)
             {
                 operationIndex_FV = 0;
@@ -1151,13 +1187,13 @@ namespace editorDeGrafos
 
         private void Save_Click(object sender, EventArgs e)
         {
-            offWhenClickingMouseOrKey(false);
+            //offWhenClickingMouseOrKey(false);
             saveFile();
         }
 
         private void Load_Click(object sender, EventArgs e)
         {
-            offWhenClickingMouseOrKey(false);
+            //offWhenClickingMouseOrKey(false);
             if (justSaved_FV == false)
             {
                 gdcForm_FV = new SaveChangesWindow();
@@ -1179,7 +1215,7 @@ namespace editorDeGrafos
 
         private void New_Click(object sender, EventArgs e)
         {
-            offWhenClickingMouseOrKey();
+            //offWhenClickingMouseOrKey();
             if (justSaved_FV == false)//si el trabajo no ha sido guardado
             {
                 SaveChangesWindow gdc = new SaveChangesWindow();
@@ -1840,94 +1876,8 @@ namespace editorDeGrafos
          * 
          * ***********************************************************************************************************************/
 
-        private void reset()
-        {
-            deselect();
-
-            selectedNode_Moving_FV = null;//for moving.
-            selectedNode_Linking_FV = null;
-            mousePressed_FV = false;
-            justSaved_FV = true;// -> storage saveStateAuxiliar.    
-
-            /********** for linking operations ************************/
-            D_linkingAnimation = false;
-            U_LinkingAnimation = false;
-            linkingEdge = null;
-            left_Linkind = false;
-            right_Linking = false;
 
 
-            ///******************************** for ALGORITMOS EVENTS  **********************************************/
-            ////Dos...............................
-            //Isomorphism_FB_Do = false;
-            //Isomorphism_TS_Do = false;
-            //Isomorphism_IN_Do = false;
-            //path_Euler_Do = false;
-            //path_Hamilton_Do = false;
-            //dijkstra_Do = false;
-            //floyd_Do = false;
-            //warshall_Do = false;
-            //prim_Do = false;
-            //kruskal_Do = false;
-            //Dos--------------------------------
-            /****************** for Isomorphism *************************/
-            isoForm = false;
-            /****************** for paths and cicles ********************/
-
-            initialNodePath = null;
-            finalNodePath = null;
-            nodePathsReady = false;
-        }
-
-        private void reset(Boolean deselectBool)
-        {
-            if (deselectBool)
-            {
-                deselect();
-            }
-
-            selectedNode_Moving_FV = null;//for moving.
-            selectedNode_Linking_FV = null;
-            mousePressed_FV = false;
-            justSaved_FV = true;// -> storage saveStateAuxiliar.        
-                                //Boolean matIn = false;
-
-            /********** for linking operations ************************/
-            D_linkingAnimation = false;
-            U_LinkingAnimation = false;
-            linkingEdge = null;
-            left_Linkind = false;
-            right_Linking = false;
-
-            /****************** for Isomorphism *************************/
-            isoForm = false;
-            /****************** for paths and cicles ********************/
-
-            initialNodePath = null;
-            finalNodePath = null;
-            nodePathsReady = false;
-        }
-
-        void offWhenClickingMouseOrKey()
-        {
-            Invalidate();
-        }
-
-        void offWhenClickingMouseOrKey(Boolean resetB)
-        {
-            dijkstraShow = false;
-            floydShow = false;
-            warshallShow = false;
-            primShow = false;
-            kruskalShow = false;
-            if (hamiltonOrEulerJustDone)
-            {
-                this.graph_FV.allBlack();
-                hamiltonOrEulerJustDone = false;
-            }
-            reset(resetB);
-            Invalidate();
-        }
 
 
 
@@ -1991,10 +1941,6 @@ namespace editorDeGrafos
         Graph aux;
         List<Edge> cutEdges;
 
-        List<Node> estimadedIniFinNodes;
-
-        List<Node> pathOfNodes;
-        List<Node> workingNodes;
         pathsOK f3 = new pathsOK();
 
         #region utilAlgorithms
@@ -2208,7 +2154,6 @@ namespace editorDeGrafos
                         f3.Operation = 0;
                     }
                 }
-
             }
             Invalidate();
         }
@@ -2279,74 +2224,85 @@ namespace editorDeGrafos
 
 
         }
-    
-         
-        private bool callAlgorithms(object sender, EventArgs e)
+
+        /*
+         * 
+         * This function is a timer hanler, it helps to determine if the editor can perform the 
+         * algoithm by certain conditions, as initial node or root, etc.
+         * 
+         * */
+        Node initialNode = null;
+        private void callAlgorithms(object sender, EventArgs e)
         {
-            if (DoAlgo_DFS_Auto)
+            switch (DoAlgo_Option)
             {
-                DoAlgo_DFS_Auto_Start(sender, e);
-                return true;
+                case DoAlgo_DFS_Auto:
+                    //this algorithms does not need anything for start
+                    DoAlgo_DFS_Auto_Start();
+                    break;
+                case DoAlgo_DFS_Manual:
+                    //needs a root
+                    if (initialNode != null)
+                    {
+                        DoAlgo_DFS_Manual_Start();
+                    }
+                    break;
+
+                case DoAlgo_BFS_Auto:
+                    //this algorithms does not ned anything for start
+                    DoAlgo_BFS_Auto_Start();
+                    break;
+                case DoAlgo_BFS_Manual:
+                    //needs a root
+                    if (initialNode != null)
+                    {
+                        DoAlgo_BFS_Manual_Start();
+                    }
+                    break;
+                case DoAlgo_Kruskal:
+                    //this algorithms does not need anything for start
+                    DoAlgo_Kruskal_Start();
+                    break;
+                case DoAlgo_Prim:
+                    //this algorithms does not need anything for start
+                    DoAlgo_Prim_Start();
+                    break;
+                case DoAlgo_Warshall:
+                    //this algorithms does not need anything for start
+                    DoAlgo_Warshall_Start();
+                    break;
+                case DoAlgo_Floyd:
+                    //this algorithms does not need anything for start
+                    DoAlgo_Floyd_Start();
+                    break;
+                case DoAlgo_Dijkstra:
+                    //this algorithms does not need anything for start
+                    DoAlgo_Dijkstra_Start();
+                    break;
+                case DoAlgo_Hamilton:
+                    //this algorithms does not need anything for start
+                    DoAlgo_Hamilton_Start();
+                    break;
+                case DoAlgo_Euler:
+                    //this algorithms does not need anything for start
+                    DoAlgo_Euler_Start();
+                    break;
+                case DoAlgo_Iso_FuerzaBruta:
+                    //this algorithms does not need anything for start
+                    DoAlgo_Iso_FuerzaBruta_Start();
+                    break;
+                case DoAlgo_Iso_Transpuesta:
+                    //this algorithms does not need anything for start
+                    DoAlgo_Iso_Transpuesta_Start();
+                    break;
+                case DoAlgo_Iso_Intercambio:
+                    //this algorithms does not need anything for start
+                    DoAlgo_Iso_Intercambio_Start();
+                    break;
+                default:
+                    break;
             }
-            else if(DoAlgo_DFS_Manual)
-            {
-                DoAlgo_DFS_Manual_Start(sender, e);
-                return true;
-            }
-            else if(DoAlgo_BFS_Auto)
-            {
-                DoAlgo_BFS_Auto_Start(sender, e);
-                return true;
-            }
-            else if(DoAlgo_BFS_Manual)
-            {
-                DoAlgo_BFS_Manual_Start(sender, e);
-                return true;
-            }
-            else if(DoAlgo_Kruskal)
-            {
-                timerColor.Start();
-            }
-            else if(DoAlgo_Prim)
-            {
-                timerColor.Start();
-            }
-            else if(DoAlgo_Warshall)
-            {
-                timerColor.Start();
-            }
-            else if(DoAlgo_Floyd)
-            {
-                timerColor.Start();
-            }
-            else if(DoAlgo_Dijkstra)
-            {
-                timerColor.Start();
-            }
-            else if(DoAlgo_Hamilton)
-            {
-                timerColor.Start();
-            }
-            else if(DoAlgo_Euler)
-            {
-                timerColor.Start();
-            }
-            else if (DoAlgo_Iso_FuerzaBruta)
-            {
-                timerColor.Start();
-            }
-            else if(DoAlgo_Iso_Transpuesta)
-            {
-                timerColor.Start();
-            }
-            else if (DoAlgo_Iso_Intercambio)
-            {
-                timerColor.Start();
-            }
-            else
-            {
-                return false;
-            }
+
         }
 
         #endregion
@@ -2359,7 +2315,7 @@ namespace editorDeGrafos
                 Invalidate();
                 f3.Operation = 0;
             }
-            deselect();
+            //deselect();
         }
 
         private void brToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2370,738 +2326,31 @@ namespace editorDeGrafos
             }
         }
 
-
-        #region Isomorphism
-        #endregion
-
-        #region Paths and Cycles
-
-        Boolean hamiltonOrEulerJustDone = false;
-
-        #region Euler
-
-        #region cycleEuler
-
-
-        /*
-       cycleOfEuler();
-       pathOfEuler();
-                      */
-
-
-        public void cycleOfEuler()//next to the event.
-        {
-            if (!graph_FV.cycleOfEulerBool(workingNodes))
-            {
-                //deploy a OK form to finish.
-                MessageBox.Show("no hay circuito de Euler");
-                graph_FV.allBlack();
-                Invalidate();
-            }
-            else//a trabajar
-            {
-                // do the animation of the path or cycle
-                //cycleOfEuler_Algorithm();
-                //if (pathToAnimate == null)
-                if (!graph_FV.cycleOfEuler_Algorithm())
-                {
-                    //deploy a OK form to finish.
-                    MessageBox.Show("no hay circuito de Euler");
-                    graph_FV.allBlack();
-                    Invalidate();
-                }
-                else
-                {
-                    String forma3Mensaje = "";
-
-                    foreach (Node node in pathOfNodes)
-                    {
-                        forma3Mensaje = forma3Mensaje + node.Index + "->";
-                    }
-                    tmpCount = 0;
-                    f3.changeMesagge(forma3Mensaje);
-                    timerColor.Start();
-                    f3.ShowDialog();
-                    hamiltonOrEulerJustDone = true;
-                    //MessageBox.Show(forma3Mensaje);
-                }
-
-            }
-        }
-
-        #endregion
-
-        #region pathEuler
-        public void pathOfEuler()//next to the event
-        {
-            if (!graph_FV.pathOfEulerBool(estimadedIniFinNodes))
-            {
-                //deploy a OK form to finish.
-                MessageBox.Show("no hay camino de Euler por Bool");
-                graph_FV.allBlack();
-                Invalidate();
-            }
-            else//a trabajar
-            {
-                if (initialNodePath.GradeOut % 2 == 0
-                 || finalNodePath.GradeOut % 2 == 0)//if any initial or final nodes of the path are of pair grade
-                {
-                    if (estimadedIniFinNodes.Count() > 1)
-                    {
-                        MessageBox.Show("Existe un camino de Euler pero no el sugerido, intenta con " + estimadedIniFinNodes[0].Index + "," + estimadedIniFinNodes[1].Index);
-                        graph_FV.allBlack();
-                        Invalidate();
-                    }
-                    else
-                    {
-                        MessageBox.Show("No existe el camino de Euler");
-                        graph_FV.allBlack();
-                        Invalidate();
-                    }
-                }
-                else
-                {
-                    graph_FV.pathOfEuler_Algorithm(pathOfNodes, pathToAnimate, cutEdges,initialNodePath);
-                    String forma3Mensaje = "";
-
-                    foreach (Node node in pathOfNodes)
-                    {
-                        forma3Mensaje = forma3Mensaje + node.Index + "->";
-                    }
-                    tmpCount = 0;
-                    f3.changeMesagge(forma3Mensaje);
-                    timerColor.Start();
-                    f3.ShowDialog();
-                    hamiltonOrEulerJustDone = true;
-                }
-            }
-        }
-        #endregion
-
-        #endregion
-
-        #region Hamilton
-
-        #region HamiltonCycle
-
-        //-------------------------------- Hamilton--------------------
-        public void cycleOfHamilton()//first call
-        {
-            if (!cycleOfHamiltonBool())
-            {
-                MessageBox.Show("no hay ciclos de hamilton");
-                graph_FV.allBlack();
-                Invalidate();
-            }
-            else//a trabajar
-            {
-                if (cycleOfHamilton_Algorithm())
-                {
-                    String forma3Mensaje = "";
-
-                    foreach (Node node in pathOfNodes)
-                    {
-                        forma3Mensaje = forma3Mensaje + node.Index + "->";
-                    }
-                    tmpCount = 0;
-                    f3.changeMesagge(forma3Mensaje);
-                    timerColor.Start();
-                    f3.ShowDialog();
-                    hamiltonOrEulerJustDone = true;
-                }
-                else
-                {
-                    MessageBox.Show("no existe el ciclo de hamilton especificado");
-                    graph_FV.allBlack();
-                    Invalidate();
-                }
-
-            }
-        }
-
-        public Boolean cycleOfHamiltonBool()
-        {
-
-            Boolean res = true;
-
-            //can not have a disconnected node
-            if (!allConected(graph_FV))
-            {
-                return false;
-            }
-            //not cut vertices
-            foreach (Edge edge in graph_FV.EDGE_LIST)
-            {
-                if (graph_FV.isABridgeBool(edge))//if any edge is a bridge it return false to hamilton cycle.
-                {
-                    return false;
-                }
-            }
-
-            foreach (Node node in graph_FV.NODE_LIST)
-            {
-                if (graph_FV.isACutNodeBool(node))//if any node is a cut node return false to hamilton cycle.
-                {
-                    return false;
-                }
-                if (node.GradeOut < 2)
-                {
-                    return false;
-                }
-            }
-
-            return res;
-        }
-
-        public Boolean cycleOfHamilton_Algorithm()
-        {
-
-            pathOfNodes = new List<Node>();
-            pathToAnimate = new List<Edge>();
-            cutEdges = new List<Edge>();
-
-            graph_FV.markAllLikeNotBridge();
-            graph_FV.markAllLikeNotVisited(1);
-
-
-            foreach (Edge edge in graph_FV.EDGE_LIST)
-            {
-                if (graph_FV.isABridgeBool(edge))
-                {
-                    cutEdges.Add(edge);
-                }
-            }
-
-            // Mark all the vertices as not visited 
-            // Start DFS traversal from a vertex with non-zero degree 
-            //return DFSHamiltonCycle(initialNodePath);
-
-            graph_FV.markAllNodeAndEdgesNotVisited();//marcar todos los nodos y aristas como no visitados.
-            ///$#$#$#$#$#$#$#$#$#$#
-            return false;// DFS_Any_HamiltonCycle(initialNodePath);
-        }
-
-        List<Node> nodesPath = new List<Node>();
-      
-        #endregion
-
-        #region HamiltonPath
-        public void pathOfHamilton()//first call
-        {
-            if (!pathOfHamiltonBool())
-            {
-                //deploy a OK form to finish.
-                MessageBox.Show("no hay path of hamilton por Bool");
-                graph_FV.allBlack();
-                Invalidate();
-            }
-            else//a trabajar
-            {
-                if (pathOfHamilton_Algorithm())
-                {
-                    String forma3Mensaje = "";
-
-                    foreach (Node node in pathOfNodes)
-                    {
-                        forma3Mensaje = forma3Mensaje + node.Index + "->";
-                    }
-                    tmpCount = 0;
-                    f3.changeMesagge(forma3Mensaje);
-                    timerColor.Start();
-                    f3.ShowDialog();
-                    hamiltonOrEulerJustDone = true;
-                }
-                else
-                {
-                    MessageBox.Show("no existe el camino de hamilton especificado");
-                }
-            }
-        }
-
-        public Boolean pathOfHamiltonBool()
-        {
-            //can not have a disconnected node
-            if (allConected(graph_FV))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public Boolean pathOfHamilton_Algorithm()
-        {
-            pathOfNodes = new List<Node>();
-            pathToAnimate = new List<Edge>();
-            cutEdges = new List<Edge>();
-
-            graph_FV.markAllLikeNotBridge();
-            graph_FV.markAllNodeAndEdgesNotVisited();
-
-            foreach (Edge edge in graph_FV.EDGE_LIST)
-            {
-                if (graph_FV.isABridgeBool(edge))
-                {
-                    cutEdges.Add(edge);
-                }
-            }
-
-            // Mark all the vertices as not visited 
-            // Start DFS traversal from a vertex with non-zero degree 
-
-            graph_FV.markAllNodeAndEdgesNotVisited();
-            return DFS_Any_HamiltonPath(initialNodePath);
-        }
-
-        Boolean DFS_Any_HamiltonPath(Node workingNode)//recursive function.
-        {
-            workingNode.Visited = true;//marcar el nodo actual como Visited.
-            List<Node> notVisitedYet = graph_FV.notVisitedList();//nodos sin visitar para restauraciones.
-            List<Node> neightboors = workingNode.neighborListNode();//vecinos del nodo actual.
-
-            /*********************
-             *       Caso Base. 
-             * *********************/
-            if (notVisitedYet.Count() < 1 && workingNode == finalNodePath)//todos los nodos Visiteds && el nodo actual tiene de vecino al nodo inicial
-            {
-                //Edge edge = graph_FV.thisEdge(workingNode, initialNodePath);
-                //pathToAnimate.Add(edge);//agrega la arista( actual->inicial) al camino para animar
-                //pathOfNodes.Add(initialNodePath);//se agrega por primera vez el nodoInicial(mismo que nodoFinal) al camino de nodos;
-                pathOfNodes.Add(workingNode);//agrega el nodo actual al camino de nodos 
-                return true;
-            }
-
-            //acomodar los vecinos de menor a mayor en cuestion de grado.
-            neightboors.Sort(delegate (Node x, Node y)
-            {
-                return graph_FV.neighborListNodeNoVisited(x).Count().CompareTo(graph_FV.neighborListNodeNoVisited(y).Count());
-            });
-
-            /*********************
-             *       Caso General. 
-             * *********************/
-            foreach (Node node in neightboors)
-            {
-                if (node.Visited == false && node != finalNodePath)
-                {
-                    if (DFS_Any_HamiltonPath(node))//si el nodo vecino retorna un ciclo
-                    {
-                        Edge edge = graph_FV.thisEdge(workingNode, node);
-                        pathOfNodes.Add(workingNode);
-                        pathToAnimate.Add(edge);
-                        return true;
-                    }
-                    else// si se retorna false se restauran los nodos de la lista de restaturacion(notVisitedYet)
-                        graph_FV.restoreNotVisited(notVisitedYet);//restaturacion.
-                }
-                else if (notVisitedYet.Count() == 1 && node == finalNodePath)
-                {
-                    if (DFS_Any_HamiltonPath(node))//si el nodo vecino retorna un ciclo
-                    {
-                        Edge edge = graph_FV.thisEdge(workingNode, node);
-                        pathOfNodes.Add(workingNode);
-                        pathToAnimate.Add(edge);
-                        return true;
-                    }
-                }
-            }
-
-            //no se encontro nigun ciclo.
-            return false;
-        }//DFS_Any_HamiltonPath(END).
-        #endregion
-
-        #endregion
-
-        #endregion
-
-        #region Dijkstra
-
-        Boolean dijkstraShow = false;
-        int[] edgesToColor;
-
-        void dijkstraAlgorithm()
-        {
-            if (this.graph_FV.isConected())
-            {
-                int n = this.graph_FV.GRAPH.Count();
-                int minVal = int.MaxValue;
-
-
-                int[] weights = new int[n];
-                edgesToColor = new int[n];
-                Boolean[] visited = new Boolean[n];
-                int workingNode;
-
-                for (int i = 0; i < n; i++)
-                {
-                    edgesToColor[i] = weights[i] = int.MaxValue;
-                }
-
-                weights[initialNodePath.Index] = 0;
-                edgesToColor[initialNodePath.Index] = workingNode = initialNodePath.Index;
-
-                while (visited.Contains(false))
-                {
-                    minVal = int.MaxValue;
-                    for (int i = 0; i < n; i++)
-                    {
-                        if (weights[i] < minVal && visited[i] == false)
-                        {
-                            minVal = weights[i];
-                            workingNode = i;
-                        }
-                    }
-
-                    foreach (Node neightboor in graph_FV.neighborListIndex(workingNode))
-                    {
-                        if (visited[neightboor.Index] == false && graph_FV.GRAPH[workingNode][neightboor.Index].W > -1 && weights[neightboor.Index] > weights[workingNode] + graph_FV.GRAPH[workingNode][neightboor.Index].W)
-                        {
-                            weights[neightboor.Index] = weights[workingNode] + graph_FV.GRAPH[workingNode][neightboor.Index].W;
-                            edgesToColor[neightboor.Index] = workingNode;
-                        }
-                    }
-                    visited[workingNode] = true;
-                }
-                dijkstraShow = true;
-                Invalidate();
-            }
-            else
-            {
-                dijkstraShow = false;
-                //mostrar un mensaje de error dijkstra
-                //deploy a OK form to finish.
-                MessageBox.Show("no existe camino de Dijkstra porque no es un grafo conexo");
-                graph_FV.allBlack();
-                Invalidate();
-            }
-        }
-        #endregion
-
-        #region Floyd
-        int[,] matrixFloydWeight;
-        int[,] matrixFloydPaths;
-        Boolean floydShow = false;
-        public void floydAlgorithm()
-        {
-            int n = graph_FV.GRAPH.Count();
-            matrixFloydWeight = new int[n, n];
-            matrixFloydPaths = new int[n, n];
-
-            for (int j = 0; j < n; j++)
-            {
-                for (int i = 0; i < n; i++)
-                {
-                    if (graph_FV.GRAPH[j][i].W > -1 && i != j)
-                    {
-                        matrixFloydWeight[j, i] = graph_FV.GRAPH[j][i].W;
-                        matrixFloydPaths[j, i] = j;
-                    }
-                    else
-                    {
-                        matrixFloydWeight[j, i] = int.MaxValue;
-                        matrixFloydPaths[j, i] = i;
-                    }
-                }
-            }
-
-            for (int k = 0; k < n; k++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    for (int i = 0; i < n; i++)
-                    {
-                        int sumComp;
-                        if (matrixFloydWeight[j, k] == int.MaxValue || matrixFloydWeight[k, i] == int.MaxValue)
-                        {
-                            sumComp = int.MaxValue;
-                        }
-                        else
-                        {
-                            sumComp = matrixFloydWeight[j, k] + matrixFloydWeight[k, i];
-                        }
-
-                        if (sumComp < matrixFloydWeight[j, i] && i != j)
-                        {
-                            matrixFloydWeight[j, i] = matrixFloydWeight[j, k] + matrixFloydWeight[k, i];
-                            matrixFloydPaths[j, i] = k;
-                        }
-                    }
-                }
-            }
-            floydShow = true;
-        }
-
-        List<Edge> edgesFloyd;
-        public void floydShowFunction()
-        {
-            edgesFloyd = new List<Edge>();
-            graph_FV.markAllNodeAndEdgesNotVisited();
-            floydShow_BFS(initialNodePath.Index);
-        }
-
-        public void floydShow_BFS(int workingNode)
-        {
-            List<int> directIncidenceNodes = new List<int>();
-            for (int i = 0; i < matrixFloydPaths.GetLength(0); i++)
-            {
-                if (matrixFloydPaths[workingNode, i] == workingNode && graph_FV.thisnode(i).Visited == false)
-                {
-                    Edge edgeToAdd = this.graph_FV.thisEdgeDirOrIndir(workingNode, i);
-                    if (edgeToAdd != null)
-                    {
-                        edgesFloyd.Add(edgeToAdd);
-                    }
-                    graph_FV.markAsVisited_T_F(i, true);
-                    directIncidenceNodes.Add(i);
-                }
-            }
-
-            foreach (int integer in directIncidenceNodes)
-            {
-                floydShow_BFS(integer);
-            }
-        }
-        #endregion
-
-        #region Warshall
-        int[,] matrixWarshallWeight;
-        int[,] matrixWarshallPaths;
-        Boolean warshallShow = false;
-
-        public void warshallAlgorithm()
-        {
-            int n = graph_FV.GRAPH.Count();
-            matrixWarshallWeight = new int[n, n];
-            matrixWarshallPaths = new int[n, n];
-
-            for (int j = 0; j < n; j++)
-            {
-                for (int i = 0; i < n; i++)
-                {
-                    if (graph_FV.GRAPH[j][i].W > -1)
-                    {
-                        matrixWarshallWeight[j, i] = 1;
-                        matrixWarshallPaths[j, i] = j;
-                    }
-                    else
-                    {
-                        matrixWarshallWeight[j, i] = 0;
-                        matrixWarshallPaths[j, i] = i;
-                    }
-                }
-            }
-
-            for (int k = 0; k < n; k++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    for (int i = 0; i < n; i++)
-                    {
-                        int j_i = matrixWarshallWeight[j, k];
-                        int k_i = matrixWarshallWeight[k, i];
-                        if (j_i == 1 && k_i == 1 && i != j && j != k && k != j && matrixWarshallWeight[j, i] == 0)
-                        {
-                            matrixWarshallWeight[j, i] = 1;
-                            matrixWarshallPaths[j, i] = k;
-                        }
-                    }
-                }
-            }
-            warshallShow = true;
-        }
-
-        List<Edge> edgesWarshall;
-
-        public void warshallShowFunction()
-        {
-            edgesWarshall = new List<Edge>();
-            graph_FV.markAllNodeAndEdgesNotVisited();
-            warshallShow_BFS(initialNodePath.Index);
-        }
-
-        public void warshallShow_BFS(int workingNode)
-        {
-            List<int> directIncidenceNodes = new List<int>();
-            for (int i = 0; i < matrixWarshallPaths.GetLength(0); i++)
-            {
-                if (matrixWarshallPaths[workingNode, i] == workingNode && graph_FV.thisnode(i).Visited == false)
-                {
-                    Edge edgeToAdd = this.graph_FV.thisEdgeDirOrIndir(workingNode, i);
-                    if (edgeToAdd != null)
-                    {
-                        edgesWarshall.Add(edgeToAdd);
-                    }
-                    graph_FV.markAsVisited_T_F(i, true);
-                    directIncidenceNodes.Add(i);
-                }
-            }
-
-            foreach (int integer in directIncidenceNodes)
-            {
-                warshallShow_BFS(integer);
-            }
-        }
-
-        #endregion
-
-        #region Prim
-        Boolean primShow = false;
-        // List<Edge> prim_And_Kruskal_Edges;
-
-        List<Edge> prim_And_Kruskal_Edges;
-        void PrimAlgoritm()
-        {
-            if (this.graph_FV.isConected() && this.graph_FV.GRAPH.Count() > 1)
-            {
-                int n = graph_FV.GRAPH.Count();
-                int minVal = int.MaxValue;
-                Boolean[] visitatedNodes = new Boolean[n];
-                Boolean[,] visitatedEdgesPrim = new Boolean[n, n];
-                Boolean primIteration = true;
-                prim_And_Kruskal_Edges = new List<Edge>();
-
-                while (visitatedNodes.Contains(false))
-                {
-                    minVal = int.MaxValue;
-                    Edge edgeMin = null;
-
-                    for (int j = 0; j < n; j++)
-                    {
-                        if (!primIteration && !visitatedNodes[j])
-                        {
-                            continue;
-                        }
-                        for (int i = 0; i < n; i++)
-                        {
-                            if (visitatedEdgesPrim[j, i] == false && (!visitatedNodes[j] || !visitatedNodes[i]))
-                            {
-                                if (minVal > graph_FV.GRAPH[j][i].W)
-                                {
-                                    if (graph_FV.GRAPH[j][i].W > -1 && j != i)
-                                    {
-                                        minVal = graph_FV.GRAPH[j][i].W;
-                                        edgeMin = graph_FV.thisEdge_Undirected(j, i);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (edgeMin != null)
-                    {
-                        edgeMin.visitada = true;
-                        visitatedEdgesPrim[edgeMin.client.Index, edgeMin.server.Index] = true;
-                        visitatedEdgesPrim[edgeMin.server.Index, edgeMin.client.Index] = true;
-                        visitatedNodes[edgeMin.client.Index] = true;
-                        visitatedNodes[edgeMin.server.Index] = true;
-                        prim_And_Kruskal_Edges.Add(edgeMin);
-                    }
-                    primIteration = false;
-                }
-                primShow = true;
-                Invalidate();
-            }
-            else
-            {
-                primShow = false;
-                //deploy a OK form to finish.
-                MessageBox.Show("no existe el arbol recubridor de Prim, porque no es un grafo conexo");
-                graph_FV.allBlack();
-                Invalidate();
-            }
-        }
-        #endregion
-
-
-
-        #endregion
-
-        private void operacionesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            offWhenClickingMouseOrKey();
-            Invalidate();
-        }
-
-        private void viewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            offWhenClickingMouseOrKey();
-            Invalidate();
-        }
-
-        private void algoritmosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            offWhenClickingMouseOrKey();
-            Invalidate();
-        }
-
-        private void helpToolStripButton_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://github.com/Pedejeca135/GRAFOS_PRO");
-        }
-
-        private void automaticToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Node root = graph_FV.rootNode();
-            if (root != null)
-            {
-                Forest f = this.graph_FV.getForestDFS(root);
-                Forest f2 = this.graph_FV.getForestBFS(root);
-            }
-
-        }
-
         //all about algorithms to do
         #region DoAlgo FlagsAndEvents
          
 
         /******************************** for ALGORITMOS EVENTS  **********************************************/
-        bool DoAlgo_DFS_Auto = false;
-        bool DoAlgo_DFS_Manual = false;
-        bool DoAlgo_BFS_Auto = false;
-        bool DoAlgo_BFS_Manual = false;
-        bool DoAlgo_Kruskal = false;//Undirected graphs only
-        bool DoAlgo_Prim = false;//Undirected grpaphs only
-        bool DoAlgo_Warshall = false;
-        bool DoAlgo_Floyd = false;
-        bool DoAlgo_Dijkstra = false;
-        bool DoAlgo_Hamilton = false;//any kind of graph
-        bool DoAlgo_Euler = false;//any kind of graph
-        bool DoAlgo_Iso_FuerzaBruta = false;//any kind of graph
-        bool DoAlgo_Iso_Transpuesta = false;//any kind of graph
-        bool DoAlgo_Iso_Intercambio = false;//any kind of graph
+        const int DoAlgo_DFS_Auto = 1;
+        const int DoAlgo_DFS_Manual = 2;
+        const int DoAlgo_BFS_Auto = 3;
+        const int DoAlgo_BFS_Manual = 4;
+        const int DoAlgo_Kruskal = 5;//Undirected graphs only
+        const int DoAlgo_Prim = 6;//Undirected grpaphs only
+        const int DoAlgo_Warshall = 7;
+        const int DoAlgo_Floyd = 8;
+        const int DoAlgo_Dijkstra = 9;
+        const int DoAlgo_Hamilton = 10;//any kind of graph
+        const int DoAlgo_Euler = 11;//any kind of graph
+        const int DoAlgo_Iso_FuerzaBruta = 12;//any kind of graph
+        const int DoAlgo_Iso_Transpuesta = 13;//any kind of graph
+        const int DoAlgo_Iso_Intercambio = 14;//any kind of graph
+        int DoAlgo_Option = 0;
+       
 
-        private void DoAlgo_Reset()
-        {
-            DoAlgo_DFS_Auto = false;
-            DoAlgo_DFS_Manual = false;
-            DoAlgo_BFS_Auto = false;
-            DoAlgo_BFS_Manual = false;
-            DoAlgo_Kruskal = false;
-            DoAlgo_Prim = false;
-            DoAlgo_Warshall = false;
-            DoAlgo_Floyd = false;
-            DoAlgo_Dijkstra = false;
-            DoAlgo_Hamilton = false;
-            DoAlgo_Euler = false;
-            DoAlgo_Iso_FuerzaBruta = false;
-            DoAlgo_Iso_Transpuesta = false;
-            DoAlgo_Iso_Intercambio = false;
-        }
         private bool anyDoAlgo_Actived()
         {
-            if(DoAlgo_DFS_Auto ||
-            DoAlgo_DFS_Manual ||
-            DoAlgo_BFS_Auto ||
-            DoAlgo_BFS_Manual ||
-            DoAlgo_Kruskal ||
-            DoAlgo_Prim ||
-            DoAlgo_Warshall ||
-            DoAlgo_Floyd ||
-            DoAlgo_Dijkstra ||
-            DoAlgo_Hamilton ||
-            DoAlgo_Euler ||
-            DoAlgo_Iso_FuerzaBruta ||
-            DoAlgo_Iso_Transpuesta ||
-            DoAlgo_Iso_Intercambio )
+            if(DoAlgo_Option > 0)
             {
                 return true;
             }
@@ -3114,7 +2363,7 @@ namespace editorDeGrafos
         //DFS AUTO:
         private void DoAlgo_DFS_Auto_Click(object sender, EventArgs e)
         {
-            DoAlgo_DFS_Auto = true;
+            DoAlgo_Option = DoAlgo_DFS_Auto ;
             Reset_All();
             algorithms_Handling_Timer.Start();
         }
@@ -3122,7 +2371,7 @@ namespace editorDeGrafos
         //DFS MANUAL:
         private void DoAlgo_DFS_Manual_Click(object sender, EventArgs e)
         {
-            DoAlgo_DFS_Manual = true;
+            DoAlgo_Option = DoAlgo_DFS_Manual;
             Reset_All();
             algorithms_Handling_Timer.Start();
         }
@@ -3130,7 +2379,7 @@ namespace editorDeGrafos
         //BFS AUTO:
         private void DoAlgo_BFS_Auto_Click(object sender, EventArgs e)
         {
-            DoAlgo_BFS_Auto = true;
+            DoAlgo_Option = DoAlgo_BFS_Auto;
             Reset_All();
             algorithms_Handling_Timer.Start();
         }
@@ -3138,7 +2387,7 @@ namespace editorDeGrafos
         //BFS MANUAL:
         private void DoAlgo_BFS_Manual_Click(object sender, EventArgs e)
         {
-            DoAlgo_BFS_Manual = true;
+            DoAlgo_Option = DoAlgo_BFS_Manual;
             Reset_All();
             algorithms_Handling_Timer.Start();
         }
@@ -3146,7 +2395,7 @@ namespace editorDeGrafos
         //KRUSKAL:
         private void DoAlgo_Kruskal_Click(object sender, EventArgs e)
         {
-            DoAlgo_Kruskal = true;
+            DoAlgo_Option = DoAlgo_Kruskal;
             Reset_All();
             algorithms_Handling_Timer.Start();
         }
@@ -3154,7 +2403,7 @@ namespace editorDeGrafos
         //PRIM:
         private void DoAlgo_Prim_Click(object sender, EventArgs e)
         {
-            DoAlgo_Prim = true;
+            DoAlgo_Option = DoAlgo_Prim;
             Reset_All();
             algorithms_Handling_Timer.Start();
         }
@@ -3162,7 +2411,7 @@ namespace editorDeGrafos
         //WARSHALL:
         private void DoAlgo_Warshall_Click(object sender, EventArgs e)
         {
-            DoAlgo_Warshall = true;
+            DoAlgo_Option = DoAlgo_Warshall;
             Reset_All();
             algorithms_Handling_Timer.Start();
         }
@@ -3170,7 +2419,7 @@ namespace editorDeGrafos
         //FLOYD:
         private void DoAlgo_Floyd_Click(object sender, EventArgs e)
         {
-            DoAlgo_Floyd = true;
+            DoAlgo_Option = DoAlgo_Floyd;
             Reset_All();
             algorithms_Handling_Timer.Start();
         }
@@ -3178,7 +2427,7 @@ namespace editorDeGrafos
         //DIJKSTRA:      
         private void DoAlgo_Dijkstra_Click(object sender, EventArgs e)
         {
-            DoAlgo_Dijkstra = true;
+            DoAlgo_Option = DoAlgo_Dijkstra ;
             Reset_All();
             algorithms_Handling_Timer.Start();
         }
@@ -3186,7 +2435,7 @@ namespace editorDeGrafos
        //HAMILTON:
         private void DoAlgo_Hamilton_Click(object sender, EventArgs e)
         {
-            DoAlgo_Hamilton = true;
+            DoAlgo_Option = DoAlgo_Hamilton;
             Reset_All();
             algorithms_Handling_Timer.Start();
         }
@@ -3194,7 +2443,7 @@ namespace editorDeGrafos
        //EULER:
         private void DoAlgo_Euler_Click(object sender, EventArgs e)
         {
-            DoAlgo_Euler = true;
+            DoAlgo_Option = DoAlgo_Euler;
             Reset_All();
             algorithms_Handling_Timer.Start();
         }
@@ -3202,7 +2451,7 @@ namespace editorDeGrafos
         //ISOM BF
         private void DoAlgo_Iso_FuerzaBruta_Click(object sender, EventArgs e)
         {
-            DoAlgo_Iso_FuerzaBruta = true;
+            DoAlgo_Option = DoAlgo_Iso_FuerzaBruta ;
             Reset_All();
             algorithms_Handling_Timer.Start();
         }
@@ -3210,7 +2459,7 @@ namespace editorDeGrafos
         //ISOM TRANSPOSED MATRIX
         private void DoAlgo_Iso_Transpuesta_Click(object sender, EventArgs e)
         {
-            DoAlgo_Iso_Transpuesta = true;
+            DoAlgo_Option = DoAlgo_Iso_Transpuesta;
             Reset_All();
             algorithms_Handling_Timer.Start();
         } 
@@ -3218,20 +2467,16 @@ namespace editorDeGrafos
         //ISOM graph theory manual
         private void DoAlgo_Iso_Intercambio_Click(object sender, EventArgs e)
         {
-            DoAlgo_Iso_Intercambio = true;
+            DoAlgo_Option = DoAlgo_Iso_Intercambio ;
             Reset_All();
             algorithms_Handling_Timer.Start();
         }
-
         #endregion
-
-
-
 
         //KRUSKAL:
         private void kruskalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            deselect();
+            //deselect();
             reset();
             if (this.graph_FV.Directed())
             {
@@ -3250,7 +2495,7 @@ namespace editorDeGrafos
         //PRIM:
         private void primToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            deselect();
+            //deselect();
             reset();
             if (this.graph_FV.Directed())
             {
@@ -3268,7 +2513,7 @@ namespace editorDeGrafos
         //WARSHALL
         private void warshallToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            deselect();
+            //deselect();
             reset();
             //warshall_Do
             warshallAlgorithm();
@@ -3278,7 +2523,7 @@ namespace editorDeGrafos
         //FLOYD
         private void floydToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            deselect();
+            //deselect();
             reset();
             if (this.graph_FV.Directed())
             {
@@ -3295,30 +2540,7 @@ namespace editorDeGrafos
         }
 
 
-        //DIJKSTRA:
-        private void dijkstraToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            deselect();
-            reset();
-            //dijkstra_Do = true;
-        }
-        //HAMILTON
-        private void hamiltonToolStripMenuItem_Click(object sender, EventArgs e)//make happend
-        {
-            deselect();
-            reset();
-            // path_Hamilton_Do = true;
-        }
-
-
-        //EULER:
-        private void eulerToolStripMenuItem_Click(object sender, EventArgs e)//make happend 
-        {
-            deselect();
-            reset();
-            //path_Euler_Do = true;
-        }
-
+        
 
         #region Algorithms ForCalling
         /*
@@ -3326,9 +2548,9 @@ namespace editorDeGrafos
          *  DFS in automatic mode doesn´t need anything to start
          * 
          * */
-        private void DoAlgo_DFS_Auto_Start(object sender, EventArgs e)
+        private void DoAlgo_DFS_Auto_Start()
         {
-            
+           Forest forest =  this.graph_FV.getForestDFS(graph_FV.rootNode());
         }
 
         /*
@@ -3336,9 +2558,9 @@ namespace editorDeGrafos
          *  DFS in manual mode need a specific root Node
          * 
          * */
-        private void DoAlgo_DFS_Manual_Start(object sender, EventArgs e)
+        private void DoAlgo_DFS_Manual_Start()
         {
-            
+            Forest forest = this.graph_FV.getForestDFS(initialNode);
         }
 
         /*
@@ -3346,9 +2568,9 @@ namespace editorDeGrafos
          *  DFS in manual mode need a specific root Node
          * 
          * */
-        private void DoAlgo_BFS_Auto_Start(object sender, EventArgs e)
+        private void DoAlgo_BFS_Auto_Start()
         {
-            
+            Forest forest = this.graph_FV.getForestBFS(graph_FV.rootNode());
         }
 
         /*
@@ -3356,12 +2578,12 @@ namespace editorDeGrafos
         *  BFS in manual mode need a specific root Node
         * 
         * */
-        private void DoAlgo_BFS_Manual_Start(object sender, EventArgs e)
+        private void DoAlgo_BFS_Manual_Start()
         {
-            
+            Forest forest = this.graph_FV.getForestDFS(initialNode);
         }
 
-        private void DoAlgo_Kruskal_Start(object sender, EventArgs e)
+        private void DoAlgo_Kruskal_Start()
         {
             
         }
@@ -3446,53 +2668,53 @@ namespace editorDeGrafos
         }
         #endregion
 
-        private void DoAlgo_Prim_Start(object sender, EventArgs e)
+        private void DoAlgo_Prim_Start()
         {
-            DoAlgo_Prim = true;
+            
         }
 
-        private void DoAlgo_Warshall_Start(object sender, EventArgs e)
+        private void DoAlgo_Warshall_Start()
         {
-            DoAlgo_Warshall = true;
+            
         }
 
-        private void DoAlgo_Floyd_Start(object sender, EventArgs e)
+        private void DoAlgo_Floyd_Start()
         {
-            DoAlgo_Floyd = true;
+            
         }
 
-        private void DoAlgo_Dijkstra_Start(object sender, EventArgs e)
+        private void DoAlgo_Dijkstra_Start()
         {
-            DoAlgo_Dijkstra = true;
+            
         }
 
-        private void DoAlgo_Hamilton_Start(object sender, EventArgs e)
+        private void DoAlgo_Hamilton_Start()
         {
-            DoAlgo_Hamilton = true;
+            
         }
 
-        private void DoAlgo_Euler_Start(object sender, EventArgs e)
+        private void DoAlgo_Euler_Start()
         {
-            DoAlgo_Euler = true;
+         
         }
-        private void DoAlgo_Iso_FuerzaBruta_Start(object sender, EventArgs e)
+        private void DoAlgo_Iso_FuerzaBruta_Start()
         {
-            DoAlgo_Iso_FuerzaBruta = true;
-        }
-
-        private void DoAlgo_Iso_Transpuesta_Start(object sender, EventArgs e)
-        {
-            DoAlgo_Iso_Transpuesta = true;
+            
         }
 
-        private void DoAlgo_Iso_Intercambio_Start(object sender, EventArgs e)
+        private void DoAlgo_Iso_Transpuesta_Start()
         {
-            DoAlgo_Iso_Intercambio = true;
+          
+        }
+
+        private void DoAlgo_Iso_Intercambio_Start()
+        {
+           
         }
 
         #endregion
 
-        private void bridgesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void bridgesToolStripMenuItem_Click()
         {
 
         }
