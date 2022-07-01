@@ -6,22 +6,30 @@ using System.Threading.Tasks;
 
 namespace editorDeGrafos
 {
+    /*
+     * This class represent a kind of container for nodes in the graph structure as the relation
+     * these are really the edges
+     */
     public class NodeRef
     {
-        int weight;
-        Node nodo;// the node that is visited
-        TidyPair tidy;
-        Boolean activeNode;
-        Boolean visited = false;
-        char typeOfConection = 'u';
-        int Id;
 
-        public NodeRef(int weight, Node nodo, TidyPair tidyPair, char typeOfEdge, List<int> IDlist)
+        int weight;//the weight that represents the relation
+        Node nodo;// the node that is visited
+        //TidyPair tidy;
+
+        //for traversal and other methods
+        Boolean activeNode = true;
+        Boolean visited = false;
+
+        char typeOfConection = 'u';
+
+        int Id;//every edge is unique
+
+        public NodeRef(int weight, Node nodo, char typeOfEdge, List<int> IDlist)
         {
-            this.tidy = tidyPair;
             this.nodo = nodo;
             this.weight = weight;
-            activeNode = false;            
+
             if (typeOfEdge == 'd')
             {
                 this.typeOfConection = typeOfEdge;
@@ -29,33 +37,43 @@ namespace editorDeGrafos
             this.Id = Util.createID(IDlist);
         }
 
-        public NodeRef(int weight, Node nodo, TidyPair tidyPair, Boolean active, char typeOfEdge, List<int> IDlist)
+        public char Type
         {
-            this.tidy = tidyPair;
-            this.nodo = nodo;
-            this.weight = weight;
-            activeNode = active;
-            
-            if (typeOfEdge == 'd')
-            {
-                this.typeOfConection = typeOfEdge;  
-            }
-            this.Id = Util.createID(IDlist);
+            get { return this.typeOfConection; }
         }
 
-        public NodeRef(int weight, Node nodo,char typeOfEdge, List<int> IDlist)
+        public bool Directed
         {
-            this.nodo = nodo;
-            this.weight = weight;
-
-            if (typeOfEdge == 'd')
+            get
             {
-                this.typeOfConection = typeOfEdge; 
+                if (this.Type == 'd')
+                {
+                    return true;
+                }
+                return false;
             }
-            this.Id = Util.createID(IDlist);
+
         }
 
-        public Node NODO
+        public bool Undirected
+        {
+            get
+            {
+                if (this.Type == 'u')
+                {
+                    return true;
+                }
+                return false;
+            }
+
+        }
+
+        public int ID
+        {
+            get { return this.ID; }
+        }
+
+        public Node Node
         {
             get { return this.nodo; }
         }
@@ -66,15 +84,10 @@ namespace editorDeGrafos
             set { this.weight = value; }
         }
 
-        public TidyPair TidyPair
-        {
-            get { return this.tidy; }
-            set { this.tidy = value; }
-        }
-
-        public Boolean ACTIVATION
+        public Boolean Activation
         {
             get { return activeNode; }
+            set { activeNode = value; }
         }
 
         public Boolean Visited
@@ -88,27 +101,43 @@ namespace editorDeGrafos
             visited = false;
         }
 
-        public char Type
-        {
-            get { return this.typeOfConection; }
-        }
+        
 
-        public bool Directed
-        {
-            get {
-                if (this.Type == 'd')
-                {
-                    return true;
-                }
-                return false;
-            }
 
-        }
+        //public NodeRef(int weight, Node nodo, TidyPair tidyPair, char typeOfEdge, List<int> IDlist)
+        //{
+        //    this.tidy = tidyPair;
+        //    this.nodo = nodo;
+        //    this.weight = weight;
+        //    activeNode = false;            
+        //    if (typeOfEdge == 'd')
+        //    {
+        //        this.typeOfConection = typeOfEdge;
+        //    }
+        //    this.Id = Util.createID(IDlist);
+        //}
 
-        public int ID
-        {
-            get {return this.ID;}
-        }
+        //public NodeRef(int weight, Node nodo, TidyPair tidyPair, Boolean active, char typeOfEdge, List<int> IDlist)
+        //{
+        //    this.tidy = tidyPair;
+        //    this.nodo = nodo;
+        //    this.weight = weight;
+        //    activeNode = active;
+
+        //    if (typeOfEdge == 'd')
+        //    {
+        //        this.typeOfConection = typeOfEdge;  
+        //    }
+        //    this.Id = Util.createID(IDlist);
+        //}
+
+        //public TidyPair TidyPair
+        //{
+        //    get { return this.tidy; }
+        //    set { this.tidy = value; }
+        //}
+
+
 
     }//NodeRef.
 }

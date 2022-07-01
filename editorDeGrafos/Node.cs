@@ -10,36 +10,46 @@ namespace editorDeGrafos
 
     public class Node
     {
-        /*DEFAULT CONSTANTS:*/
+        #region NodeDeclarations
+        /*DEFAULT CONSTANTS AND DECLARATIONS:*/
 
-        // this colors will be used dependig on the selected state of the node.
-        //this can grow depending on the different options you want to give to the users
-        //
-
-    
-        static int numSelectionStates = 3;
-
-        //this two arrays control the node colors depending on the node state and the selection mode active in the graphic envirtoment
-
+        #region Functional
         //*FUNCTIONAL VARIABLES:
-        //String nameID = "";//a node unique name in the graph
-        int uniqueID;//a primary key for vertices (integer type)
-        int index;//for control in the graph 
+        string nameID = "";//a node unique name in the graph
+        int uniqueID; //a primary key for vertices (integer type)
+        int index; //for control in the graph 
         //this three are asigned by the Graph with the method create.
 
         Boolean visited = false;                      //for routing
-        //Boolean colored = false;                      //for especial algorithms that use color atribute
-        List<NodeRef> neighbors = new List<NodeRef>();//this represent the list of nodes that can be reached from this one
+        Boolean colored = false;                      //for especial algorithms that use color atribute
+
+        //this represent the list of nodes that can be reached from this one
+        List<NodeRef> neighbors = new List<NodeRef>();
         //each NodeRef have the reference to the next node and the weight of the edge between them
+      
         //for the transposed matrix
         List<NodeRef> transposedNeighbors = new List<NodeRef>();
 
-        //*GRAPHICs VARIABLES://those wich help with the graphical enviroment of the graph editor
+        /*for graph traversal*/
+        int level;
+        #endregion
+
+        #region Graphical
+        //*GRAPHICs VARIABLES:
+        //those wich help with the graphical enviroment of the graph editor
         Point position = new Point(0, 0);//position for drawing the node
         Color color = Color.Black;      //color for drawing the node
         int selected = 0;                   //to select nodes in graph mode
         int radiusLenght = 30;           //the radius of the node to Draw
 
+        // this colors will be used dependig on the selected state of the node.
+        //this can grow depending on the different options you want to give to the users
+        //control the node colors depending on the node state and the selection mode active in the graphic envirtoment
+        static int numSelectionStates = 3;
+
+        #endregion
+
+        #endregion
 
         #region NodeConstructors
         public Node() //default constructor of the class Node
@@ -47,7 +57,7 @@ namespace editorDeGrafos
             //sometimes you need an empty Node
         }
 
-        public Node(int x, int y)//this constructor works when the only util information is the position of the graph normaly when is for drawing it
+        public Node(int x, int y)//this constructor works when the only util information is the position of the graph, normaly for drawing it
         {
             this.Position = new Point(x, y);
         }
@@ -69,8 +79,7 @@ namespace editorDeGrafos
         }
         #endregion
 
-        
-        #region NodeGetSet
+        #region NodeProperties
 
         /*******************************************************
          *               Geters and seters(Begin)              *
@@ -93,8 +102,6 @@ namespace editorDeGrafos
             set { selected = value; }
         }
 
-        /*for graph traversal*/
-        int level;
         public int Level
         {
             get { return level; }
@@ -107,8 +114,7 @@ namespace editorDeGrafos
             set {visited = value; }
         }
 
-
-        public Color COLOR
+        public Color Color
         {
             get
             {
@@ -130,7 +136,7 @@ namespace editorDeGrafos
        //returns true if any neigbor edge is directed
         public bool anyDirected()
         {
-            foreach(NodeRef nodeR in this.NEIGHBORS)
+            foreach(NodeRef nodeR in this.Neighbors)
             {
                 if(nodeR.Directed)
                 {
@@ -157,12 +163,12 @@ namespace editorDeGrafos
             selected = 0;
             visited = false;
             level = -1;
-            //colored = false;
+            colored = false;
         }
 
         public void ResetNeighbors()
         {
-           foreach(NodeRef nodeR in this.NEIGHBORS)
+           foreach(NodeRef nodeR in this.Neighbors)
             {
                 nodeR.reset();
             }
@@ -197,35 +203,35 @@ namespace editorDeGrafos
 
         public int GradeOut
         {
-            get { return this.NEIGHBORS.Count(); }
+            get { return this.Neighbors.Count(); }
         }
 
         public int GradeIn
         {
-            get { return this.TRANSPOSED_NEIGHBORS.Count(); }
+            get { return this.TransposedNeighbors.Count(); }
         }
 
 
-        public List<NodeRef> NEIGHBORS
+        public List<NodeRef> Neighbors
             {
                 get { return this.neighbors; }
                 set { this.neighbors = value; }
             }
 
            
-        public List<NodeRef> TRANSPOSED_NEIGHBORS
+        public List<NodeRef> TransposedNeighbors
         {
             get { return this.transposedNeighbors; }
             set { this.transposedNeighbors = value; }
         }
 
-        public List<int> NEIGBORS_ID_LIST
+        public List<int> NeighborsIdList
         {
             get
             {
                 List<int> res = new List<int>();
 
-                foreach (NodeRef nodeR in this.TRANSPOSED_NEIGHBORS)
+                foreach (NodeRef nodeR in this.TransposedNeighbors)
                 {
                     res.Add(nodeR.ID);
                 }
@@ -234,12 +240,12 @@ namespace editorDeGrafos
         }
 
 
-        public List<int> TRANS_NEIGHBORS_ID_LIST
+        public List<int>  TransposedNeighborsIdList
         {
             get {
                 List<int> res = new List<int>();
 
-                foreach(NodeRef nodeR in this.TRANSPOSED_NEIGHBORS)
+                foreach(NodeRef nodeR in this.TransposedNeighbors)
                 {
                     res.Add(nodeR.ID);    
                 }
@@ -251,9 +257,6 @@ namespace editorDeGrafos
          *******************************************************/
 
         #endregion
-
-
-
 
         #region NodeMethods
 
@@ -277,7 +280,7 @@ namespace editorDeGrafos
 
         public bool isNeigtbor(Node other)
         {
-            foreach(NodeRef nodeR in NEIGHBORS)
+            foreach(NodeRef nodeR in Neighbors)
             {
                 if(other.Equals(nodeR))//if any of its neighbors has it return
                 {
@@ -293,7 +296,7 @@ namespace editorDeGrafos
 
             foreach(NodeRef nodeR in this.neighbors)
             {
-                res.Add(nodeR.NODO);
+                res.Add(nodeR.Node);
             }
             return res;
         }
@@ -308,14 +311,14 @@ namespace editorDeGrafos
         {
             Node client = this;
 
-            NodeRef serverR = new NodeRef(weight, server,'u', this.NEIGBORS_ID_LIST);
-            NodeRef clientR = new NodeRef(weight, client, 'u', server.NEIGBORS_ID_LIST);
+            NodeRef serverR = new NodeRef(weight, server,'u', this.NeighborsIdList);
+            NodeRef clientR = new NodeRef(weight, client, 'u', server.NeighborsIdList);
              
             client.neighbors.Add(serverR);
-            server.TRANSPOSED_NEIGHBORS.Add(serverR);
+            server.TransposedNeighbors.Add(serverR);
 
             server.neighbors.Add(clientR);
-            client.TRANSPOSED_NEIGHBORS.Add(clientR);
+            client.TransposedNeighbors.Add(clientR);
         }
 
         //add a directed neighbor
@@ -323,10 +326,10 @@ namespace editorDeGrafos
         {
             Node client = this;
 
-            NodeRef serverR = new NodeRef(weight, server, 'd', this.NEIGBORS_ID_LIST);
+            NodeRef serverR = new NodeRef(weight, server, 'd', this.NeighborsIdList);
 
             client.neighbors.Add(serverR);
-            server.TRANSPOSED_NEIGHBORS.Add(serverR);
+            server.TransposedNeighbors.Add(serverR);
         }
 
         //this will be used in a foreach loop for link elimination in case a node is eliminated 
@@ -334,26 +337,26 @@ namespace editorDeGrafos
         {
             List < NodeRef > newListOfReferencesAux = new List<NodeRef>();
             //For the new transposed naighbor list
-            foreach(NodeRef nodeR in this.TRANSPOSED_NEIGHBORS)
+            foreach(NodeRef nodeR in this.TransposedNeighbors)
             {
-                if(server != nodeR.NODO)
+                if(server != nodeR.Node)
                 {
                     newListOfReferencesAux.Add(nodeR);
                 }
             }
-            this.TRANSPOSED_NEIGHBORS = newListOfReferencesAux;
+            this.TransposedNeighbors = newListOfReferencesAux;
 
-            newListOfReferencesAux = this.NEIGHBORS;
+            newListOfReferencesAux = this.Neighbors;
 
             //for the new neighbor list
-            foreach (NodeRef nodeR in this.NEIGHBORS)
+            foreach (NodeRef nodeR in this.Neighbors)
             {
-                if (server != nodeR.NODO)
+                if (server != nodeR.Node)
                 {
                     newListOfReferencesAux.Add(nodeR);
                 }
             }
-            this.NEIGHBORS = newListOfReferencesAux;
+            this.Neighbors = newListOfReferencesAux;
         }
 
         //eliminate the node Ref pased
@@ -361,24 +364,24 @@ namespace editorDeGrafos
         {
             if (serverR.Type == 'u')
             {
-                this.NEIGHBORS.Remove(serverR);
-                serverR.NODO.TRANSPOSED_NEIGHBORS.Remove(serverR);
+                this.Neighbors.Remove(serverR);
+                serverR.Node.TransposedNeighbors.Remove(serverR);
 
                 this.remove_TransNeighbor_ByID(serverR.ID);
-                serverR.NODO.remove_Neighbor_ByID(serverR.ID);
+                serverR.Node.remove_Neighbor_ByID(serverR.ID);
 
             }
             else
             {
-                this.NEIGHBORS.Remove(serverR);
-                serverR.NODO.TRANSPOSED_NEIGHBORS.Remove(serverR);  
+                this.Neighbors.Remove(serverR);
+                serverR.Node.TransposedNeighbors.Remove(serverR);  
             }
         }
 
         public void remove_TransNeighbor_ByID(int NR_ID)
         {
             NodeRef eliminate = null;
-            foreach(NodeRef nodeR in this.TRANSPOSED_NEIGHBORS )
+            foreach(NodeRef nodeR in this.TransposedNeighbors)
             {
                 if(NR_ID == nodeR.ID)
                 {
@@ -388,14 +391,14 @@ namespace editorDeGrafos
             }
             if(eliminate != null)
             {
-                this.TRANSPOSED_NEIGHBORS.Remove(eliminate);
+                this.TransposedNeighbors.Remove(eliminate);
             }
         }
 
         public void remove_Neighbor_ByID(int NR_ID)
         {
             NodeRef eliminate = null;
-            foreach (NodeRef nodeR in this.NEIGHBORS)
+            foreach (NodeRef nodeR in this.Neighbors)
             {
                 if (NR_ID == nodeR.ID)
                 {
@@ -405,13 +408,13 @@ namespace editorDeGrafos
             }
             if (eliminate != null)
             {
-                this.NEIGHBORS.Remove(eliminate);
+                this.Neighbors.Remove(eliminate);
             }
         }
 
         #endregion
 
-    }//Node class.
+    }//Node Class.
 
 
 

@@ -2341,11 +2341,18 @@ namespace editorDeGrafos
         #region ISOMORPHISM - 13
         #endregion
 
-        ISOMORPHISM - 14
-            #endregion
 
-        #endregion
 
+
+        const int DoAlgo_DFS = 1;
+        const int DoAlgo_BFS = 2;
+        //const int DoAlgo_ = 3;
+        //const int DoAlgo_ = 4;
+
+        const int DoAlgo_Kruskal = 5;
+        const int DoAlgo_Prim = 6;
+        const int DoAlgo_Wharshall = 7;
+        const int DoAlgo_Floyd = 8;
         const int DoAlgo_Dijkstra = 9;
         const int DoAlgo_Hamilton = 10;//any kind of graph
         const int DoAlgo_Euler = 11;//any kind of graph
