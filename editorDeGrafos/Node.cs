@@ -356,12 +356,12 @@ namespace editorDeGrafos
             }
         }
 
-        public void DeleteTransposedNeighborById(int NR_ID)
+        public void DeleteTransposedNeighborById(int neighborId)
         {
             NodeRef eliminate = null;
             foreach(NodeRef nodeR in this.TransposedNeighbors)
             {
-                if(NR_ID == nodeR.ID)
+                if(neighborId == nodeR.ID)
                 {
                     eliminate = nodeR;
                     break;

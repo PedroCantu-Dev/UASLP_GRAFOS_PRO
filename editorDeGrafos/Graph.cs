@@ -259,11 +259,11 @@ namespace editorDeGrafos
                     {
                         continue;
                     }
-                    if (visited.Contains(nodeR.NODO.Index))
+                    if (visited.Contains(nodeR.Node.Index))
                     {
                         return true;
                     }
-                    Boolean hasCycle = dfsU(nodeR.NODO.Index, visited, vertex);
+                    Boolean hasCycle = dfsU(nodeR.Node.Index, visited, vertex);
                     if (hasCycle)
                     {
                         return true;
@@ -314,16 +314,16 @@ namespace editorDeGrafos
                 if (nodeR.W > -1)
                 {
                     //if in black set means already explored so continue.
-                    if (blackS.Contains(nodeR.NODO.Index))
+                    if (blackS.Contains(nodeR.Node.Index))
                     {
                         continue;
                     }
                     //if in gray set then cycle found.
-                    if (grayS.Contains(nodeR.NODO.Index))
+                    if (grayS.Contains(nodeR.Node.Index))
                     {
                         return true;
                     }
-                    if (dfs(nodeR.NODO.Index, whiteS, grayS, blackS))
+                    if (dfs(nodeR.Node.Index, whiteS, grayS, blackS))
                     {
                         return true;
                     }
@@ -443,14 +443,14 @@ namespace editorDeGrafos
                     {
                         if (this.Directed() == true)
                         {
-                            if (this.GradeOfDirectedNode(graph[i][j].NODO).Total == 0)
+                            if (this.GradeOfDirectedNode(graph[i][j].Node).Total == 0)
                             {
                                 return false;
                             }
                         }
                         else
                         {
-                            if (graph[i][j].NODO.GradeOut == 0)
+                            if (graph[i][j].Node.GradeOut == 0)
                             {
                                 return false;
                             }
@@ -615,7 +615,7 @@ namespace editorDeGrafos
                 //for each neighbor in the neirghbr list of the node working
                 foreach (NodeRef neighbor in node.NEIGHBORS)
                 {
-                    res[this.nodeList_G.IndexOf(node), this.nodeList_G.IndexOf(neighbor.NODO)] = true;
+                    res[this.nodeList_G.IndexOf(node), this.nodeList_G.IndexOf(neighbor.Node)] = true;
                 }
             }
             return res;
@@ -640,7 +640,7 @@ namespace editorDeGrafos
                 //for each neighbor in the neirghbr list of the node working
                 foreach (NodeRef neighbor in node.NEIGHBORS)
                 {
-                    res[this.nodeList_G.IndexOf(node), this.nodeList_G.IndexOf(neighbor.NODO)] = 1;
+                    res[this.nodeList_G.IndexOf(node), this.nodeList_G.IndexOf(neighbor.Node)] = 1;
                 }
             }
             return res;
@@ -667,19 +667,19 @@ namespace editorDeGrafos
                 //for each neighbor in the neirghbor list of the node working
                 foreach (NodeRef neighbor in node.NEIGHBORS)
                 {
-                    int comparison = res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)];
+                    int comparison = res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.Node)];
 
 
-                    if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] == -1)
+                    if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.Node)] == -1)
                     {
-                        res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] = neighbor.W;
+                        res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.Node)] = neighbor.W;
                     }
                     else
                     {
                         //if the value in the matrix is grater than the value in the list
-                        if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] > neighbor.W)
+                        if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.Node)] > neighbor.W)
                         {
-                            res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] = neighbor.W;
+                            res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.Node)] = neighbor.W;
                         }
                     }
 
@@ -710,19 +710,19 @@ namespace editorDeGrafos
                 //for each neighbor in the neirghbor list of the node working
                 foreach (NodeRef neighbor in node.NEIGHBORS)
                 {
-                    int comparison = res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)];
+                    int comparison = res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.Node)];
 
 
-                    if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] == -1)
+                    if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.Node)] == -1)
                     {
-                        res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] = neighbor.W;
+                        res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.Node)] = neighbor.W;
                     }
                     else
                     {
                         //if the value in the matrix is less than the value in the list
-                        if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] < neighbor.W)
+                        if (res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.Node)] < neighbor.W)
                         {
-                            res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.NODO)] = neighbor.W;
+                            res[this.nodeList_G.IndexOf(node)][this.nodeList_G.IndexOf(neighbor.Node)] = neighbor.W;
                         }
                     }
 
@@ -743,7 +743,7 @@ namespace editorDeGrafos
                 {
                     if (paramBool == false)
                     {
-                        resString += "\t" + "(" + i + ":" + nodoR.NODO.Index + ")= " + nodoR.W;
+                        resString += "\t" + "(" + i + ":" + nodoR.Node.Index + ")= " + nodoR.W;
                     }
                     else
                     {
@@ -840,7 +840,7 @@ namespace editorDeGrafos
             {
                 if (graph[workingNode][i].W > -1)
                 {
-                    res.Add(graph[workingNode][i].NODO);
+                    res.Add(graph[workingNode][i].Node);
                 }
             }
             return res;
@@ -851,9 +851,9 @@ namespace editorDeGrafos
             List<Node> res = new List<Node>();
             for (int i = 0; i < graph[workingNode.Index].Count(); i++)
             {
-                if (graph[workingNode.Index][i].W > -1 && graph[workingNode.Index][i].NODO.Visited == false)
+                if (graph[workingNode.Index][i].W > -1 && graph[workingNode.Index][i].Node.Visited == false)
                 {
-                    res.Add(graph[workingNode.Index][i].NODO);
+                    res.Add(graph[workingNode.Index][i].Node);
 
                 }
             }
@@ -923,7 +923,7 @@ namespace editorDeGrafos
             {
                 if (graph[i][i].W > -1)
                 {
-                    resList.Add(graph[i][i].NODO);
+                    resList.Add(graph[i][i].Node);
                 }
             }
             return resList;
@@ -1320,7 +1320,7 @@ namespace editorDeGrafos
             int res = 0;
             for (int i = 0; i < graph.Count(); i++)
             {
-                res += graph[i][i].NODO.GradeOut;
+                res += graph[i][i].Node.GradeOut;
             }
             return res;
         }

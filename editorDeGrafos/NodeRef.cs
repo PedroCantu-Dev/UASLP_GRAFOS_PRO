@@ -13,6 +13,10 @@ namespace editorDeGrafos
     public class NodeRef
     {
 
+        #region NodeRefDeclarations
+        /*DEFAULT CONSTANTS AND DECLARATIONS:*/
+
+        #region FunctionalDeclarations
         int weight;//the weight that represents the relation
         Node nodo;// the node that is visited
         //TidyPair tidy;
@@ -25,6 +29,17 @@ namespace editorDeGrafos
 
         int Id;//every edge is unique
 
+        #endregion
+
+        #region GraphicalDeclarations
+
+
+
+        #endregion
+
+        #endregion
+
+        #region NodeRefConstructors
         public NodeRef(int weight, Node nodo, char typeOfEdge, List<int> IDlist)
         {
             this.nodo = nodo;
@@ -37,6 +52,13 @@ namespace editorDeGrafos
             this.Id = Util.createID(IDlist);
         }
 
+
+        #endregion
+
+        #region NodeRefProperties
+        /*******************************************************
+        *                Geters and seters(Begin)               *
+        *******************************************************/
         public char Type
         {
             get { return this.typeOfConection; }
@@ -95,14 +117,26 @@ namespace editorDeGrafos
             get { return visited; }
             set { visited = value; }
         }
+        /*******************************************************
+         *                Geters and seters(End)               *
+         *******************************************************/
+        #endregion
 
+        #region NodeRefMethods
+        /*******************************************************
+         *                Methods(Begin)                       *
+         *******************************************************/
+
+
+
+        #endregion
+
+        #region NodeRefEvents
         public void reset()
         {
             visited = false;
         }
-
-        
-
+        #endregion
 
         //public NodeRef(int weight, Node nodo, TidyPair tidyPair, char typeOfEdge, List<int> IDlist)
         //{
@@ -140,4 +174,9 @@ namespace editorDeGrafos
 
 
     }//NodeRef.
+
+
+   
+      
+
 }
