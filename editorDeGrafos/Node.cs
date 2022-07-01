@@ -163,13 +163,11 @@ namespace editorDeGrafos
             get { return this.TransposedNeighbors.Count(); }
         }
 
-
         public List<NodeRef> Neighbors
         {
             get { return this.neighbors; }
             set { this.neighbors = value; }
         }
-
 
         public List<NodeRef> TransposedNeighbors
         {
@@ -185,7 +183,7 @@ namespace editorDeGrafos
 
                 foreach (NodeRef nodeR in this.TransposedNeighbors)
                 {
-                    res.Add(nodeR.ID);
+                    res.Add(nodeR.Id);
                 }
                 return res;
             }
@@ -200,7 +198,7 @@ namespace editorDeGrafos
 
                 foreach (NodeRef nodeR in this.TransposedNeighbors)
                 {
-                    res.Add(nodeR.ID);
+                    res.Add(nodeR.Id);
                 }
                 return res;
             }
@@ -345,8 +343,8 @@ namespace editorDeGrafos
                 this.Neighbors.Remove(serverR);
                 serverR.Node.TransposedNeighbors.Remove(serverR);
 
-                this.DeleteTransposedNeighborById(serverR.ID);
-                serverR.Node.DeleteNeighborById(serverR.ID);
+                this.DeleteTransposedNeighborById(serverR.Id);
+                serverR.Node.DeleteNeighborById(serverR.Id);
 
             }
             else
@@ -361,7 +359,7 @@ namespace editorDeGrafos
             NodeRef eliminate = null;
             foreach(NodeRef nodeR in this.TransposedNeighbors)
             {
-                if(neighborId == nodeR.ID)
+                if(neighborId == nodeR.Id)
                 {
                     eliminate = nodeR;
                     break;
@@ -378,7 +376,7 @@ namespace editorDeGrafos
             NodeRef eliminate = null;
             foreach (NodeRef nodeR in this.Neighbors)
             {
-                if (neighborId == nodeR.ID)
+                if (neighborId == nodeR.Id)
                 {
                     eliminate = nodeR;
                     break;

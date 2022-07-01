@@ -50,7 +50,6 @@
     <Compile Include="NodeGrade.cs" />
     <Compile Include="NodeListGrade.cs" />
     <Compile Include="Graph.cs" />
-    <Compile Include="Arista.cs" />
     <Compile Include="AskForWeight.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,5 +143,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

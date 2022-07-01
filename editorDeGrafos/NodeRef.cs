@@ -17,17 +17,17 @@ namespace editorDeGrafos
         /*DEFAULT CONSTANTS AND DECLARATIONS:*/
 
         #region FunctionalDeclarations
-        int weight;//the weight that represents the relation
-        Node nodo;// the node that is visited
+        protected int weight;//the weight that represents the relation
+        protected Node nodo;// the node that is visited
         //TidyPair tidy;
 
         //for traversal and other methods
-        Boolean activeNode = true;
-        Boolean visited = false;
+        protected Boolean activeNode = true;
+        protected Boolean visited = false;
 
-        char typeOfConection = 'u';
+        protected char typeOfConection = 'u';
 
-        int Id;//every edge is unique
+        protected int id;//every edge is unique
 
         #endregion
 
@@ -49,8 +49,34 @@ namespace editorDeGrafos
             {
                 this.typeOfConection = typeOfEdge;
             }
-            this.Id = Util.createID(IDlist);
+            this.id = Util.createID(IDlist);
         }
+        //public NodeRef(int weight, Node nodo, TidyPair tidyPair, char typeOfEdge, List<int> IDlist)
+        //{
+        //    this.tidy = tidyPair;
+        //    this.nodo = nodo;
+        //    this.weight = weight;
+        //    activeNode = false;            
+        //    if (typeOfEdge == 'd')
+        //    {
+        //        this.typeOfConection = typeOfEdge;
+        //    }
+        //    this.Id = Util.createID(IDlist);
+        //}
+
+        //public NodeRef(int weight, Node nodo, TidyPair tidyPair, Boolean active, char typeOfEdge, List<int> IDlist)
+        //{
+        //    this.tidy = tidyPair;
+        //    this.nodo = nodo;
+        //    this.weight = weight;
+        //    activeNode = active;
+
+        //    if (typeOfEdge == 'd')
+        //    {
+        //        this.typeOfConection = typeOfEdge;  
+        //    }
+        //    this.Id = Util.createID(IDlist);
+        //}
 
 
         #endregion
@@ -90,9 +116,9 @@ namespace editorDeGrafos
 
         }
 
-        public int ID
+        public int Id
         {
-            get { return this.ID; }
+            get { return this.id; }
         }
 
         public Node Node
@@ -100,7 +126,7 @@ namespace editorDeGrafos
             get { return this.nodo; }
         }
 
-        public int W
+        public int Weight
         {
             get { return this.weight; }
             set { this.weight = value; }
@@ -117,6 +143,7 @@ namespace editorDeGrafos
             get { return visited; }
             set { visited = value; }
         }
+
         /*******************************************************
          *                Geters and seters(End)               *
          *******************************************************/
@@ -137,41 +164,6 @@ namespace editorDeGrafos
             visited = false;
         }
         #endregion
-
-        //public NodeRef(int weight, Node nodo, TidyPair tidyPair, char typeOfEdge, List<int> IDlist)
-        //{
-        //    this.tidy = tidyPair;
-        //    this.nodo = nodo;
-        //    this.weight = weight;
-        //    activeNode = false;            
-        //    if (typeOfEdge == 'd')
-        //    {
-        //        this.typeOfConection = typeOfEdge;
-        //    }
-        //    this.Id = Util.createID(IDlist);
-        //}
-
-        //public NodeRef(int weight, Node nodo, TidyPair tidyPair, Boolean active, char typeOfEdge, List<int> IDlist)
-        //{
-        //    this.tidy = tidyPair;
-        //    this.nodo = nodo;
-        //    this.weight = weight;
-        //    activeNode = active;
-
-        //    if (typeOfEdge == 'd')
-        //    {
-        //        this.typeOfConection = typeOfEdge;  
-        //    }
-        //    this.Id = Util.createID(IDlist);
-        //}
-
-        //public TidyPair TidyPair
-        //{
-        //    get { return this.tidy; }
-        //    set { this.tidy = value; }
-        //}
-
-
 
     }//NodeRef.
 

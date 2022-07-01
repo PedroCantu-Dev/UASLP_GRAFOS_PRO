@@ -28,7 +28,7 @@ namespace editorDeGrafos
         Boolean justSaved_FV = true;// -> storage saveStateAuxiliar.
 
         /***************** windows and Forms ******************************/
-        GraphFormIsomorphic IsomorfismForm_FV;//-> form for isomofism comparison.
+        GraphFormIsomorphic isomorphismForm_FV;//-> form for isomofism comparison.
         SaveChangesWindow gdcForm_FV;// -> changes window.
 
         /************************ other variables ********************/
@@ -363,7 +363,7 @@ namespace editorDeGrafos
             oneNode = graph_FV.getNodeByPosition(new Point(e.X, e.Y));
             if (oneNode != null)//one node was clicked
             {
-                if (oneNode.nodeEquals(selectedNode_FV))//if the selected node is equals the node clicked
+                if (oneNode.Equals(selectedNode_FV))//if the selected node is equals the node clicked
                 {
                     if (e.Button == System.Windows.Forms.MouseButtons.Right)//RIGHT
                     {
@@ -387,7 +387,7 @@ namespace editorDeGrafos
 
                                 if (weight >= 0)
                                 {
-                                    Edge edge = new Edge(selectedNode_FV, oneNode, weight);
+                                    //Edge edge = new Edge(selectedNode_FV, oneNode, weight);
                                     graph_FV.addCicledEdge(oneNode, weight);
                                 }
                                 break;
@@ -448,7 +448,7 @@ namespace editorDeGrafos
                                     }
                                     if (weight >= 0)
                                     {
-                                        Edge edge = new Edge(selectedNode_FV, oneNode, weight);
+                                        //Edge edge = new Edge(selectedNode_FV, oneNode, weight);
                                         graph_FV.addUndirectedEdge(edge, weight);
                                     }
                                     break;
@@ -465,7 +465,7 @@ namespace editorDeGrafos
                                     }
                                     if (weight >= 0)
                                     {
-                                        Edge edge = new Edge(selectedNode_FV, oneNode, weight);
+                                        //Edge edge = new Edge(selectedNode_FV, oneNode, weight);
                                         graph_FV.addDirectedEdge(selectedNode_FV, oneNode, weight);
                                     }
                                     break;
@@ -553,7 +553,7 @@ namespace editorDeGrafos
                                 }
                                 if (weight >= 0)
                                 {
-                                    Edge edge = new Edge(selectedNode_Linking_FV, oneNode, weight);
+                                    //Edge edge = new Edge(selectedNode_Linking_FV, oneNode, weight);
                                     graph_FV.addDirectedEdge(selectedNode_Linking_FV, oneNode, weight);
                                 }
                             }
@@ -952,9 +952,6 @@ namespace editorDeGrafos
         #endregion
         #region commonKeyOperations
 
-
-
-
         /********************* common key-operations (Begin) ****************************/
 
         private void keyM_OR_MoveClick()//
@@ -1087,25 +1084,25 @@ namespace editorDeGrafos
         //ISOMORFISMO:
         protected virtual void fuerzaBrutaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible)
+            if (isomorphismForm_FV != null && isomorphismForm_FV.Visible)
             {
-                changeIsomtextBox(this.graph_FV.Isomo_Fuerza_Bruta(IsomorfismForm_FV.graph_FV).ToString());
+                changeIsomtextBox(this.graph_FV.Isomo_Fuerza_Bruta(isomorphismForm_FV.graph_FV).ToString());
             }
         }
 
         protected virtual void traspuestaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible)
+            if (isomorphismForm_FV != null && isomorphismForm_FV.Visible)
             {
-                changeIsomtextBox(this.graph_FV.Isom_Traspuesta(IsomorfismForm_FV.graph_FV).ToString());
+                changeIsomtextBox(this.graph_FV.Isom_Traspuesta(isomorphismForm_FV.graph_FV).ToString());
             }
         }
 
         protected virtual void intercambioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible)
+            if (isomorphismForm_FV != null && isomorphismForm_FV.Visible)
             {
-                changeIsomtextBox(this.graph_FV.Isom_Inter(IsomorfismForm_FV.graph_FV).ToString());
+                changeIsomtextBox(this.graph_FV.Isom_Inter(isomorphismForm_FV.graph_FV).ToString());
             }
         }
         public void closeIsoFormClicked(object sender, EventArgs e)
@@ -1289,7 +1286,7 @@ namespace editorDeGrafos
                 {
                     foreach (NodeRef nodeR in row)
                     {
-                        sw.Write(nodeR.W + ",");
+                        sw.Write(nodeR.Weight + ",");
                     }
                     sw.WriteLine();
                 }
@@ -1367,7 +1364,7 @@ namespace editorDeGrafos
                     for (int j = 0; j < Input.Length; j++)
                     {
                         int.TryParse(Input[j], out Peso);
-                        graph_FV.GRAPH[i][j].W = Peso;
+                        graph_FV.GRAPH[i][j].Weight = Peso;
                     }
                     Input = sr.ReadLine().Split(Delimiters, StringSplitOptions.RemoveEmptyEntries);
                     i++;
@@ -1391,13 +1388,13 @@ namespace editorDeGrafos
 
                     for (int j = 0; j < graph_FV.GRAPH.Count; j++)
                     {
-                        if (graph_FV.GRAPH[j][j].NODO.Index == nodo_C)
+                        if (graph_FV.GRAPH[j][j].Node.Index == nodo_C)
                         {
-                            client = graph_FV.GRAPH[j][j].NODO;
+                            client = graph_FV.GRAPH[j][j].Node;
                         }
-                        if (graph_FV.GRAPH[j][j].NODO.Index == nodo_S)
+                        if (graph_FV.GRAPH[j][j].Node.Index == nodo_S)
                         {
-                            server = graph_FV.GRAPH[j][j].NODO;
+                            server = graph_FV.GRAPH[j][j].Node;
                         }
                     }
 
@@ -1424,13 +1421,13 @@ namespace editorDeGrafos
 
                     for (int j = 0; j < graph_FV.GRAPH.Count; j++)
                     {
-                        if (graph_FV.GRAPH[j][j].NODO.Index == nodo_C)
+                        if (graph_FV.GRAPH[j][j].Node.Index == nodo_C)
                         {
-                            client = graph_FV.GRAPH[j][j].NODO;
+                            client = graph_FV.GRAPH[j][j].Node;
                         }
-                        if (graph_FV.GRAPH[j][j].NODO.Index == nodo_S)
+                        if (graph_FV.GRAPH[j][j].Node.Index == nodo_S)
                         {
-                            server = graph_FV.GRAPH[j][j].NODO;
+                            server = graph_FV.GRAPH[j][j].Node;
                         }
                     }
 
@@ -1453,9 +1450,9 @@ namespace editorDeGrafos
 
                     for (int j = 0; j < graph_FV.GRAPH.Count; j++)
                     {
-                        if (graph_FV.GRAPH[j][j].NODO.Index == nodo_S)
+                        if (graph_FV.GRAPH[j][j].Node.Index == nodo_S)
                         {
-                            server = graph_FV.GRAPH[j][j].NODO;
+                            server = graph_FV.GRAPH[j][j].Node;
                         }
                     }
 
@@ -1485,19 +1482,19 @@ namespace editorDeGrafos
             Brush brush = new SolidBrush(BackColor);
             Rectangle rectangle;
 
-            foreach (Edge edge in graph_FV.CIEDGE_LIST)//cicled edge.
-            {
-                drawCicledEdge(graphics, edge, e);
-            }
+            //foreach (Edge edge in graph_FV.CIEDGE_LIST)//cicled edge.
+            //{
+            //    drawCicledEdge(graphics, edge, e);
+            //}
 
-            foreach (Edge edge in graph_FV.EDGE_LIST)//undirected edges.
-            {
-                drawEdge(graphics, edge);
-            }
-            foreach (Edge edge in graph_FV.DIEDGE_LIST)//directed edges.
-            {
-                drawDirectedEdge(graphics, edge);
-            }
+            //foreach (Edge edge in graph_FV.EDGE_LIST)//undirected edges.
+            //{
+            //    drawEdge(graphics, edge);
+            //}
+            //foreach (Edge edge in graph_FV.DIEDGE_LIST)//directed edges.
+            //{
+            //    drawDirectedEdge(graphics, edge);
+            //}
 
             if (operationIndex_FV == 0)
             {
@@ -1554,6 +1551,8 @@ namespace editorDeGrafos
         }
 
 
+
+/*
         private void drawEdge(Graphics graphics, Edge edge)
         {
             Pen pen2 = new Pen(edge.COLOR, 5);
@@ -1656,7 +1655,7 @@ namespace editorDeGrafos
                 graphics.DrawString("e" + edge.Weight + "", f, brush, (edge.A.X + edge.B.X) / 2 + 2, (edge.A.Y + edge.B.Y) / 2 + 2, new StringFormat());
             }
         }
-
+*/
         #endregion
 
         #region InvalidatePlus
@@ -1720,7 +1719,7 @@ namespace editorDeGrafos
             statusTB.Text += "Bipartita : " + graph_FV.Bip();
             statusTB.Text += System.Environment.NewLine;
 
-            if ((IsomorfismForm_FV == null || (IsomorfismForm_FV != null && IsomorfismForm_FV.Visible == false)) && isoForm == false)
+            if ((isomorphismForm_FV == null || (isomorphismForm_FV != null && isomorphismForm_FV.Visible == false)) && isoForm == false)
             {
                 IsomtextBox.Visible = false;
             }
@@ -1817,11 +1816,11 @@ namespace editorDeGrafos
 
 
             // Recur for all the vertices adjacent to this vertex
-            foreach (NodeRef nodeR in workingNode.NEIGHBORS)
+            foreach (NodeRef nodeR in workingNode.Neighbors)
             {
-                if (nodeR.NODO.Visited == false)
+                if (nodeR.Node.Visited == false)
                 {
-                    DFSUtilAllConected(nodeR.NODO);
+                    DFSUtilAllConected(nodeR.Node);
                 }
             }
         }
@@ -1892,16 +1891,16 @@ namespace editorDeGrafos
             workingNode.Visited = true;
 
             // Recur for all the vertices adjacent to this vertex
-            foreach (NodeRef nodeR in workingNode.NEIGHBORS)
+            foreach (NodeRef nodeR in workingNode.Neighbors)
             {
-                if (workingNode == posibleBridge.Client && nodeR.NODO == posibleBridge.Server
-                 || workingNode == posibleBridge.Server && nodeR.NODO == posibleBridge.Client)
+                if (workingNode == posibleBridge.Client && nodeR.Node == posibleBridge.Server
+                 || workingNode == posibleBridge.Server && nodeR.Node == posibleBridge.Client)
                 {
 
                 }
-                else if (nodeR.NODO.Visited == false && graph.thisEdge(workingNode, nodeR.NODO).visitada == false)
+                else if (nodeR.Node.Visited == false && graph.thisEdge(workingNode, nodeR.Node).visitada == false)
                 {
-                    DFSUtilAllConectedVisitedsBridge(nodeR.NODO, posibleBridge, graph);
+                    DFSUtilAllConectedVisitedsBridge(nodeR.Node, posibleBridge, graph);
                 }
             }
         }
@@ -1923,10 +1922,10 @@ namespace editorDeGrafos
             //offWhenClickingMouseOrKey();
             Invalidate();
 
-            if (IsomorfismForm_FV == null || IsomorfismForm_FV.Visible == false)
+            if (isomorphismForm_FV == null || isomorphismForm_FV.Visible == false)
             {
-                IsomorfismForm_FV = new GraphFormIsomorphic(this);
-                IsomorfismForm_FV.Show();
+                isomorphismForm_FV = new GraphFormIsomorphic(this);
+                isomorphismForm_FV.Show();
             }
 
             fuerzaBrutaToolStripMenuItem.Visible = true;
@@ -2023,19 +2022,19 @@ namespace editorDeGrafos
         public void BFSColored(Node node)
         {
             node.Visited = true;
-            node.COLOR = Color.Red;
+            node.Color = Color.Red;
 
-            foreach (NodeRef nodoR in node.NEIGHBORS)
+            foreach (NodeRef nodoR in node.Neighbors)
             {
                 foreach (Edge edge in workingEdgesList)
                 {
-                    if (!edge.isThis(node, nodoR.NODO))
+                    if (!edge.isThis(node, nodoR.Node))
                     {
                         if (edge.visitada == false)
                         {
                             edge.visitada = true;
                             edge.COLOR = Color.Green;
-                            BFSColored(nodoR.NODO);
+                            BFSColored(nodoR.Node);
                         }
                     }
                 }
