@@ -196,7 +196,7 @@ namespace editorDeGrafos
         {
             foreach (Node node in this.NODE_LIST)
             {
-                if (node.anyDirected())
+                if (node.AnyDirected())
                 {
                     return true;
                 }
@@ -255,7 +255,7 @@ namespace editorDeGrafos
             {
                 if (nodeR.W > -1)
                 {
-                    if (nodeR.NODO.Index.Equals(parent))
+                    if (nodeR.Node.Index.Equals(parent))
                     {
                         continue;
                     }

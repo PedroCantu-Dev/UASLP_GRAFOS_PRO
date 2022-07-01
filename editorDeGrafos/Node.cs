@@ -13,7 +13,7 @@ namespace editorDeGrafos
         #region NodeDeclarations
         /*DEFAULT CONSTANTS AND DECLARATIONS:*/
 
-        #region Functional
+        #region FunctionalDeclarations
         //*FUNCTIONAL VARIABLES:
         string nameID = "";//a node unique name in the graph
         int uniqueID; //a primary key for vertices (integer type)
@@ -34,7 +34,7 @@ namespace editorDeGrafos
         int level;
         #endregion
 
-        #region Graphical
+        #region GraphicalDeclarations
         //*GRAPHICs VARIABLES:
         //those wich help with the graphical enviroment of the graph editor
         Point position = new Point(0, 0);//position for drawing the node
@@ -80,7 +80,6 @@ namespace editorDeGrafos
         #endregion
 
         #region NodeProperties
-
         /*******************************************************
          *               Geters and seters(Begin)              *
          *******************************************************/
@@ -125,59 +124,12 @@ namespace editorDeGrafos
                 this.color = value;
             }
         }
-        
-        public Node clone()
-        {
-            Node res =  new Node(this.position , this.radiusLenght, this.index, uniqueID, this.color);
-            res.Level = this.Level;
-            return res;
-        }
-
-       //returns true if any neigbor edge is directed
-        public bool anyDirected()
-        {
-            foreach(NodeRef nodeR in this.Neighbors)
-            {
-                if(nodeR.Directed)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void Click()
-        {
-           if(selected == numSelectionStates)
-            {
-                selected = 0;
-            }
-           else
-            {
-                selected++;
-            }
-        }
-
-        public void Reset()
-        {
-            selected = 0;
-            visited = false;
-            level = -1;
-            colored = false;
-        }
-
-        public void ResetNeighbors()
-        {
-           foreach(NodeRef nodeR in this.Neighbors)
-            {
-                nodeR.reset();
-            }
-        }
 
         public Boolean SelectedBool
         {
-            get { 
-                if(selected == 0)
+            get
+            {
+                if (selected == 0)
                 {
                     return false;
                 }
@@ -213,12 +165,12 @@ namespace editorDeGrafos
 
 
         public List<NodeRef> Neighbors
-            {
-                get { return this.neighbors; }
-                set { this.neighbors = value; }
-            }
+        {
+            get { return this.neighbors; }
+            set { this.neighbors = value; }
+        }
 
-           
+
         public List<NodeRef> TransposedNeighbors
         {
             get { return this.transposedNeighbors; }
@@ -240,33 +192,59 @@ namespace editorDeGrafos
         }
 
 
-        public List<int>  TransposedNeighborsIdList
+        public List<int> TransposedNeighborsIdList
         {
-            get {
+            get
+            {
                 List<int> res = new List<int>();
 
-                foreach(NodeRef nodeR in this.TransposedNeighbors)
+                foreach (NodeRef nodeR in this.TransposedNeighbors)
                 {
-                    res.Add(nodeR.ID);    
+                    res.Add(nodeR.ID);
                 }
-                return res;            
+                return res;
             }
         }
         /*******************************************************
          *                Geters and seters(End)               *
          *******************************************************/
-
         #endregion
 
         #region NodeMethods
-
         /*******************************************************
          *                Methods(Begin)                       *
          *******************************************************/
 
+        public Node Clone()
+        {
+            Node res = new Node(this.position, this.radiusLenght, this.index, uniqueID, this.color);
+            res.Level = this.Level;
+            return res;
+        }
+
+        //returns true if any neigbor edge is directed
+        public bool AnyDirected()
+        {
+            foreach (NodeRef nodeR in this.Neighbors)
+            {
+                if (nodeR.Directed)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void ResetNeighbors()
+        {
+            foreach (NodeRef nodeR in this.Neighbors)
+            {
+                nodeR.reset();
+            }
+        }
 
         //node Equals for node comparation, only the ID is needed due to is unique
-        public Boolean nodeEquals(Node other)
+        public Boolean Equals(Node other)
         {
             if (other != null)
             {
@@ -278,7 +256,7 @@ namespace editorDeGrafos
             return false;
         }
 
-        public bool isNeigtbor(Node other)
+        public bool IsNeigtborOf(Node other)
         {
             foreach(NodeRef nodeR in Neighbors)
             {
@@ -290,7 +268,7 @@ namespace editorDeGrafos
             return false;
         }
 
-        public List<Node> neighborListNode()
+        public List<Node> NeighborListNode()
         {
             List<Node> res = new List<Node>();
 
@@ -307,7 +285,7 @@ namespace editorDeGrafos
         }
 
         //add undirected neighbor
-        public void add_U_Neighbor(Node server, int weight)
+        public void AddUndirectedNeighbor(Node server, int weight)
         {
             Node client = this;
 
@@ -322,7 +300,7 @@ namespace editorDeGrafos
         }
 
         //add a directed neighbor
-        public void add_D_Neighbor(Node server, int weight)
+        public void AddDirectedNeighbor(Node server, int weight)
         {
             Node client = this;
 
@@ -333,7 +311,7 @@ namespace editorDeGrafos
         }
 
         //this will be used in a foreach loop for link elimination in case a node is eliminated 
-        public void eliminate_Neighbor(Node server)
+        public void DeleteNeighbor(Node server)
         {
             List < NodeRef > newListOfReferencesAux = new List<NodeRef>();
             //For the new transposed naighbor list
@@ -360,15 +338,15 @@ namespace editorDeGrafos
         }
 
         //eliminate the node Ref pased
-        public void eliminate_NeighborEdge(NodeRef serverR)
+        public void DeleteNeighborEdge(NodeRef serverR)
         {
             if (serverR.Type == 'u')
             {
                 this.Neighbors.Remove(serverR);
                 serverR.Node.TransposedNeighbors.Remove(serverR);
 
-                this.remove_TransNeighbor_ByID(serverR.ID);
-                serverR.Node.remove_Neighbor_ByID(serverR.ID);
+                this.DeleteTransposedNeighborById(serverR.ID);
+                serverR.Node.DeleteNeighborById(serverR.ID);
 
             }
             else
@@ -378,7 +356,7 @@ namespace editorDeGrafos
             }
         }
 
-        public void remove_TransNeighbor_ByID(int NR_ID)
+        public void DeleteTransposedNeighborById(int NR_ID)
         {
             NodeRef eliminate = null;
             foreach(NodeRef nodeR in this.TransposedNeighbors)
@@ -395,12 +373,12 @@ namespace editorDeGrafos
             }
         }
 
-        public void remove_Neighbor_ByID(int NR_ID)
+        public void DeleteNeighborById(int neighborId)
         {
             NodeRef eliminate = null;
             foreach (NodeRef nodeR in this.Neighbors)
             {
-                if (NR_ID == nodeR.ID)
+                if (neighborId == nodeR.ID)
                 {
                     eliminate = nodeR;
                     break;
@@ -412,6 +390,28 @@ namespace editorDeGrafos
             }
         }
 
+        #endregion
+
+        #region NodeEvents
+        public void Click()
+        {
+            if (selected == numSelectionStates)
+            {
+                selected = 0;
+            }
+            else
+            {
+                selected++;
+            }
+        }
+
+        public void Reset()
+        {
+            selected = 0;
+            visited = false;
+            level = -1;
+            colored = false;
+        }
         #endregion
 
     }//Node Class.
